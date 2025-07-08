@@ -6,7 +6,11 @@ const Header = () => {
     <header className="header">
       <div className="header-image">
         <a href="https://uas.alaska.edu/" target="_blank" rel="noopener noreferrer">
-          <img src="/UAS.png" alt="University of Alaska Southeast Logo" className="logo" />
+          <img
+            src={`${process.env.PUBLIC_URL}/UAS.png`}
+            alt="University of Alaska Southeast Logo"
+            className="logo"
+          />
         </a>
       </div>
       <div className="header-title">
