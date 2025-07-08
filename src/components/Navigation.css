@@ -1,5 +1,5 @@
 .navigation {
-  background-color: #0c5c95; /* Teal background */
+  background-color: #0f3754; /* Teal background */
   padding: 4px 15px;
   position: relative;
 }
@@ -49,8 +49,8 @@
 }
 
 .navigation ul li a:hover {
-  color: #fa4444;
-  border-bottom: 2px solid #ff4444;
+  color: #1c81fc;
+  border-bottom: 2px solid #4496fa;
 }
 
 

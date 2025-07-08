@@ -1,0 +1,58 @@
+.research-team-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.team-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  margin-top:1px;
+}
+
+.team-description, .team-footer p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.team-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.team-card {
+  background: #fafafa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 220px;
+  text-align: center;
+  padding: 1rem;
+  transition: transform 0.3s;
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+}
+
+.team-card-image img {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.team-card-info h3 {
+  margin: 0.5rem 0 0.25rem;
+}
+
+.team-role {
+  color: #888;
+  font-size: 0.95rem;
+}
+
+.team-bio {
+  font-size: 0.9rem;
+  color: #666;
+}

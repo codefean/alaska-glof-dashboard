@@ -3,13 +3,13 @@ import { HashRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 import "./styles/App2.css";
 import Header from "./components/Header";
 import Navigation from "./components/Navigation";
-import FloodLevels from "./pages/FloodLevels";
-import FloodForecast from "./pages/FloodForecast";
-import FloodEvents from "./pages/FloodEvents";
-import SuicideBasin from "./pages/SuicideBasin";
+import GLOFmap from "./pages/GLOFmap";
+import GLOFForecast from "./pages/GLOFForecast";
+import GLOFData from "./pages/GLOFData";
+import ResearchTeam from "./pages/ResearchTeam";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
-import { preloadGeojsons } from "./utils/preloadGeojsons"; // ✅ Make sure this path is correct
+import { preloadGeojsons } from "./utils/preloadGeojsons";
 
 const useDocumentTitle = (title) => {
   React.useEffect(() => {
@@ -18,28 +18,28 @@ const useDocumentTitle = (title) => {
 };
 
 // Wrapper components to set the title for each route
-const FloodLevelsPage = () => {
-  useDocumentTitle("Juneau Flood Maps");
-  return <FloodLevels />;
+const GLOFMapPage = () => {
+  useDocumentTitle("GLOF Map");
+  return <GLOFmap />;
 };
 
-const FloodPredictionPage = () => {
-  useDocumentTitle("Flood Forecast");
-  return <FloodForecast />;
+const GLOFForecastPage = () => {
+  useDocumentTitle("GLOF Forecasting");
+  return <GLOFForecast />;
 };
 
-const FloodEventsPage = () => {
-  useDocumentTitle("Flood Events");
-  return <FloodEvents />;
+const GLOFDataPage = () => {
+  useDocumentTitle("GLOF Data");
+  return <GLOFData />;
 };
 
-const SuicideBasinPage = () => {
-  useDocumentTitle("Suicide Basin");
-  return <SuicideBasin />;
+const ResearchTeamPage = () => {
+  useDocumentTitle("Research Team");
+  return <ResearchTeam />;
 };
 
 const HomePage = () => {
-  useDocumentTitle("Juneau Glacial Flood Dashboard");
+  useDocumentTitle("Alaska GLOF Dashboard");
   return <Home />;
 };
 
@@ -60,10 +60,10 @@ const App2 = () => {
         <div className="main-content">
           <Routes>
             <Route path="/" element={<Navigate to="/home" />} />
-            <Route path="/flood-map" element={<FloodLevelsPage />} />
-            <Route path="/flood-forecast" element={<FloodPredictionPage />} />
-            <Route path="/flood-events" element={<FloodEventsPage />} />
-            <Route path="/suicide-basin" element={<SuicideBasinPage />} />
+            <Route path="/GLOF-map" element={<GLOFMapPage />} />
+            <Route path="/GLOF-forecast" element={<GLOFForecastPage />} />
+            <Route path="/GLOF-data" element={<GLOFDataPage />} />
+            <Route path="/research-team" element={<ResearchTeamPage />} />
             <Route path="/home" element={<HomePage />} />
           </Routes>
         </div>

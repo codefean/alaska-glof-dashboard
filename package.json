@@ -1,15 +1,15 @@
 {
-  "name": "juneau-flood-alpha",
+  "name": "Alaska-GLOF",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://www.juneauflood.com/",
+  "homepage": "https://codefean.github.io/alaska-glof-dashboard",
   "dependencies": {
     "@google-analytics/data": "^5.1.0",
     "@testing-library/user-event": "^13.5.0",
     "counterapi": "^1.146.0",
     "file-saver": "^2.0.5",
     "mapbox-gl": "^3.8.0",
-    "papaparse": "^5.5.2",
+    "papaparse": "^5.5.3",
     "react": "^18.3.1",
     "react-before-after-slider-component": "^1.1.8",
     "react-compare-image": "^3.5.0",
@@ -28,7 +28,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build && cp public/CNAME build/CNAME",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {

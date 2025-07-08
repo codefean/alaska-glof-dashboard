@@ -1,0 +1,101 @@
+.sidebar {
+  position: absolute;
+  top: 130x; /* offset for header */
+  left: 0;
+  max-height: calc(100vh - 60px);
+  backdrop-filter: blur(4px);
+  background: rgba(0,0,0,0.3);
+  color: white;
+  overflow-y: auto;
+  transition: width 0.3s ease;
+  z-index: 1000;
+  width: 300px;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.4);
+}
+.sidebar.closed {
+  width: 0px;
+  overflow: hidden;
+}
+
+.lake-list {
+  padding: 16px;
+}
+
+.lake-list h3 {
+  margin-top: 0;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0 12px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  font-size: 0.9rem;
+  background: rgba(255,255,255,0.2);
+  color: white;
+}
+
+.search-input::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+.lake-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lake-list li {
+  cursor: pointer;
+  padding: 8px 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.lake-list li:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateX(4px);
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 10px;
+}
+
+.corner-toggle {
+  position: absolute;
+  top: 220px;
+  right: 20px;
+  width: 42px;
+  height: 42px;
+  background: rgba(102, 105, 166, 0.419);
+  backdrop-filter: blur(6px);
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+  z-index: 1100;
+}
+
+.corner-toggle.rotated {
+  transform: rotate(180deg);
+}
+
+.corner-toggle:hover {
+  background: rgba(1, 91, 247, 0.3);
+  border-color: rgba(255,255,255,0.5);
+}

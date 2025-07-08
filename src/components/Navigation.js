@@ -25,34 +25,34 @@ const Navigation = () => {
         </li>
         <li>
           <NavLink
-            to="/flood-map"
+            to="/GLOF-map"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            Flood Maps
+            GLOF Map
           </NavLink>
         </li>
         <li>
           <NavLink
-            to="/flood-forecast"
+            to="/GLOF-forecast"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            Flood Forecasting
+            GLOF Forecasting
           </NavLink>
         </li>
         <li>
           <NavLink
-            to="/flood-events"
+            to="/GLOF-data"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            Flood Events
+            GLOF Data
           </NavLink>
         </li>
         <li>
           <NavLink
-            to="/suicide-basin"
+            to="/research-team"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            Suicide Basin
+            Research Team
           </NavLink>
         </li>
 
