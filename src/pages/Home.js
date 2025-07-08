@@ -11,25 +11,25 @@ const cardData = [
   {
     title: 'GLOF Map',
     link: '/GLOF-map',
-    image: '/images/flood-map.png',
+    image: process.env.PUBLIC_URL + '/images/flood-map.png',
     description: '',
   },
   {
     title: 'GLOF Forecasting',
     link: '/GLOF-forecast',
-    image: '/images/flood-forecast.jpg',
+    image: process.env.PUBLIC_URL + '/images/flood-forecast.jpg',
     description: '',
   },
   {
     title: 'About GLOFs',
     link: '/GLOF-data',
-    image: '/images/flood-events.jpg',
+    image: process.env.PUBLIC_URL + '/images/flood-events.jpg',
     description: '',
   },
   {
     title: 'Research Team',
     link: '/research-team',
-    image: '/images/suicide-basin.jpg',
+    image: process.env.PUBLIC_URL + '/images/suicide-basin.jpg',
     description: '',
   },
 ];
