@@ -23,85 +23,82 @@ const AlaskaMap = () => {
       zoom: 4.2,
     });
 
-const fetchCSVData = async () => {
-  try {
-    const response = await fetch('https://flood-events.s3.us-east-2.amazonaws.com/AK_GL.csv');
-    const csvText = await response.text();
-    Papa.parse(csvText, {
-      header: true,
-      dynamicTyping: true,
-      complete: async (result) => {
-        const rawData = result.data.map(row => ({
-          LakeID: row.LakeID,
-          km2: typeof row.km2 === 'number' ? row.km2 : parseFloat(row.km2) || 0,
-          lat: typeof row.lat === 'number' ? row.lat : parseFloat(row.lat),
-          lon: typeof row.lon === 'number' ? row.lon : parseFloat(row.lon),
-          LakeName: (row.LakeName && row.LakeName !== 'NA') ? row.LakeName : null
-        }));
+    const fetchCSVData = async () => {
+      try {
+        const response = await fetch('https://flood-events.s3.us-east-2.amazonaws.com/AK_GL.csv');
+        const csvText = await response.text();
+        Papa.parse(csvText, {
+          header: true,
+          dynamicTyping: true,
+          complete: async (result) => {
+            const rawData = result.data.map(row => ({
+              LakeID: row.LakeID,
+              km2: typeof row.km2 === 'number' ? row.km2 : parseFloat(row.km2) || 0,
+              lat: typeof row.lat === 'number' ? row.lat : parseFloat(row.lat),
+              lon: typeof row.lon === 'number' ? row.lon : parseFloat(row.lon),
+              LakeName: (row.LakeName && row.LakeName !== 'NA') ? row.LakeName : null,
+              GlacierName: (row.GlacierName && row.GlacierName !== 'NA') ? row.GlacierName : null
+            }));
 
-        const enrichLake = async (lake) => {
-  const tryGeocode = async (types) => {
-    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lake.lon},${lake.lat}.json?types=${types}&proximity=${lake.lon},${lake.lat}&limit=1&autocomplete=false&access_token=${mapboxgl.accessToken}`;
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
-      if (data.features?.length) {
-        return {
-          place: data.features[0].place_name,
-          placeCoords: data.features[0].geometry.coordinates
-        };
-      }
-    } catch (err) {
-      console.error(`Geocode error for ${types}:`, err);
-    }
-    return { place: null, placeCoords: null };
-  };
+            const enrichLake = async (lake) => {
+              const tryGeocode = async (types) => {
+                const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lake.lon},${lake.lat}.json?types=${types}&proximity=${lake.lon},${lake.lat}&limit=1&autocomplete=false&access_token=${mapboxgl.accessToken}`;
+                try {
+                  const res = await fetch(url);
+                  const data = await res.json();
+                  if (data.features?.length) {
+                    return {
+                      place: data.features[0].place_name,
+                      placeCoords: data.features[0].geometry.coordinates
+                    };
+                  }
+                } catch (err) {
+                  console.error(`Geocode error for ${types}:`, err);
+                }
+                return { place: null, placeCoords: null };
+              };
 
-  let { place, placeCoords } = await tryGeocode('poi');
-  if (!place) ({ place, placeCoords } = await tryGeocode('locality,neighborhood'));
-  if (!place) ({ place, placeCoords } = await tryGeocode('place'));
-  if (!place) {
-    const fallbackUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lake.lon},${lake.lat}.json?limit=1&autocomplete=false&access_token=${mapboxgl.accessToken}`;
-    try {
-      const res = await fetch(fallbackUrl);
-      const data = await res.json();
-      if (data.features?.length) {
-        place = data.features[0].place_name;
-        placeCoords = data.features[0].geometry.coordinates;
-      }
-    } catch (err) {
-      console.error('Fallback geocode error:', err);
-    }
-  }
+              let { place, placeCoords } = await tryGeocode('poi');
+              if (!place) ({ place, placeCoords } = await tryGeocode('locality,neighborhood'));
+              if (!place) ({ place, placeCoords } = await tryGeocode('place'));
+              if (!place) {
+                const fallbackUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lake.lon},${lake.lat}.json?limit=1&autocomplete=false&access_token=${mapboxgl.accessToken}`;
+                try {
+                  const res = await fetch(fallbackUrl);
+                  const data = await res.json();
+                  if (data.features?.length) {
+                    place = data.features[0].place_name;
+                    placeCoords = data.features[0].geometry.coordinates;
+                  }
+                } catch (err) {
+                  console.error('Fallback geocode error:', err);
+                }
+              }
 
-  return { ...lake, place, placeCoords };
-};
+              return { ...lake, place, placeCoords };
+            };
 
-        // Enrich all lakes with nearest populated place info
-        const enrichedData = await Promise.all(rawData.map(enrichLake));
+            const enrichedData = await Promise.all(rawData.map(enrichLake));
+            setLakeData(enrichedData);
 
-        setLakeData(enrichedData);
+            const grouped = {};
+            enrichedData.forEach(lake => {
+              const lon = lake.lon;
+              let region = '';
+              if (lon < -155) region = 'Western Alaska';
+              else if (lon <= -145) region = 'Central Alaska';
+              else region = 'Eastern Alaska';
 
-        // Group by region as before
-        const grouped = {};
-        enrichedData.forEach(lake => {
-          const lon = lake.lon;
-          let region = '';
-          if (lon < -155) region = 'Western Alaska';
-          else if (lon <= -145) region = 'Central Alaska';
-          else region = 'Eastern Alaska';
-
-          if (!grouped[region]) grouped[region] = [];
-          grouped[region].push({ ...lake, Region: region });
+              if (!grouped[region]) grouped[region] = [];
+              grouped[region].push({ ...lake, Region: region });
+            });
+            setGroupedData(grouped);
+          },
         });
-        setGroupedData(grouped);
-      },
-    });
-  } catch (error) {
-    console.error('Error fetching CSV data:', error);
-  }
-};
-
+      } catch (error) {
+        console.error('Error fetching CSV data:', error);
+      }
+    };
 
     fetchCSVData();
 
@@ -121,7 +118,7 @@ const fetchCSVData = async () => {
       markersRef.current = [];
 
       lakeData.forEach((lake) => {
-        const { lat, lon, km2: area, LakeID, LakeName } = lake;
+        const { lat, lon, km2: area, LakeID, LakeName, GlacierName } = lake;
         if (!isNaN(lat) && !isNaN(lon)) {
           const radius = Math.sqrt(area) * 4 + 6;
 
@@ -139,6 +136,46 @@ const fetchCSVData = async () => {
             .addTo(map);
           markersRef.current.push(marker);
 
+          // Hover shows full popup (same as click)
+          el.addEventListener('mouseenter', () => {
+            // Remove existing
+            activePopupRef.current?.remove();
+            activePopupRef.current = null;
+            placeMarkerRef.current?.remove();
+            placeMarkerRef.current = null;
+
+            // Full popup
+            const popup = new mapboxgl.Popup({ closeOnClick: false })
+              .setLngLat([lon, lat])
+              .setHTML(`
+                <h4>${LakeName ? LakeName : `Lake ${LakeID}`}</h4>
+                <p><strong>Name:</strong> ${LakeName || 'Unnamed'}<br/>
+                <strong>Area:</strong> ${area} km²<br/>
+                <strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
+                <strong>Closest place:</strong> ${lake.place || 'Unknown'}</p>
+              `)
+              .addTo(map);
+            activePopupRef.current = popup;
+
+            // Optional: add place marker
+            if (lake.placeCoords) {
+              const placeEl = document.createElement('div');
+              placeEl.className = 'place-marker';
+
+              placeMarkerRef.current = new mapboxgl.Marker(placeEl)
+                .setLngLat(lake.placeCoords)
+                .setPopup(new mapboxgl.Popup().setText(lake.place))
+            }
+          });
+
+          el.addEventListener('mouseleave', () => {
+            activePopupRef.current?.remove();
+            activePopupRef.current = null;
+            placeMarkerRef.current?.remove();
+            placeMarkerRef.current = null;
+          });
+
+          // Click still flies and shows same popup
           el.addEventListener('click', (e) => {
             e.stopPropagation();
             flyToLake(lake);
@@ -163,7 +200,7 @@ const fetchCSVData = async () => {
   }, [lakeData]);
 
   const flyToLake = (lake) => {
-    const { lon, lat, LakeID, LakeName, km2: area, place, placeCoords } = lake;
+    const { lon, lat, LakeID, LakeName, GlacierName, km2: area, place, placeCoords } = lake;
     if (!mapRef.current) return;
 
     mapRef.current.flyTo({
@@ -179,6 +216,7 @@ const fetchCSVData = async () => {
         <h4>Lake ${LakeID}</h4>
         <p><strong>Name:</strong> ${LakeName || 'Unnamed'}<br/>
         <strong>Area:</strong> ${area} km²<br/>
+        <strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
         <strong>Closest place:</strong> ${place || 'Unknown'}</p>
       `)
       .addTo(mapRef.current);
@@ -186,21 +224,20 @@ const fetchCSVData = async () => {
 
     placeMarkerRef.current?.remove();
     if (placeCoords) {
-  const el = document.createElement('div');
-  el.className = 'place-marker';  // NEW class
+      const el = document.createElement('div');
+      el.className = 'place-marker';
 
-  placeMarkerRef.current = new mapboxgl.Marker(el)
-    .setLngLat(placeCoords)
-    .setPopup(new mapboxgl.Popup().setText(place))
-    .addTo(mapRef.current);
-}
+      placeMarkerRef.current = new mapboxgl.Marker(el)
+        .setLngLat(placeCoords)
+        .setPopup(new mapboxgl.Popup().setText(place))
+    }
   };
 
   return (
-      <div
-        ref={mapContainerRef}
-        style={{ width: '100vw', height: '100vh' }}
-      />
+    <div
+      ref={mapContainerRef}
+      style={{ width: '100vw', height: '100vh' }}
+    />
   );
 };
 
