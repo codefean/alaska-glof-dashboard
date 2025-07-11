@@ -213,7 +213,7 @@ const AlaskaMap = () => {
     const popup = new mapboxgl.Popup({ closeOnClick: false })
       .setLngLat([lon, lat])
       .setHTML(`
-        <h4>Lake ${LakeID}</h4>
+        <h4>${LakeName ? LakeName : `Lake ${LakeID}`}</h4>
         <p><strong>Name:</strong> ${LakeName || 'Unnamed'}<br/>
         <strong>Area:</strong> ${area} km²<br/>
         <strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
