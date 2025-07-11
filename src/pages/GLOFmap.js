@@ -48,9 +48,26 @@ const rawData = result.data.map(row => ({
                   const res = await fetch(url);
                   const data = await res.json();
                   if (data.features?.length) {
+                    const feature = data.features[0];
+                    // Try to build a short name like "Anchorage, AK"
+                    let shortPlace = feature.text;
+                    let state = null;
+
+                    if (feature.context) {
+                      for (const ctx of feature.context) {
+                        if (ctx.id.startsWith('region')) {
+                          state = ctx.short_code?.split('-')[1]?.toUpperCase() || ctx.text;
+                        }
+                      }
+                    }
+
+                    if (shortPlace && state) {
+                      shortPlace = `${shortPlace}, ${state}`;
+                    }
+
                     return {
-                      place: data.features[0].place_name,
-                      placeCoords: data.features[0].geometry.coordinates
+                      place: shortPlace || feature.text || feature.place_name,
+                      placeCoords: feature.geometry.coordinates
                     };
                   }
                 } catch (err) {
