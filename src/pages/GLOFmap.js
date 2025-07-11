@@ -8,7 +8,6 @@ const AlaskaMap = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const [lakeData, setLakeData] = useState([]);
-  const [groupedData, setGroupedData] = useState({});
   const markersRef = useRef([]);
   const activePopupRef = useRef(null);
   const placeMarkerRef = useRef(null);
@@ -31,14 +30,16 @@ const AlaskaMap = () => {
           header: true,
           dynamicTyping: true,
           complete: async (result) => {
-            const rawData = result.data.map(row => ({
-              LakeID: row.LakeID,
-              km2: typeof row.km2 === 'number' ? row.km2 : parseFloat(row.km2) || 0,
-              lat: typeof row.lat === 'number' ? row.lat : parseFloat(row.lat),
-              lon: typeof row.lon === 'number' ? row.lon : parseFloat(row.lon),
-              LakeName: (row.LakeName && row.LakeName !== 'NA') ? row.LakeName : null,
-              GlacierName: (row.GlacierName && row.GlacierName !== 'NA') ? row.GlacierName : null
-            }));
+const rawData = result.data.map(row => ({
+  LakeID: row.LakeID?.trim(),
+  km2: typeof row.km2 === 'number' ? row.km2 : parseFloat(row.km2) || 0,
+  lat: typeof row.lat === 'number' ? row.lat : parseFloat(row.lat),
+  lon: typeof row.lon === 'number' ? row.lon : parseFloat(row.lon),
+  LakeName: (row.LakeName && row.LakeName.trim() !== 'NA') ? row.LakeName.trim() : null,
+  GlacierName: (row.GlacierName && row.GlacierName.trim() !== 'NA') ? row.GlacierName.trim() : null
+}));
+
+
 
             const enrichLake = async (lake) => {
               const tryGeocode = async (types) => {
@@ -80,19 +81,6 @@ const AlaskaMap = () => {
 
             const enrichedData = await Promise.all(rawData.map(enrichLake));
             setLakeData(enrichedData);
-
-            const grouped = {};
-            enrichedData.forEach(lake => {
-              const lon = lake.lon;
-              let region = '';
-              if (lon < -155) region = 'Western Alaska';
-              else if (lon <= -145) region = 'Central Alaska';
-              else region = 'Eastern Alaska';
-
-              if (!grouped[region]) grouped[region] = [];
-              grouped[region].push({ ...lake, Region: region });
-            });
-            setGroupedData(grouped);
           },
         });
       } catch (error) {
@@ -120,31 +108,35 @@ const AlaskaMap = () => {
       lakeData.forEach((lake) => {
         const { lat, lon, km2: area, LakeID, LakeName, GlacierName } = lake;
         if (!isNaN(lat) && !isNaN(lon)) {
-          const radius = Math.sqrt(area) * 4 + 6;
+          const isFlooding = ['B115', 'B117', 'B86', 'B2'].includes(LakeID);
 
-          const el = document.createElement('div');
-          el.className = 'marker pulse';
-          el.style.width = `${radius}px`;
-          el.style.height = `${radius}px`;
-          el.style.borderRadius = '50%';
-          el.style.border = '2px solid white';
-          el.style.backgroundColor = 'blue';
-          el.style.cursor = 'pointer';
+          let el;
+if (isFlooding) {
+  el = document.createElement('div');
+  el.className = 'marker triangle';
+} else {
+            const radius = Math.sqrt(area) * 4 + 6;
+            el = document.createElement('div');
+            el.className = 'marker pulse';
+            el.style.width = `${radius}px`;
+            el.style.height = `${radius}px`;
+            el.style.borderRadius = '50%';
+            el.style.border = '2px solid white';
+            el.style.backgroundColor = 'blue';
+            el.style.cursor = 'pointer';
+          }
 
           const marker = new mapboxgl.Marker(el, { anchor: 'center' })
             .setLngLat([lon, lat])
             .addTo(map);
           markersRef.current.push(marker);
 
-          // Hover shows full popup (same as click)
           el.addEventListener('mouseenter', () => {
-            // Remove existing
             activePopupRef.current?.remove();
             activePopupRef.current = null;
             placeMarkerRef.current?.remove();
             placeMarkerRef.current = null;
 
-            // Full popup
             const popup = new mapboxgl.Popup({ closeOnClick: false })
               .setLngLat([lon, lat])
               .setHTML(`
@@ -157,7 +149,6 @@ const AlaskaMap = () => {
               .addTo(map);
             activePopupRef.current = popup;
 
-            // Optional: add place marker
             if (lake.placeCoords) {
               const placeEl = document.createElement('div');
               placeEl.className = 'place-marker';
@@ -175,7 +166,6 @@ const AlaskaMap = () => {
             placeMarkerRef.current = null;
           });
 
-          // Click still flies and shows same popup
           el.addEventListener('click', (e) => {
             e.stopPropagation();
             flyToLake(lake);
@@ -234,11 +224,24 @@ const AlaskaMap = () => {
   };
 
   return (
-    <div
-      ref={mapContainerRef}
-      style={{ width: '100vw', height: '100vh' }}
-    />
+    <>
+      <div
+        ref={mapContainerRef}
+        style={{ width: '100vw', height: '100vh' }}
+      />
+      <div className="map-legend">
+        <div className="map-legend-item">
+          <div className="map-legend-circle"></div>
+          Stable Lakes
+        </div>
+        <div className="map-legend-item">
+          <div className="map-legend-triangle"></div>
+          Lakes Causing GLOFs
+        </div>
+      </div>
+    </>
   );
 };
 
 export default AlaskaMap;
+

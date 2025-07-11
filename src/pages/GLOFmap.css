@@ -159,3 +159,57 @@ code {
   border: 2px solid rgba(255, 255, 255, 0.5);
   transform: translateX(-50%) scale(1.05);
 }
+
+.map-legend {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  border-radius: 8px;
+  padding: 8px 16px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 0.95rem;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  z-index: 999;
+}
+
+.map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.map-legend-circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: blue;
+  border: 2px solid white;
+}
+
+.map-legend-triangle {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 14px solid red;
+}
+
+.mapboxgl-popup-content p {
+  white-space: normal;
+}
+
+.marker.triangle {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid red;
+  border-top: 0 solid transparent; /* explicitly remove any top border */
+  cursor: pointer;
+}
