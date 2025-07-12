@@ -22,6 +22,8 @@ const AlaskaMap = () => {
       zoom: 4.2,
     });
 
+    mapRef.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
     const fetchCSVData = async () => {
       try {
         const response = await fetch('https://flood-events.s3.us-east-2.amazonaws.com/AK_GL.csv');
@@ -30,69 +32,26 @@ const AlaskaMap = () => {
           header: true,
           dynamicTyping: true,
           complete: async (result) => {
-const rawData = result.data.map(row => ({
-  LakeID: row.LakeID?.trim(),
-  km2: typeof row.km2 === 'number' ? row.km2 : parseFloat(row.km2) || 0,
-  lat: typeof row.lat === 'number' ? row.lat : parseFloat(row.lat),
-  lon: typeof row.lon === 'number' ? row.lon : parseFloat(row.lon),
-  LakeName: (row.LakeName && row.LakeName.trim() !== 'NA') ? row.LakeName.trim() : null,
-  GlacierName: (row.GlacierName && row.GlacierName.trim() !== 'NA') ? row.GlacierName.trim() : null
-}));
-
-
+            const rawData = result.data.map(row => ({
+              LakeID: row.LakeID?.trim(),
+              km2: typeof row.km2 === 'number' ? row.km2 : parseFloat(row.km2) || 0,
+              lat: typeof row.lat === 'number' ? row.lat : parseFloat(row.lat),
+              lon: typeof row.lon === 'number' ? row.lon : parseFloat(row.lon),
+              LakeName: (row.LakeName && row.LakeName.trim() !== 'NA') ? row.LakeName.trim() : null,
+              GlacierName: (row.GlacierName && row.GlacierName.trim() !== 'NA') ? row.GlacierName.trim() : null
+            }));
 
             const enrichLake = async (lake) => {
-              const tryGeocode = async (types) => {
-                const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lake.lon},${lake.lat}.json?types=${types}&proximity=${lake.lon},${lake.lat}&limit=1&autocomplete=false&access_token=${mapboxgl.accessToken}`;
-                try {
-                  const res = await fetch(url);
-                  const data = await res.json();
-                  if (data.features?.length) {
-                    const feature = data.features[0];
-                    // Try to build a short name like "Anchorage, AK"
-                    let shortPlace = feature.text;
-                    let state = null;
-
-                    if (feature.context) {
-                      for (const ctx of feature.context) {
-                        if (ctx.id.startsWith('region')) {
-                          state = ctx.short_code?.split('-')[1]?.toUpperCase() || ctx.text;
-                        }
-                      }
-                    }
-
-                    if (shortPlace && state) {
-                      shortPlace = `${shortPlace}, ${state}`;
-                    }
-
-                    return {
-                      place: shortPlace || feature.text || feature.place_name,
-                      placeCoords: feature.geometry.coordinates
-                    };
-                  }
-                } catch (err) {
-                  console.error(`Geocode error for ${types}:`, err);
+              let place = null, placeCoords = null;
+              const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lake.lon},${lake.lat}.json?limit=1&access_token=${mapboxgl.accessToken}`;
+              try {
+                const res = await fetch(url);
+                const data = await res.json();
+                if (data.features?.length) {
+                  place = data.features[0].place_name;
+                  placeCoords = data.features[0].geometry.coordinates;
                 }
-                return { place: null, placeCoords: null };
-              };
-
-              let { place, placeCoords } = await tryGeocode('poi');
-              if (!place) ({ place, placeCoords } = await tryGeocode('locality,neighborhood'));
-              if (!place) ({ place, placeCoords } = await tryGeocode('place'));
-              if (!place) {
-                const fallbackUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lake.lon},${lake.lat}.json?limit=1&autocomplete=false&access_token=${mapboxgl.accessToken}`;
-                try {
-                  const res = await fetch(fallbackUrl);
-                  const data = await res.json();
-                  if (data.features?.length) {
-                    place = data.features[0].place_name;
-                    placeCoords = data.features[0].geometry.coordinates;
-                  }
-                } catch (err) {
-                  console.error('Fallback geocode error:', err);
-                }
-              }
-
+              } catch {}
               return { ...lake, place, placeCoords };
             };
 
@@ -114,6 +73,30 @@ const rawData = result.data.map(row => ({
   }, []);
 
   useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!mapRef.current) return;
+      switch (e.key) {
+        case '+':
+        case '=':
+          mapRef.current.zoomIn();
+          break;
+        case '-':
+          mapRef.current.zoomOut();
+          break;
+        case 'r':
+        case 'R':
+          mapRef.current.flyTo({ center: [-144.5, 59.5], zoom: 4.2, speed: 1.2 });
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  useEffect(() => {
     if (!mapRef.current || lakeData.length === 0) return;
 
     const map = mapRef.current;
@@ -128,10 +111,10 @@ const rawData = result.data.map(row => ({
           const isFlooding = ['B115', 'B117', 'B86', 'B2'].includes(LakeID);
 
           let el;
-if (isFlooding) {
-  el = document.createElement('div');
-  el.className = 'marker triangle';
-} else {
+          if (isFlooding) {
+            el = document.createElement('div');
+            el.className = 'marker triangle';
+          } else {
             const radius = Math.sqrt(area) * 4 + 6;
             el = document.createElement('div');
             el.className = 'marker pulse';
@@ -140,7 +123,6 @@ if (isFlooding) {
             el.style.borderRadius = '50%';
             el.style.border = '2px solid white';
             el.style.backgroundColor = 'blue';
-            el.style.cursor = 'pointer';
           }
 
           const marker = new mapboxgl.Marker(el, { anchor: 'center' })
@@ -150,14 +132,10 @@ if (isFlooding) {
 
           el.addEventListener('mouseenter', () => {
             activePopupRef.current?.remove();
-            activePopupRef.current = null;
-            placeMarkerRef.current?.remove();
-            placeMarkerRef.current = null;
-
             const popup = new mapboxgl.Popup({ closeOnClick: false })
               .setLngLat([lon, lat])
               .setHTML(`
-                <h4>${LakeName ? LakeName : `Lake ${LakeID}`}</h4>
+                <h4>${LakeName || `Lake ${LakeID}`}</h4>
                 <p><strong>Name:</strong> ${LakeName || 'Unnamed'}<br/>
                 <strong>Area:</strong> ${area} km²<br/>
                 <strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
@@ -165,36 +143,21 @@ if (isFlooding) {
               `)
               .addTo(map);
             activePopupRef.current = popup;
-
-            if (lake.placeCoords) {
-              const placeEl = document.createElement('div');
-              placeEl.className = 'place-marker';
-
-              placeMarkerRef.current = new mapboxgl.Marker(placeEl)
-                .setLngLat(lake.placeCoords)
-                .setPopup(new mapboxgl.Popup().setText(lake.place))
-            }
           });
 
           el.addEventListener('mouseleave', () => {
             activePopupRef.current?.remove();
-            activePopupRef.current = null;
-            placeMarkerRef.current?.remove();
-            placeMarkerRef.current = null;
           });
 
           el.addEventListener('click', (e) => {
             e.stopPropagation();
-            flyToLake(lake);
+            map.flyTo({ center: [lon, lat], zoom: 12.5, speed: 1.4 });
           });
         }
       });
 
       map.on('click', () => {
         activePopupRef.current?.remove();
-        activePopupRef.current = null;
-        placeMarkerRef.current?.remove();
-        placeMarkerRef.current = null;
       });
     };
 
@@ -206,46 +169,9 @@ if (isFlooding) {
 
   }, [lakeData]);
 
-  const flyToLake = (lake) => {
-    const { lon, lat, LakeID, LakeName, GlacierName, km2: area, place, placeCoords } = lake;
-    if (!mapRef.current) return;
-
-    mapRef.current.flyTo({
-      center: [lon, lat],
-      zoom: 12.5,
-      speed: 1.4
-    });
-
-    activePopupRef.current?.remove();
-    const popup = new mapboxgl.Popup({ closeOnClick: false })
-      .setLngLat([lon, lat])
-      .setHTML(`
-        <h4>${LakeName ? LakeName : `Lake ${LakeID}`}</h4>
-        <p><strong>Name:</strong> ${LakeName || 'Unnamed'}<br/>
-        <strong>Area:</strong> ${area} km²<br/>
-        <strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
-        <strong>Closest place:</strong> ${place || 'Unknown'}</p>
-      `)
-      .addTo(mapRef.current);
-    activePopupRef.current = popup;
-
-    placeMarkerRef.current?.remove();
-    if (placeCoords) {
-      const el = document.createElement('div');
-      el.className = 'place-marker';
-
-      placeMarkerRef.current = new mapboxgl.Marker(el)
-        .setLngLat(placeCoords)
-        .setPopup(new mapboxgl.Popup().setText(place))
-    }
-  };
-
   return (
     <>
-      <div
-        ref={mapContainerRef}
-        style={{ width: '100vw', height: '100vh' }}
-      />
+      <div ref={mapContainerRef} style={{ width: '100vw', height: '100vh' }} />
       <div className="map-legend">
         <div className="map-legend-item">
           <div className="map-legend-circle"></div>
@@ -255,10 +181,19 @@ if (isFlooding) {
           <div className="map-legend-triangle"></div>
           Lakes Causing GLOFs
         </div>
+        <div className="hotkey-table">
+  <h4>Controls</h4>
+  <table>
+    <tbody>
+      <tr><td><strong>R</strong></td><td>Reset Zoom</td></tr>
+      <tr><td><strong>+</strong></td><td>Zoom in</td></tr>
+      <tr><td><strong>-</strong></td><td>Zoom out</td></tr>
+    </tbody>
+  </table>
+</div>
       </div>
     </>
   );
 };
 
 export default AlaskaMap;
-
