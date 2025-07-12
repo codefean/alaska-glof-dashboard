@@ -189,31 +189,23 @@ code {
   background: blue;
   border: 2px solid white;
 }
-
-.map-legend-triangle {
-  display: inline-block;
-  line-height: 0;
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 14px solid red;
+.map-legend-square {
+  width: 15px;
+  height: 15px;
+  background: red;
+  border: 2px solid white;
+  margin-right: 8px;
 }
 
 .mapboxgl-popup-content p {
   white-space: normal;
 }
-.marker.triangle {
-  display: block;
-  width: 0;
-  height: 0;
-  margin: 0;
-  padding: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 20px solid red;
-  line-height: 0;
-  font-size: 0;
+
+.marker.square {
+  width: 16px;
+  height: 16px;
+  background: red;
+  border: 2px solid white;
 }
 
 
@@ -257,4 +249,13 @@ code {
   .hotkey-table {
     display: none;
   }
+}
+
+.map-legend-diamond {
+  width: 15px;
+  height: 15px;
+  background: orange;
+  transform: rotate(45deg);
+  border: 2px solid white;
+  margin-right: 8px;
 }
