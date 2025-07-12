@@ -215,16 +215,24 @@ code {
 
 .hotkey-table {
   position: fixed;
-  bottom: 1px;
-  left: -550px !important; /* moved from right to left */
+  top: 110px;   /* position in upper left */
+  left: 10px;
+  right: auto; /* ensure it's on the left */
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   border-radius: 8px;
   padding: 10px 14px;
   color: white;
   font-size: 1rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   z-index: 999;
+  max-width: 90%; /* ensures responsiveness */
+  box-sizing: border-box;
+}
+/* When screen is under 800px wide, move it down */
+@media (max-width: 800px) {
+  .hotkey-table {
+    top: 180px; /* your requested position */
+  }
 }
 
 .hotkey-table h4 {

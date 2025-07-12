@@ -169,31 +169,33 @@ const AlaskaMap = () => {
 
   }, [lakeData]);
 
-  return (
-    <>
-      <div ref={mapContainerRef} style={{ width: '100vw', height: '100vh' }} />
-      <div className="map-legend">
-        <div className="map-legend-item">
-          <div className="map-legend-circle"></div>
-          Stable Lakes
-        </div>
-        <div className="map-legend-item">
-          <div className="map-legend-triangle"></div>
-          Lakes Causing GLOFs
-        </div>
-        <div className="hotkey-table">
-  <h4>Controls</h4>
-  <table>
-    <tbody>
-      <tr><td><strong>R</strong></td><td>Reset Zoom</td></tr>
-      <tr><td><strong>+</strong></td><td>Zoom in</td></tr>
-      <tr><td><strong>-</strong></td><td>Zoom out</td></tr>
-    </tbody>
-  </table>
-</div>
+return (
+  <>
+    <div ref={mapContainerRef} style={{ width: '100vw', height: '100vh' }} />
+
+    <div className="hotkey-table">
+      <h4>Controls</h4>
+      <table>
+        <tbody>
+          <tr><td><strong>R</strong></td><td>Reset Zoom</td></tr>
+          <tr><td><strong>+</strong></td><td>Zoom in</td></tr>
+          <tr><td><strong>-</strong></td><td>Zoom out</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div className="map-legend">
+      <div className="map-legend-item">
+        <div className="map-legend-circle"></div>
+        Stable Lakes
       </div>
-    </>
-  );
+      <div className="map-legend-item">
+        <div className="map-legend-triangle"></div>
+        Lakes Causing GLOFs
+      </div>
+    </div>
+  </>
+);
 };
 
 export default AlaskaMap;
