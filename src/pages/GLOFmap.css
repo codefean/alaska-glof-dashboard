@@ -259,3 +259,41 @@ code {
   border: 2px solid white;
   margin-right: 8px;
 }
+
+.marker.glacier {
+
+  border: 2px solid #1e8fff; /* DodgerBlue */
+  background-color: rgba(255, 255, 255, 0.292);
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  cursor: pointer;
+}
+
+.map-legend-glacier {
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  border: 2px solid #1E90FF;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.toggle-glaciers-button {
+  position: fixed;
+  top: 270px;  /* just below hotkey-table which ends ~160px with padding */
+  left: 18px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  border: 2px solid white;
+  border-radius: 8px;
+  color: white;
+  padding: 8px 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 999;
+}
+
+.toggle-glaciers-button:hover {
+  background: rgba(35, 123, 207, 0.8);
+}
