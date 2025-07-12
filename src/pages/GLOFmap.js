@@ -154,11 +154,11 @@ const addMarkers = () => {
         </div>
         <div className="map-legend-item">
           <div className="map-legend-square"></div>
-          Lakes Causing GLOFs
+          Lake Causing GLOF
         </div>
         <div className="map-legend-item">
           <div className="map-legend-diamond"></div>
-          Potential Future Hazard
+          Potential Future GLOF
         </div>
       </div>
     </>
