@@ -71,7 +71,6 @@ code {
 
 .marker {
   cursor: pointer;
-  border: 2px solid white;
   transform-origin: center;
 }
 
@@ -132,7 +131,6 @@ code {
   width: 16px;
   height: 16px;
   background-color: rgb(208, 61, 61);
-  border: 2px solid white;
   /* square so we don't add border-radius */
 }
 
@@ -193,6 +191,8 @@ code {
 }
 
 .map-legend-triangle {
+  display: inline-block;
+  line-height: 0;
   width: 0;
   height: 0;
   border-left: 8px solid transparent;
@@ -203,15 +203,19 @@ code {
 .mapboxgl-popup-content p {
   white-space: normal;
 }
-
 .marker.triangle {
+  display: block;
   width: 0;
   height: 0;
+  margin: 0;
+  padding: 0;
   border-left: 10px solid transparent;
-  border-right:10px solid transparent;
+  border-right: 10px solid transparent;
   border-bottom: 20px solid red;
-  cursor: pointer;
+  line-height: 0;
+  font-size: 0;
 }
+
 
 .hotkey-table {
   position: fixed;
