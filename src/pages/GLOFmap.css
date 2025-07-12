@@ -165,14 +165,13 @@ code {
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
-  border-radius: 8px;
-  padding: 8px 16px;
+  border-radius: 7px;
+  padding: 7px 16px;
   display: flex;
   gap: 16px;
   align-items: center;
   font-size: 0.95rem;
   color: white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   z-index: 999;
 }
 
@@ -281,7 +280,7 @@ code {
 
 .toggle-glaciers-button {
   position: fixed;
-  top: 270px;  /* just below hotkey-table which ends ~160px with padding */
+  top: 265px;  /* just below hotkey-table which ends ~160px with padding */
   left: 18px;
   background: rgba(0,0,0,0.6);
   backdrop-filter: blur(4px);
@@ -292,6 +291,12 @@ code {
   font-size: 1rem;
   cursor: pointer;
   z-index: 999;
+}
+
+@media (max-width: 800px) {
+  .toggle-glaciers-button {
+    top: 335px; /* your requested position */
+  }
 }
 
 .toggle-glaciers-button:hover {
