@@ -285,7 +285,7 @@ code {
   left: 18px;
   background: rgba(0,0,0,0.6);
   backdrop-filter: blur(4px);
-  border: 2px solid white;
+  border: 1px solid white;
   border-radius: 8px;
   color: white;
   padding: 8px 14px;
