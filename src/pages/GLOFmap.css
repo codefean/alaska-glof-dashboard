@@ -19,6 +19,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* prevent scrolling entirely */
+}
 
 
 .map-loading-overlay {
@@ -83,6 +89,7 @@ code {
 .mapboxgl-popup {
   max-width: 250px;
   font-family: sans-serif;
+  z-index: 90 !important;
 }
 
 /* move backdrop-filter INSIDE content box */
@@ -93,6 +100,7 @@ code {
   backdrop-filter: blur(3px);
   color: white;
   padding: 12px;
+  z-index: 4;
 }
 
 .mapboxgl-popup-content h4 {
@@ -172,7 +180,7 @@ code {
   align-items: center;
   font-size: 0.95rem;
   color: white;
-  z-index: 999;
+  z-index: 2;
 }
 
 .map-legend-item {
@@ -220,7 +228,7 @@ code {
   padding: 10px 14px;
   color: white;
   font-size: 1rem;
-  z-index: 999;
+  z-index: 2;
   max-width: 90%; /* ensures responsiveness */
   box-sizing: border-box;
 }
@@ -308,5 +316,15 @@ code {
 .marker.square,
 .marker.diamond,
 .marker.pulse {
-  z-index: 10;
+  z-index: 1;
+}
+
+.mapboxgl-popup-content a {
+  color: white;
+  text-decoration: underline;
+  text: Bold; /* optional, keeps it recognizable as link */
+}
+
+.mapboxgl-popup-content a:hover {
+  color: #ddd; /* slightly different on hover */
 }

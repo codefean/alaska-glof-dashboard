@@ -133,9 +133,8 @@ const AlaskaMap = () => {
           const popupContent = `
             <h4>${LakeName || `Lake ${LakeID}`}</h4>
             <p>
-              <strong>Area:</strong> ${area} km²<br/>
               <strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
-              ${isHazard && hazardURL ? `<a href="${hazardURL}" target="_blank">Hazard details</a><br/>` : ''}
+              ${isHazard && hazardURL ? `<a href="${hazardURL}" target="_blank">GLOF INFO</a><br/>` : ''}
               ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em>` : ''}
             </p>
           `;
@@ -239,7 +238,7 @@ const AlaskaMap = () => {
       <div className="map-legend">
         <div className="map-legend-item">
           <div className="map-legend-circle"></div>
-          Stable Lakes
+          Stable Lake
         </div>
         <div className="map-legend-item">
           <div className="map-legend-square"></div>
