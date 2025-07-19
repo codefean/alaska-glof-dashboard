@@ -14,6 +14,16 @@ const AlaskaMap = () => {
   const activePopupRef = useRef(null);
   const isPopupLocked = useRef(false);
 
+useEffect(() => {
+  const originalOverflow = document.body.style.overflow;
+  document.body.style.overflow = 'hidden';
+
+  return () => {
+    document.body.style.overflow = originalOverflow; // ✅ now it's used
+  };
+}, []);
+
+
   useEffect(() => {
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFwZmVhbiIsImEiOiJjbTNuOGVvN3cxMGxsMmpzNThzc2s3cTJzIn0.1uhX17BCYd65SeQsW1yibA';
 
@@ -24,14 +34,14 @@ const AlaskaMap = () => {
       zoom: 4.2,
     });
 
-    mapRef.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
-
     const handleKeydown = (e) => {
       if (e.key === 'r' || e.key === 'R') {
         mapRef.current.flyTo({ center: [-144.5, 59.5], zoom: 4.2, speed: 1.2 });
       }
     };
     window.addEventListener('keydown', handleKeydown);
+
+    
 
     // Fetch lakes CSV
     const fetchLakeData = async () => {
