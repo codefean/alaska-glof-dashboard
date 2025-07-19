@@ -218,6 +218,7 @@ html, body {
   height: 16px;
   background: red;
   border: 2px solid white;
+  z-index: 4;
 }
 
 
@@ -280,7 +281,7 @@ html, body {
   width: 5px;
   height: 5px;
   cursor: pointer;
-  z-index: 1;
+  z-index: 1 !important;
 }
 
 .map-legend-glacier {

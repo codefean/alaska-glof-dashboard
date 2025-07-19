@@ -3,6 +3,8 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Papa from 'papaparse';
 import './GLOFmap.css';
+import MapLegend from './MapLegend';
+
 
 const AlaskaMap = () => {
   const mapContainerRef = useRef(null);
@@ -245,24 +247,8 @@ useEffect(() => {
         </table>
       </div>
 
-      <div className="map-legend">
-        <div className="map-legend-item">
-          <div className="map-legend-circle"></div>
-          Stable Lake
-        </div>
-        <div className="map-legend-item">
-          <div className="map-legend-square"></div>
-          Lake Causing GLOF
-        </div>
-        <div className="map-legend-item">
-          <div className="map-legend-diamond"></div>
-          Potential Future GLOF
-        </div>
-        <div className="map-legend-item">
-          <div className="map-legend-glacier"></div>
-          Glaciers
-        </div>
-      </div>
+<MapLegend />
+
     </>
   );
 };
