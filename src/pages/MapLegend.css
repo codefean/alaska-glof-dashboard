@@ -2,20 +2,21 @@
   position: fixed;
   bottom: 20px;
   left: 50%;
-  transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   border-radius: 7px;
-  padding: 7px 16px;
+  padding: 10px 14px;
   display: flex;
-  gap: 16px;
+  gap: 20px;
   align-items: center;
-  font-size: 0.95rem;
+  font-size: .9rem;
+  font-weight: 520;
   color: white;
   z-index: 2;
   cursor: pointer;
   flex-wrap: nowrap;
-  transition: all 0.3s ease;
+  max-width: none;
+  border: 1px solid white !important;
 }
 
 .map-legend:hover {
@@ -27,57 +28,88 @@
   align-items: flex-start;
   gap: 10px;
   width: max-content;
-  padding: 14px 20px;
-  max-width: 300px;
+  padding: 10px 16px;
+  max-width: 500px !important;
 }
 
 
 .map-legend-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   flex-wrap: wrap;
 }
 
 .legend-description {
-  font-size: 0.8rem;
-  color: #ccc;
+  font-size: .9rem;
+  color: #dad9d9;
   margin-left: 24px;
-  margin-top: 4px;
   display: block;
   width: 100%;
 }
 
 .map-legend-circle {
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: blue;
   border: 2px solid white;
+  margin-right: 3px;
+
 }
 
 .map-legend-square {
-  width: 15px;
-  height: 15px;
+  width: 10px;
+  height: 10px;
   background: red;
   border: 2px solid white;
-  margin-right: 8px;
+  margin-right: 3px;
 }
 
 .map-legend-diamond {
-  width: 14px;
-  height: 14px;
+  width: 10px;
+  height: 10px;
   background: orange;
   transform: rotate(45deg);
   border: 2px solid white;
-  margin-right: 8px;
+  margin-right: 3px;
 }
 
 .map-legend-glacier {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   background-color: white;
   border: 2px solid #1E90FF;
   border-radius: 50%;
-  margin-right: 8px;
+  margin-right: 3px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .map-legend {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    transform: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 0.8rem;
+    gap: 12px;
+    padding: 8px 8px;
+    max-width: calc(100% - 40px) !important;
+  }
+
+  .map-legend.expanded {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 90%;
+    max-width: 90% !important;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .legend-description {
+    margin-left: 0;
+    font-size: 0.85rem;
+  }
 }

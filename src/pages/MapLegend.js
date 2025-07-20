@@ -26,12 +26,12 @@ const MapLegend = () => {
       <div className="map-legend-item">
         <div className="map-legend-circle"></div>
         Glacier Dammed Lake
-        {expanded && <span className="legend-description">Lake impounded by a glacier, posing potential flood risk.</span>}
+        {expanded && <span className="legend-description">Lake blocked by a glacier, posing flood risk.</span>}
       </div>
       <div className="map-legend-item">
         <div className="map-legend-square"></div>
         Lake With Known Impacts
-        {expanded && <span className="legend-description">A lake with confirmed flooding or historical impact.</span>}
+        {expanded && <span className="legend-description">A lake with confirmed flooding and historical impact.</span>}
       </div>
       <div className="map-legend-item">
         <div className="map-legend-diamond"></div>
@@ -40,8 +40,8 @@ const MapLegend = () => {
       </div>
       <div className="map-legend-item">
         <div className="map-legend-glacier"></div>
-        Glacier
-        {expanded && <span className="legend-description">Ice body (glacier) in the vicinity of lakes.</span>}
+      Glacier
+        {expanded && <span className="legend-description">Slow-moving mass of ice formed from compacted snow that accumulates over time and flows under its own weight.</span>}
       </div>
     </div>
   );

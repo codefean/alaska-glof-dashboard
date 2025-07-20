@@ -293,13 +293,14 @@ html, body {
   margin-right: 8px;
 }
 
+/* Desktop and default styling */
 .toggle-glaciers-button {
   position: fixed;
-  top: 265px;  /* just below hotkey-table which ends ~160px with padding */
+  top: 265px;  /* Just below hotkey-table */
   left: 18px;
   background: rgba(0,0,0,0.6);
   backdrop-filter: blur(4px);
-  border: 1px solid white;
+  border: 0.9px solid white !important;
   border-radius: 8px;
   color: white;
   padding: 8px 14px;
@@ -307,6 +308,21 @@ html, body {
   cursor: pointer;
   z-index: 999;
 }
+
+/* Mobile-specific override */
+@media (max-width: 600px) {
+  .toggle-glaciers-button {
+    top: 145px !important;
+    left: 95px;
+    right: 95px;
+    padding: 10px;
+    font-size: 0.95rem;
+    justify-content: center;
+    width: auto;
+    display: flex;
+  }
+}
+
 
 @media (max-width: 800px) {
   .toggle-glaciers-button {
