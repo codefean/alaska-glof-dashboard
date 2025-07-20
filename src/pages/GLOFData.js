@@ -14,7 +14,7 @@ const GLOFData = () => {
         </p>
       </div>
 
-      <FloodTable /> {/* ✅ reuses your well-styled component */}
+      <FloodTable />
     </div>
   );
 };

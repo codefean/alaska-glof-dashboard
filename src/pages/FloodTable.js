@@ -6,16 +6,13 @@ const LOCAL_CSV_URL = process.env.PUBLIC_URL + "/AK_GL.csv";
 
 const COLUMN_NAME_MAPPING = {
   "LakeID": "Lake ID",
+  "LakeName": "Lake Name",
   "km2": "Lake Area (km²)",
   "lat": "Latitude",
   "lon": "Longitude",
-  "LakeName": "Lake Name"
-};
-
-const getRowColor = (km2) => {
-  const size = parseFloat(km2);
-  if (isNaN(size)) return "white";
-  return "white";
+  "isHazard": "Current Hazard",
+  "futureHazard": "Future Hazard",
+  "hazardURL": "Hazard Website",
 };
 
 const FloodTable = () => {
@@ -37,8 +34,9 @@ const FloodTable = () => {
           skipEmptyLines: true,
           complete: (result) => {
             const rawData = result.data;
-            const processedData = rawData.map((row, index) => {
-              const newRow = { Index: index + 1 };
+
+            const processedData = rawData.map((row) => {
+              const newRow = {};
               Object.keys(row).forEach((key) => {
                 const newKey = COLUMN_NAME_MAPPING[key] || key;
                 newRow[newKey] = row[key];
@@ -46,11 +44,29 @@ const FloodTable = () => {
               return newRow;
             });
 
-            const newHeaders = ["Index", ...Object.keys(processedData[0] || {}).filter(h => h !== "Index")];
+            // Filter: only keep rows with hazard
+            const filteredData = processedData.filter(row =>
+              row["Current Hazard"]?.toLowerCase() === "true" ||
+              row["Future Hazard"]?.toLowerCase() === "true"
+            );
 
-            setData(processedData);
-            setSortedData(processedData);
-            setHeaders(newHeaders);
+            // Columns to remove (after mapping)
+            const columnsToExclude = [
+              "Lake ID",
+              "Lake Area (km²)",
+              "Latitude",
+              "Longitude"
+            ];
+
+            const allHeaders = Object.keys(filteredData[0] || {});
+            const filteredHeaders = allHeaders.filter(h => !columnsToExclude.includes(h));
+
+            // Move "Lake Name" to first
+            const orderedHeaders = ["Lake Name", ...filteredHeaders.filter(h => h !== "Lake Name")];
+
+            setData(filteredData);
+            setSortedData(filteredData);
+            setHeaders(orderedHeaders);
             setLoading(false);
           },
         });
@@ -85,7 +101,7 @@ const FloodTable = () => {
         <>
           <h3 className="flood-table-title">Alaska Glacier Lakes Table</h3>
           <h4 className="flood-table-subtitle">
-            Click column headers to sort by Lake Area, Name, etc.
+            Showing only lakes with current or future flood hazards.
           </h4>
 
           <table className="flood-table">
@@ -101,18 +117,16 @@ const FloodTable = () => {
             <tbody>
               {sortedData
                 .slice(0, expanded ? sortedData.length : visibleCount)
-                .map((row, rowIndex) => {
-                  const bg = getRowColor(row["Lake Area (km²)"]);
-                  return (
-                    <tr key={rowIndex} style={{ backgroundColor: bg }}>
-                      {headers.map((header, colIndex) => (
-                        <td key={colIndex}>{row[header] || "—"}</td>
-                      ))}
-                    </tr>
-                  );
-                })}
+                .map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {headers.map((header, colIndex) => (
+                      <td key={colIndex}>{row[header] || "—"}</td>
+                    ))}
+                  </tr>
+                ))}
             </tbody>
           </table>
+
           {sortedData.length > visibleCount && (
             <button className="expand-button" onClick={() => setExpanded(!expanded)}>
               {expanded ? "Show Less" : "Show More"}
