@@ -13,6 +13,9 @@ const COLUMN_NAME_MAPPING = {
   "isHazard": "Current Hazard",
   "futureHazard": "Future Hazard",
   "hazardURL": "Hazard Website",
+  "summary": "Summary",
+  "moreinfo": "More Info",
+
 };
 
 const FloodTable = () => {
@@ -22,6 +25,7 @@ const FloodTable = () => {
   const [sortedData, setSortedData] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [expanded, setExpanded] = useState(false);
+  const [expandedRowIndex, setExpandedRowIndex] = useState(null); // NEW
 
   const visibleCount = 10;
 
@@ -44,24 +48,24 @@ const FloodTable = () => {
               return newRow;
             });
 
-            // Filter: only keep rows with hazard
             const filteredData = processedData.filter(row =>
               row["Current Hazard"]?.toLowerCase() === "true" ||
               row["Future Hazard"]?.toLowerCase() === "true"
             );
 
-            // Columns to remove (after mapping)
             const columnsToExclude = [
               "Lake ID",
               "Lake Area (km²)",
               "Latitude",
-              "Longitude"
+              "Longitude",
+              "Summary",
+              "Hazard Website",
+              "More Info"
             ];
 
             const allHeaders = Object.keys(filteredData[0] || {});
             const filteredHeaders = allHeaders.filter(h => !columnsToExclude.includes(h));
 
-            // Move "Lake Name" to first
             const orderedHeaders = ["Lake Name", ...filteredHeaders.filter(h => h !== "Lake Name")];
 
             setData(filteredData);
@@ -118,11 +122,46 @@ const FloodTable = () => {
               {sortedData
                 .slice(0, expanded ? sortedData.length : visibleCount)
                 .map((row, rowIndex) => (
-                  <tr key={rowIndex}>
-                    {headers.map((header, colIndex) => (
-                      <td key={colIndex}>{row[header] || "—"}</td>
-                    ))}
-                  </tr>
+                  <React.Fragment key={rowIndex}>
+                    <tr
+                      onClick={() =>
+                        setExpandedRowIndex(expandedRowIndex === rowIndex ? null : rowIndex)
+                      }
+                      className="expandable-row"
+                    >
+                      {headers.map((header, colIndex) => (
+                        <td key={colIndex}>{row[header] || "—"}</td>
+                      ))}
+                    </tr>
+                    {expandedRowIndex === rowIndex && row["Summary"] && (
+                      <tr className="summary-row">
+                      <td colSpan={headers.length}>
+                        <div className="summary-content">
+                          {row["Summary"] && (
+                            <p><strong>Summary:</strong> {row["Summary"]}</p>
+                          )}
+
+                          {row["Hazard Website"] && (
+                            <p>
+                              <strong>Website:</strong>{" "}
+                              <a href={row["Hazard Website"]} target="_blank" rel="noopener noreferrer">
+                                View site
+                              </a>
+                            </p>
+                          )}
+
+                          {row["More Info"] && (
+                            <p>
+                              <strong>More Info:</strong> {row["More Info"]}
+                            </p>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+
+                    )}
+                  </React.Fragment>
+
                 ))}
             </tbody>
           </table>
