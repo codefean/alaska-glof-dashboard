@@ -5,25 +5,27 @@ import "./FloodTable.css";
 const LOCAL_CSV_URL = process.env.PUBLIC_URL + "/AK_GL.csv";
 
 const COLUMN_NAME_MAPPING = {
-  LakeID: "Lake ID",
-  LakeName: "Lake Name",
-  km2: "Lake Area (km²)",
-  lat: "Latitude",
-  lon: "Longitude",
-  isHazard: "Current Hazard",
-  futureHazard: "Future Hazard",
-  futureHazardETA: "Time to Future Hazard",
-  hazardURL: "Hazard Website",
-  summary: "Summary",
-  moreinfo: "More Info",
+  "LakeID": "Lake ID",
+  "LakeName": "Lake Name",
+  "km2": "Lake Area (km²)",
+  "lat": "Latitude",
+  "lon": "Longitude",
+  "isHazard": "Current Hazard",
+  "futureHazard": "Future Hazard",
+  "futureHazardETA": "Time to Future Hazard",
+  "hazardURL": "Hazard Website",
+  "summary": "Summary",
+  "moreinfo": "More Info",
+
 };
 
-const FloodTable = () => {
+const FutureFloodTable = () => {
   const [data, setData] = useState([]);
   const [headers, setHeaders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortedData, setSortedData] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const [expanded, setExpanded] = useState(false);
   const [expandedRows, setExpandedRows] = useState([]);
 
 
@@ -34,7 +36,6 @@ const FloodTable = () => {
     prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
   );
 };
-
 
   useEffect(() => {
     fetch(LOCAL_CSV_URL)
@@ -55,10 +56,8 @@ const FloodTable = () => {
               return newRow;
             });
 
-            const filteredData = processedData.filter(
-              (row) =>
-                row["Current Hazard"]?.toLowerCase() === "true" ||
-                row["Future Hazard"]?.toLowerCase() === "true"
+            const filteredData = processedData.filter(row =>
+              row["Future Hazard"]?.toLowerCase() === "true"
             );
 
             const columnsToExclude = [
@@ -67,19 +66,13 @@ const FloodTable = () => {
               "Latitude",
               "Longitude",
               "Future Hazard",
-              "Time to Future Hazard",
-              "Current Hazard",
+              "Current Hazard"
             ];
 
             const allHeaders = Object.keys(filteredData[0] || {});
-            const filteredHeaders = allHeaders.filter(
-              (h) => !columnsToExclude.includes(h)
-            );
+            const filteredHeaders = allHeaders.filter(h => !columnsToExclude.includes(h));
 
-            const orderedHeaders = [
-              "Lake Name",
-              ...filteredHeaders.filter((h) => h !== "Lake Name"),
-            ];
+            const orderedHeaders = ["Lake Name", ...filteredHeaders.filter(h => h !== "Lake Name")];
 
             setData(filteredData);
             setSortedData(filteredData);
@@ -95,30 +88,22 @@ const FloodTable = () => {
   }, []);
 
   const handleSort = (column) => {
-    const direction =
-      sortConfig.key === column && sortConfig.direction === "asc" ? "desc" : "asc";
-
+    const direction = sortConfig.key === column && sortConfig.direction === "asc" ? "desc" : "asc";
     const sorted = [...sortedData].sort((a, b) => {
-      const aVal = a[column] ?? "";
-      const bVal = b[column] ?? "";
-
-      const aNum = parseFloat(aVal);
-      const bNum = parseFloat(bVal);
-
-      if (!isNaN(aNum) && !isNaN(bNum)) {
-        return direction === "asc" ? aNum - bNum : bNum - aNum;
+      const aValue = parseFloat(a[column]);
+      const bValue = parseFloat(b[column]);
+      if (!isNaN(aValue) && !isNaN(bValue)) {
+        return direction === "asc" ? aValue - bValue : bValue - aValue;
       }
-
       return direction === "asc"
-        ? String(aVal).localeCompare(String(bVal))
-        : String(bVal).localeCompare(String(aVal));
+        ? String(a[column]).localeCompare(String(b[column]))
+        : String(b[column]).localeCompare(String(a[column]));
     });
-
     setSortedData(sorted);
     setSortConfig({ key: column, direction });
   };
 
-  return (
+return (
     <div className="flood-table-container">
       {loading ? (
         <p>Loading data...</p>
@@ -128,7 +113,7 @@ const FloodTable = () => {
             Alaska Glacier Lakes Current Flood Table
           </p>
           <p className="flood-table-subtitle">
-            Showing lakes with current flood hazards
+            Showing lakes with future flood hazards
           </p>
 
           <table className="flood-table">
@@ -150,7 +135,7 @@ const FloodTable = () => {
                 ))}
               </tr>
             </thead>
-            <tbody>
+<tbody>
   {sortedData.map((row, rowIndex) => {
     const isExpanded = expandedRows.includes(rowIndex);
     return (
@@ -197,4 +182,4 @@ const FloodTable = () => {
   );
 };
 
-export default FloodTable;
+export default FutureFloodTable;

@@ -56,20 +56,6 @@
   background: #eef2f7;
 }
 
-.flood-table-title {
-  font-size: 1.5rem;    
-  font-weight: 600;                        
-  color: #2c3e50;            
-  letter-spacing: 0.5px; 
-  margin-bottom: -15px;    
-}
-
-.flood-table-subtitle {
-  font-size: 1rem;
-  font-weight: 600 !important;   
-  color: #34495e;
-}
-
 /* Expand button */
 .expand-button {
   margin: 20px auto;
@@ -131,13 +117,11 @@
   cursor: pointer;
 }
 
-
-.flood-table tbody tr.expandable-row {
+.flood-table tbody tr.expandable-row td {
   position: relative;
-  cursor: pointer;
 }
 
-.flood-table tbody tr.expandable-row:hover td:first-child::after {
+.flood-table tbody tr.expandable-row:hover td::after {
   content: "▼";
   position: absolute;
   right: 20px;

@@ -1,5 +1,6 @@
 import React from "react";
-import FloodTable from "./FloodTable"; // adjust path as needed
+import FloodTable from "./FloodTable";
+import FutureFloodTable from "./FutureFloodTable";
 import "./GLOFData.css";
 
 const GLOFData = () => {
@@ -15,7 +16,9 @@ const GLOFData = () => {
       </div>
 
       <FloodTable />
+      <FutureFloodTable />
     </div>
+
   );
 };
 
