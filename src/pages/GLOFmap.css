@@ -103,14 +103,14 @@ html, body {
 
 .mapboxgl-popup-content h4 {
   margin: 0 0 6px;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 600;
 }
 
 .mapboxgl-popup-content p {
   margin: 0;
-  font-size: 1rem;
-  line-height: 1.4;
+  font-size: .9rem;
+  line-height: 1.1;
 }
 
 .mapboxgl-popup-tip {

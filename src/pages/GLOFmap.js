@@ -21,7 +21,7 @@ useEffect(() => {
   document.body.style.overflow = 'hidden';
 
   return () => {
-    document.body.style.overflow = originalOverflow; // ✅ now it's used
+    document.body.style.overflow = originalOverflow; 
   };
 }, []);
 
@@ -115,6 +115,42 @@ useEffect(() => {
       markersRef.current.forEach(marker => marker.remove());
       markersRef.current = [];
 
+      if (showGlaciers) {
+  glacierData.forEach((glacier) => {
+    const glacierEl = document.createElement('div');
+    glacierEl.className = 'marker glacier';
+
+    const glacierMarker = new mapboxgl.Marker(glacierEl)
+      .setLngLat([glacier.lon, glacier.lat])
+      .addTo(map);
+    markersRef.current.push(glacierMarker);
+
+    const popupContent = `<h3>${glacier.name || 'Unnamed'}</h3>`;
+
+    const showPopup = () => {
+      activePopupRef.current?.remove();
+      const popup = new mapboxgl.Popup({ closeOnClick: false })
+        .setLngLat([glacier.lon, glacier.lat])
+        .setHTML(popupContent)
+        .addTo(map);
+      activePopupRef.current = popup;
+    };
+
+    glacierEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      isPopupLocked.current = true;
+      showPopup();
+      map.flyTo({ center: [glacier.lon, glacier.lat], zoom: 11, speed: 1.4 });
+    });
+    glacierEl.addEventListener('mouseenter', () => {
+      if (!isPopupLocked.current) showPopup();
+    });
+    glacierEl.addEventListener('mouseleave', () => {
+      if (!isPopupLocked.current) activePopupRef.current?.remove();
+    });
+  });
+}
+
       // --- Add lake markers
       lakeData.forEach((lake) => {
         const { lat, lon, km2: area, LakeID, LakeName, GlacierName, isHazard, futureHazard, futureHazardETA, hazardURL } = lake;
@@ -174,42 +210,6 @@ useEffect(() => {
         }
       });
 
-      // --- Add glacier markers only if toggled
-      if (showGlaciers) {
-        glacierData.forEach((glacier) => {
-          const glacierEl = document.createElement('div');
-          glacierEl.className = 'marker glacier';
-
-          const glacierMarker = new mapboxgl.Marker(glacierEl)
-            .setLngLat([glacier.lon, glacier.lat])
-            .addTo(map);
-          markersRef.current.push(glacierMarker);
-
-          const popupContent = `<h3>${glacier.name || 'Unnamed'}</h3>`;
-
-          const showPopup = () => {
-            activePopupRef.current?.remove();
-            const popup = new mapboxgl.Popup({ closeOnClick: false })
-              .setLngLat([glacier.lon, glacier.lat])
-              .setHTML(popupContent)
-              .addTo(map);
-            activePopupRef.current = popup;
-          };
-
-          glacierEl.addEventListener('click', (e) => {
-            e.stopPropagation();
-            isPopupLocked.current = true;
-            showPopup();
-            map.flyTo({ center: [glacier.lon, glacier.lat], zoom: 11, speed: 1.4 });
-          });
-          glacierEl.addEventListener('mouseenter', () => {
-            if (!isPopupLocked.current) showPopup();
-          });
-          glacierEl.addEventListener('mouseleave', () => {
-            if (!isPopupLocked.current) activePopupRef.current?.remove();
-          });
-        });
-      }
 
       map.on('click', () => {
         isPopupLocked.current = false;
