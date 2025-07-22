@@ -8,21 +8,21 @@ import './Home.css';
 
 const cardData = [
   {
-    title: 'GLOF Map',
+    title: 'Glacial Lake Map',
     link: '/GLOF-map',
     image: process.env.PUBLIC_URL + '/images/flood-map.png',
     description: '',
   },
   {
-    title: 'GLOF Forecasting',
-    link: '/GLOF-forecast',
-    image: process.env.PUBLIC_URL + '/images/flood-forecast.jpg',
+    title: 'Explore Data',
+    link: '/GLOF-data',
+    image: process.env.PUBLIC_URL + '/images/flood-events.jpg',
     description: '',
   },
   {
-    title: 'About GLOFs',
-    link: '/GLOF-data',
-    image: process.env.PUBLIC_URL + '/images/flood-events.jpg',
+    title: 'Flood Forecasting',
+    link: '/GLOF-forecast',
+    image: process.env.PUBLIC_URL + '/images/flood-forecast.jpg',
     description: '',
   },
   {

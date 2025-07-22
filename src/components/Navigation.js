@@ -28,15 +28,7 @@ const Navigation = () => {
             to="/GLOF-map"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            GLOF Map
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/GLOF-forecast"
-            className={({ isActive }) => (isActive ? "active-link" : "")}
-          >
-            GLOF Forecasting
+            Glacial Lake Map
           </NavLink>
         </li>
         <li>
@@ -44,7 +36,15 @@ const Navigation = () => {
             to="/GLOF-data"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            GLOF Data
+            Explore Data
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/GLOF-forecast"
+            className={({ isActive }) => (isActive ? "active-link" : "")}
+          >
+            Flood Forecasting
           </NavLink>
         </li>
         <li>

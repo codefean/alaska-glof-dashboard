@@ -14,8 +14,8 @@ const Header = () => {
         </a>
       </div>
       <div className="header-title">
-        <h1 onClick={() => window.location.href = 'https://www.juneauflood.com/#/home'} style={{ cursor: 'pointer' }}>
-          Alaska Glacial Lake Outburst Flood Forcast
+        <h1 onClick={() => window.location.href = 'https://codefean.github.io/alaska-glof-dashboard/#/home'} style={{ cursor: 'pointer' }}>
+          Alaska Glacial Lake Flood Forcast
         </h1>
       </div>
     </header>

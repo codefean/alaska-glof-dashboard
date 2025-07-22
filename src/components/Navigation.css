@@ -4,11 +4,12 @@
   position: relative;
 }
 
+/*   transform: translateX(-50%); */
+
 /* Responsive Styles */
 @media (max-width: 865px) {
   .navigation {
-    padding: 0px 10px; /* Thinner on mobile */
-    max-height: 55px;
+    max-height: 40px;
   }
 }
 

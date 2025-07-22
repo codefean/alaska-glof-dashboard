@@ -33,12 +33,12 @@ useEffect(() => {
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/satellite-streets-v12',
       center: [-144.5, 59.5],
-      zoom: 4.2,
+      zoom: 3.8,
     });
 
     const handleKeydown = (e) => {
       if (e.key === 'r' || e.key === 'R') {
-        mapRef.current.flyTo({ center: [-144.5, 59.5], zoom: 4.2, speed: 1.2 });
+        mapRef.current.flyTo({ center: [-144.5, 59.5], zoom: 3.8, speed: 1.9 });
       }
     };
     window.addEventListener('keydown', handleKeydown);
@@ -127,14 +127,13 @@ useEffect(() => {
             el = document.createElement('div');
             el.className = 'marker diamond';
           } else {
-            const radius = Math.sqrt(area) * 4 + 6;
-            el = document.createElement('div');
-            el.className = 'marker pulse';
-            el.style.width = `${radius}px`;
-            el.style.height = `${radius}px`;
-            el.style.borderRadius = '50%';
-            el.style.border = '2px solid white';
-            el.style.backgroundColor = 'blue';
+          el = document.createElement('div');
+          el.className = 'marker pulse';
+          el.style.width = `9px`;
+          el.style.height = `9px`;
+          el.style.borderRadius = '50%';
+          el.style.border = '1.5px solid white';
+          el.style.backgroundColor = 'blue';
           }
 
           const marker = new mapboxgl.Marker(el, { anchor: 'center' })
@@ -164,7 +163,7 @@ useEffect(() => {
             e.stopPropagation();
             isPopupLocked.current = true;
             showPopup();
-            map.flyTo({ center: [lon, lat], zoom: 12.5, speed: 1.4 });
+            map.flyTo({ center: [lon, lat], zoom: 12, speed: 1.9 });
           });
           el.addEventListener('mouseenter', () => {
             if (!isPopupLocked.current) showPopup();
@@ -237,7 +236,6 @@ useEffect(() => {
   </button>
 
       <div className="hotkey-table">
-        <h4>Controls</h4>
         <table>
           <tbody>
             <tr><td><strong>R</strong></td><td>Reset Zoom</td></tr>
