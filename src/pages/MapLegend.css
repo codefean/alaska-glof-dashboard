@@ -86,7 +86,8 @@
 .map-legend-square,
 .map-legend-diamond,
 .map-legend-glacier {
-  margin-right: 3px;
+  margin-right: 1px;
+  margin-top: 1px;
   border: 2px solid white;
   flex-shrink: 0;
 }
