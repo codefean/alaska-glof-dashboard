@@ -9,7 +9,6 @@ import GLOFData from "./pages/GLOFData";
 import ResearchTeam from "./pages/ResearchTeam";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
-import { preloadGeojsons } from "./utils/preloadGeojsons";
 
 const useDocumentTitle = (title) => {
   React.useEffect(() => {
@@ -45,11 +44,6 @@ const HomePage = () => {
 
 const App2 = () => {
   React.useEffect(() => {
-    if ("requestIdleCallback" in window) {
-      requestIdleCallback(() => preloadGeojsons());
-    } else {
-      setTimeout(() => preloadGeojsons(), 1000);
-    }
   }, []);
 
   return (

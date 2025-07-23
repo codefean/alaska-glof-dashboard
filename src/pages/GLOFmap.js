@@ -6,6 +6,7 @@ import './GLOFmap.css';
 import MapLegend from './MapLegend';
 
 
+
 const AlaskaMap = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
@@ -65,8 +66,11 @@ useEffect(() => {
               futureHazard: row.futureHazard?.toString().toLowerCase() === 'true',
               futureHazardETA: row.futureHazardETA?.trim() || null,
               hazardURL: row.hazardURL?.trim() || null,
+              waterFlow: row.waterFlow?.trim() || null,
+              downstream: row.downstream?.trim() || null,
             }));
-            setLakeData(parsed);
+              console.log('Parsed lake data:', parsed); // <--- Add this
+  setLakeData(parsed);
           },
         });
       } catch (error) {
@@ -153,7 +157,7 @@ useEffect(() => {
 
       // --- Add lake markers
       lakeData.forEach((lake) => {
-        const { lat, lon, km2: area, LakeID, LakeName, GlacierName, isHazard, futureHazard, futureHazardETA, hazardURL } = lake;
+        const { lat, lon, LakeID, LakeName, GlacierName, isHazard, futureHazard, futureHazardETA, hazardURL } = lake;
         if (!isNaN(lat) && !isNaN(lon)) {
           let el;
           if (isHazard) {
@@ -180,10 +184,12 @@ useEffect(() => {
           const popupContent = `
             <h4>${LakeName || `Lake ${LakeID}`}</h4>
             <p>
-              <strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
-              ${isHazard && hazardURL ? `<a href="${hazardURL}" target="_blank">GLOF INFO</a><br/>` : ''}
-              ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em>` : ''}
-            </p>
+                <strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
+                ${lake.waterFlow ? `<strong>Flow:</strong> ${lake.waterFlow}<br/>` : ''}
+                ${lake.downstream ? `<strong>Downstream:</strong> ${lake.downstream}<br/>` : ''}
+                ${isHazard && hazardURL ? `<a href="${hazardURL}" target="_blank">GLOF INFO</a><br/>` : ''}
+                ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em>` : ''}
+              </p>
           `;
 
           const showPopup = () => {
