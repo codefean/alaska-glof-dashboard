@@ -46,37 +46,43 @@ useEffect(() => {
 
     
 
-    // Fetch lakes CSV
-    const fetchLakeData = async () => {
-      try {
-        const response = await fetch('https://flood-events.s3.us-east-2.amazonaws.com/AK_GL.csv');
-        const csvText = await response.text();
-        Papa.parse(csvText, {
-          header: true,
-          dynamicTyping: true,
-          complete: (result) => {
-            const parsed = result.data.map(row => ({
-              LakeID: row.LakeID?.trim(),
-              km2: typeof row.km2 === 'number' ? row.km2 : parseFloat(row.km2) || 0,
-              lat: parseFloat(row.lat),
-              lon: parseFloat(row.lon),
-              LakeName: (row.LakeName && row.LakeName.trim() !== 'NA') ? row.LakeName.trim() : null,
-              GlacierName: (row.GlacierName && row.GlacierName.trim() !== 'NA') ? row.GlacierName.trim() : null,
-              isHazard: row.isHazard?.toString().toLowerCase() === 'true',
-              futureHazard: row.futureHazard?.toString().toLowerCase() === 'true',
-              futureHazardETA: row.futureHazardETA?.trim() || null,
-              hazardURL: row.hazardURL?.trim() || null,
-              waterFlow: row.waterFlow?.trim() || null,
-              downstream: row.downstream?.trim() || null,
-            }));
-              console.log('Parsed lake data:', parsed); // <--- Add this
-  setLakeData(parsed);
-          },
-        });
-      } catch (error) {
-        console.error('Error fetching lake data:', error);
-      }
-    };
+const fetchLakeData = async () => {
+  try {
+    const response = await fetch('https://flood-events.s3.us-east-2.amazonaws.com/AK_GL.csv');
+    const csvText = await response.text();
+    Papa.parse(csvText, {
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true,
+      transformHeader: header => header.trim().replace(/^\uFEFF/, ''),
+      complete: (result) => {
+        const parsed = result.data
+          .map(row => ({
+            LakeID: row.LakeID?.trim(),
+            km2: typeof row.km2 === 'number' ? row.km2 : parseFloat(row.km2) || 0,
+            lat: parseFloat(row.lat),
+            lon: parseFloat(row.lon),
+            LakeName: (row.LakeName && row.LakeName.trim() !== 'NA') ? row.LakeName.trim() : null,
+            GlacierName: (row.GlacierName && row.GlacierName.trim() !== 'NA') ? row.GlacierName.trim() : null,
+            isHazard: row.isHazard?.toString().toLowerCase() === 'true',
+            futureHazard: row.futureHazard?.toString().toLowerCase() === 'true',
+            futureHazardETA: row.futureHazardETA?.trim() || null,
+            hazardURL: row.hazardURL?.trim() || null,
+            waterFlow: (row.waterFlow && row.waterFlow.trim() !== 'NA') ? row.waterFlow.trim() : null,
+            downstream: (row.downstream && row.downstream.trim() !== 'NA') ? row.downstream.trim() : null,
+
+          }))
+          .filter(row => row.LakeID && !isNaN(row.lat) && !isNaN(row.lon));
+
+        console.log('Parsed lake data:', parsed);
+        setLakeData(parsed);
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching lake data:', error);
+  }
+};
+
 
     // Fetch glaciers CSV
     const fetchGlacierData = async () => {
