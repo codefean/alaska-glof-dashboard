@@ -173,13 +173,8 @@ const fetchLakeData = async () => {
             el = document.createElement('div');
             el.className = 'marker diamond';
           } else {
-          el = document.createElement('div');
-          el.className = 'marker pulse';
-          el.style.width = `9px`;
-          el.style.height = `9px`;
-          el.style.borderRadius = '50%';
-          el.style.border = '1.5px solid white';
-          el.style.backgroundColor = 'blue';
+            el = document.createElement('div');
+            el.className = 'marker circle';
           }
 
           const marker = new mapboxgl.Marker(el, { anchor: 'center' })
