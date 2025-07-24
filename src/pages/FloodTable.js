@@ -103,13 +103,16 @@ const FloodTable = ({ type = "current" }) => {
       });
   }, [type]);
 
-  // 🚀 Scroll to lake row via #LakeID or ?lake=LakeID
+
 useEffect(() => {
   if (!sortedData.length || !headers.length) return;
 
-  // Correctly extract ?lake=B117 from the hash-based URL
-  const url = new URL(window.location.href);
-  const lakeID = new URLSearchParams(url.hash.split("?")[1]).get("lake");
+  // Get `lake` param from the hash portion (after "#/GLOF-data?lake=...")
+  const hash = window.location.hash; // e.g., "#/GLOF-data?lake=B117"
+  const [, queryString] = hash.split("?");
+  if (!queryString) return;
+
+  const lakeID = new URLSearchParams(queryString).get("lake");
   if (!lakeID) return;
 
   const targetIndex = sortedData.findIndex((row) => row["Lake ID"] === lakeID);
@@ -124,6 +127,7 @@ useEffect(() => {
     }, 5000);
   }
 }, [sortedData, headers]);
+
 
 
   const handleSort = (column) => {

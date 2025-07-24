@@ -189,7 +189,9 @@ const fetchLakeData = async () => {
               ${lake.waterFlow ? `<strong>Flow:</strong> ${lake.waterFlow}<br/>` : ''}
               ${lake.downstream ? `<strong>Downstream:</strong> ${lake.downstream}<br/>` : ''}
               ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
-              <a href="/#/GLOF-data?lake=${encodeURIComponent(LakeID)}" target="_blank"> See All Info</a>
+              <a href="/#/GLOF-data?lake=${encodeURIComponent(LakeID)}" target="_blank">
+  See all info
+</a>
             </p>
           `;
 
