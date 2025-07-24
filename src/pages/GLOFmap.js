@@ -189,9 +189,10 @@ const fetchLakeData = async () => {
               ${lake.waterFlow ? `<strong>Flow:</strong> ${lake.waterFlow}<br/>` : ''}
               ${lake.downstream ? `<strong>Downstream:</strong> ${lake.downstream}<br/>` : ''}
               ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
-              <a href="/#/GLOF-data?lake=${encodeURIComponent(LakeID)}" target="_blank">
-  See all info
+<a href="https://codefean.github.io/alaska-glof-dashboard/#/GLOF-data?lake=${encodeURIComponent(LakeID)}" target="_blank">
+  See full hazard table
 </a>
+
             </p>
           `;
 
