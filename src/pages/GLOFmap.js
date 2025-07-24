@@ -185,12 +185,12 @@ const fetchLakeData = async () => {
           const popupContent = `
             <h4>${LakeName || `Lake ${LakeID}`}</h4>
             <p>
-                <strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
-                ${lake.waterFlow ? `<strong>Flow:</strong> ${lake.waterFlow}<br/>` : ''}
-                ${lake.downstream ? `<strong>Downstream:</strong> ${lake.downstream}<br/>` : ''}
-                ${isHazard && hazardURL ? `<a href="${hazardURL}" target="_blank">GLOF INFO</a><br/>` : ''}
-                ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em>` : ''}
-              </p>
+              <strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
+              ${lake.waterFlow ? `<strong>Flow:</strong> ${lake.waterFlow}<br/>` : ''}
+              ${lake.downstream ? `<strong>Downstream:</strong> ${lake.downstream}<br/>` : ''}
+              ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
+              <a href="/#/GLOF-data?lake=${encodeURIComponent(LakeID)}" target="_blank"> See All Info</a>
+            </p>
           `;
 
           const showPopup = () => {

@@ -5,18 +5,20 @@ import "./FloodTable.css";
 const LOCAL_CSV_URL = process.env.PUBLIC_URL + "/AK_GL.csv";
 
 const COLUMN_NAME_MAPPING = {
-  "LakeID": "Lake ID",
-  "LakeName": "Lake Name",
-  "km2": "Lake Area (km²)",
-  "lat": "Latitude",
-  "lon": "Longitude",
-  "isHazard": "Current Hazard",
-  "futureHazard": "Future Hazard",
-  "futureHazardETA": "Time to Future Hazard",
-  "hazardURL": "Hazard Website",
-  "summary": "Summary",
-  "moreinfo": "More Info",
-
+  LakeID: "Lake ID",
+  LakeName: "Lake Name",
+  km2: "Lake Area (km²)",
+  lat: "Latitude",
+  lon: "Longitude",
+  isHazard: "Current Hazard",
+  futureHazard: "Future Hazard",
+  futureHazardETA: "Time to Future Hazard",
+  hazardURL: "Hazard Website",
+  summary: "Summary",
+  moreinfo: "More Info",
+  waterFlow: "Water Flow",
+  downstream: "Downstream",
+  GlacierName: "Glacier Name",
 };
 
 const FutureFloodTable = () => {
@@ -57,7 +59,7 @@ const FutureFloodTable = () => {
             });
 
             const filteredData = processedData.filter(row =>
-              row["Future Hazard"]?.toLowerCase() === "true"
+              row["Future Hazard"]?.toLowerCase() === "true",
             );
 
             const columnsToExclude = [

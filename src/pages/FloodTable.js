@@ -16,9 +16,12 @@ const COLUMN_NAME_MAPPING = {
   hazardURL: "Hazard Website",
   summary: "Summary",
   moreinfo: "More Info",
+  waterFlow: "Water Flow",
+  downstream: "Downstream",
+  GlacierName: "Glacier Name",
 };
 
-const FloodTable = () => {
+const FloodTable = ({ type = "current" }) => {
   const [data, setData] = useState([]);
   const [headers, setHeaders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,15 +29,11 @@ const FloodTable = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [expandedRows, setExpandedRows] = useState([]);
 
-
-  const visibleCount = 10;
-
   const toggleRow = (index) => {
-  setExpandedRows((prev) =>
-    prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-  );
-};
-
+    setExpandedRows((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
 
   useEffect(() => {
     fetch(LOCAL_CSV_URL)
@@ -55,21 +54,31 @@ const FloodTable = () => {
               return newRow;
             });
 
-            const filteredData = processedData.filter(
-              (row) =>
-                row["Current Hazard"]?.toLowerCase() === "true" ||
-                row["Future Hazard"]?.toLowerCase() === "true"
+            const filteredData = processedData.filter((row) =>
+              type === "current"
+                ? row["Current Hazard"]?.toLowerCase() === "true"
+                : row["Future Hazard"]?.toLowerCase() === "true"
             );
 
-            const columnsToExclude = [
-              "Lake ID",
-              "Lake Area (km²)",
-              "Latitude",
-              "Longitude",
-              "Future Hazard",
-              "Time to Future Hazard",
-              "Current Hazard",
-            ];
+            const columnsToExclude =
+              type === "current"
+                ? [
+                    "Lake ID",
+                    "Lake Area (km²)",
+                    "Latitude",
+                    "Longitude",
+                    "Future Hazard",
+                    "Time to Future Hazard",
+                    "Current Hazard",
+                  ]
+                : [
+                    "Lake ID",
+                    "Lake Area (km²)",
+                    "Latitude",
+                    "Longitude",
+                    "Future Hazard",
+                    "Current Hazard",
+                  ];
 
             const allHeaders = Object.keys(filteredData[0] || {});
             const filteredHeaders = allHeaders.filter(
@@ -92,7 +101,30 @@ const FloodTable = () => {
         console.error("Error loading CSV:", error);
         setLoading(false);
       });
-  }, []);
+  }, [type]);
+
+  // 🚀 Scroll to lake row via #LakeID or ?lake=LakeID
+useEffect(() => {
+  if (!sortedData.length || !headers.length) return;
+
+  // Correctly extract ?lake=B117 from the hash-based URL
+  const url = new URL(window.location.href);
+  const lakeID = new URLSearchParams(url.hash.split("?")[1]).get("lake");
+  if (!lakeID) return;
+
+  const targetIndex = sortedData.findIndex((row) => row["Lake ID"] === lakeID);
+  if (targetIndex === -1) return;
+
+  const rowElement = document.getElementById(`lake-row-${lakeID}`);
+  if (rowElement) {
+    rowElement.scrollIntoView({ behavior: "smooth", block: "center" });
+    rowElement.classList.add("highlighted-row");
+    setTimeout(() => {
+      rowElement.classList.remove("highlighted-row");
+    }, 5000);
+  }
+}, [sortedData, headers]);
+
 
   const handleSort = (column) => {
     const direction =
@@ -125,10 +157,10 @@ const FloodTable = () => {
       ) : (
         <>
           <p className="flood-table-title">
-            Alaska Glacier Lakes Current Flood Table
+            Alaska Glacier Lakes {type === "current" ? "Current" : "Future"} Flood Table
           </p>
           <p className="flood-table-subtitle">
-            Showing lakes with current flood hazards
+            Showing lakes with {type === "current" ? "current" : "future"} flood hazards
           </p>
 
           <table className="flood-table">
@@ -151,46 +183,51 @@ const FloodTable = () => {
               </tr>
             </thead>
             <tbody>
-  {sortedData.map((row, rowIndex) => {
-    const isExpanded = expandedRows.includes(rowIndex);
-    return (
-      <tr
-        key={rowIndex}
-        onClick={() => toggleRow(rowIndex)}
-        className="expandable-row"
-      >
-        {headers.map((header, colIndex) => {
-          let cellContent = row[header] || "—";
+              {sortedData.map((row, rowIndex) => {
+                const isExpanded = expandedRows.includes(rowIndex);
+                return (
+                  <tr
+                    key={rowIndex}
+                    id={`lake-row-${row["Lake ID"]}`}
+                    onClick={() => toggleRow(rowIndex)}
+                    className="expandable-row"
+                  >
+                    {headers.map((header, colIndex) => {
+                      let cellContent = row[header] || "—";
 
-          if (
-            (header === "Summary" || header === "More Info") &&
-            !isExpanded &&
-            typeof cellContent === "string" &&
-            cellContent.length > 300
-          ) {
-            cellContent = cellContent.substring(0, 300) + "...";
-          }
+                      if (
+                        (header === "Summary" || header === "More Info") &&
+                        !isExpanded &&
+                        typeof cellContent === "string" &&
+                        cellContent.length > 300
+                      ) {
+                        cellContent = cellContent.substring(0, 300) + "...";
+                      }
 
-          if (header === "Hazard Website" && row[header]?.includes("www.")) {
-            return (
-              <td key={colIndex}>
-                <a href={row[header]} target="_blank" rel="noopener noreferrer">
-                  {row[header]}
-                </a>
-              </td>
-            );
-          }
+                      if (
+                        header === "Hazard Website" &&
+                        row[header]?.includes("www.")
+                      ) {
+                        return (
+                          <td key={colIndex}>
+                            <a
+                              href={row[header]}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {row[header]}
+                            </a>
+                          </td>
+                        );
+                      }
 
-          return <td key={colIndex}>{cellContent}</td>;
-        })}
-      </tr>
-    );
-  })}
-</tbody>
-
+                      return <td key={colIndex}>{cellContent}</td>;
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
-
-
         </>
       )}
     </div>

@@ -128,7 +128,7 @@
 }
 
 .flood-table tbody tr:hover {
-  background: #eef2f7;
+  background: #d7e6f7bd;
   cursor: pointer;
 }
 
@@ -149,3 +149,12 @@
   font-style: italic;
 }
 
+.highlighted-row {
+  background-color: rgba(255, 255, 0, 0.5);
+  animation: flash-highlight 1s ease-in-out;
+}
+
+@keyframes flash-highlight {
+  0% { background-color: rgba(0, 119, 255, 0.8); }
+  100% { background-color: rgba(144, 181, 246, 0.5); }
+}

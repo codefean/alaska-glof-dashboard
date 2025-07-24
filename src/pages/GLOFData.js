@@ -1,6 +1,5 @@
 import React from "react";
 import FloodTable from "./FloodTable";
-import FutureFloodTable from "./FutureFloodTable";
 import "./GLOFData.css";
 
 const GLOFData = () => {
@@ -15,8 +14,8 @@ const GLOFData = () => {
         </p>
       </div>
 
-      <FloodTable />
-      <FutureFloodTable />
+<FloodTable type="current" />
+<FloodTable type="future" />  
     </div>
 
   );
