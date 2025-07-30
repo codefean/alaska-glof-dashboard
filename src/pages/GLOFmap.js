@@ -182,19 +182,19 @@ const fetchLakeData = async () => {
             .addTo(map);
           markersRef.current.push(marker);
 
-          const popupContent = `
-            <h4>${LakeName || `Lake ${LakeID}`}</h4>
-            <p>
-              <strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
-              ${lake.waterFlow ? `<strong>Flow:</strong> ${lake.waterFlow}<br/>` : ''}
-              ${lake.downstream ? `<strong>Downstream:</strong> ${lake.downstream}<br/>` : ''}
-              ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
-<a href="https://codefean.github.io/alaska-glof-dashboard/#/GLOF-data?lake=${encodeURIComponent(LakeID)}" target="_blank">
-  See full hazard info
-</a>
-
-            </p>
-          `;
+const popupContent = `
+  <h4>${LakeName || `Lake ${LakeID}`}</h4>
+  <p>
+    <strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
+    ${lake.waterFlow ? `<strong>Flow:</strong> ${lake.waterFlow}<br/>` : ''}
+    ${lake.downstream ? `<strong>Downstream:</strong> ${lake.downstream}<br/>` : ''}
+    ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
+    ${(isHazard || futureHazard) ? `
+      <a href="https://codefean.github.io/alaska-glof-dashboard/#/GLOF-data?lake=${encodeURIComponent(LakeID)}" target="_blank">
+        See full hazard info
+      </a>` : ''}
+  </p>
+`;
 
           const showPopup = () => {
             activePopupRef.current?.remove();
