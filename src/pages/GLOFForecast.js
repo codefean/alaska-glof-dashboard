@@ -4,7 +4,7 @@ import "./GLOFForecast.css";
 const GLOFForecast = () => {
   return (
     <div className="glof-data-container">
-      <h2 className="flood-events-title">Alaska Glacier Lakes Forecast</h2>
+      <h2 className="flood-events-title">Glacier Lakes Forecast</h2>
       <h2 className="flood-events-subheading">
         Understand Modeling of Potential Future Glacial Lake Floods
       </h2>
