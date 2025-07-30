@@ -1,58 +1,138 @@
 .research-team-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background: #f9f9f9;
 }
 
 .team-title {
   font-size: 2rem;
-  margin-bottom: 0.5rem;
-  margin-top:1px;
-}
-
-.team-description, .team-footer p {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 2rem;
+  margin-bottom: 30px;
+  color: #333;
 }
 
 .team-cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .team-card {
-  background: #fafafa;
+  background: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  max-width: 220px;
+  padding: 1.5rem;
   text-align: center;
-  padding: 1rem;
-  transition: transform 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .team-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Circular images that scale properly */
+.team-card-image {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eaeaea;
 }
 
 .team-card-image img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 50%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.team-card-image img:hover {
+  transform: scale(1.1);
 }
 
 .team-card-info h3 {
   margin: 0.5rem 0 0.25rem;
+  font-size: 1.3rem;
+  color: #222;
+}
+
+.team-link {
+  color: #2a5d9f;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.team-link:hover {
+  color: #174073;
+  text-decoration: underline;
 }
 
 .team-role {
-  color: #888;
+  color: #555;
   font-size: 0.95rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
 .team-bio {
   font-size: 0.9rem;
   color: #666;
+  line-height: 1.4;
+}
+
+/* ✅ Mobile adjustments */
+@media (max-width: 768px) {
+  .research-team-container {
+    padding: 1.5rem;
+  }
+
+  .team-title {
+    font-size: 1.6rem;
+  }
+
+  .team-card {
+    padding: 1.2rem;
+  }
+
+  .team-card-image {
+    width: 130px;
+    height: 130px;
+  }
+
+  .team-card-info h3 {
+    font-size: 1.1rem;
+  }
+
+  .team-bio {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-title {
+    font-size: 1.4rem;
+  }
+
+  .team-card-image {
+    width: 110px;
+    height: 110px;
+  }
+
+  .team-card-info h3 {
+    font-size: 1rem;
+  }
+
+  .team-bio {
+    font-size: 0.8rem;
+  }
 }
