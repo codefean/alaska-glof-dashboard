@@ -1,23 +1,22 @@
 import React from "react";
-import "./Footer.css"; // Import Footer-specific styles
+import "./Footer.css"; 
 
 const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-logos">
         <a href="https://www.iarc.uaf.edu/" target="_blank" rel="noopener noreferrer">
-          <img src="/logos/IARC.png" alt="IARC Logo" className="footer-logo" />
+          <img src={`${process.env.PUBLIC_URL}/logos/IARC.png`} alt="IARC Logo" className="footer-logo" />
         </a>
         <a href="https://uas.alaska.edu/" target="_blank" rel="noopener noreferrer">
-          <img src="/logos/UAS.png" alt="UAS Logo" className="footer-logo" />
+          <img src={`${process.env.PUBLIC_URL}/logos/UAS.png`} alt="UAS Logo" className="footer-logo" />
         </a>
         <a href="https://www.usgs.gov/" target="_blank" rel="noopener noreferrer">
-          <img src="/logos/USGS.png" alt="USGS Logo" className="footer-logo" />
+          <img src={`${process.env.PUBLIC_URL}/logos/USGS.png`} alt="USGS Logo" className="footer-logo" />
         </a>
         <a href="https://www.nsf.gov/" target="_blank" rel="noopener noreferrer">
-          <img src="/logos/NSF.png" alt="NSF Logo" className="footer-logo" />
+          <img src={`${process.env.PUBLIC_URL}/logos/NSF.png`} alt="NSF Logo" className="footer-logo" />
         </a>
-       
       </div>
 
       <p>
