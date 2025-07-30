@@ -151,10 +151,4 @@
 
 .highlighted-row {
   background-color: rgba(0, 110, 255, 0.5);
-  animation: flash-highlight 1s ease-in-out;
-}
-
-@keyframes flash-highlight {
-  0% { background-color: rgba(0, 119, 255, 0.8); }
-  100% { background-color: rgba(144, 181, 246, 0.5); }
 }
