@@ -5,7 +5,7 @@ import "./GLOFData.css";
 const GLOFData = () => {
   return (
     <div className="glof-data-container">
-      <h2 className="flood-events-title">Alaska Glacier Lakes Dataset</h2>
+      <h2 className="flood-events-title">Glacier Lakes Dataset</h2>
       <h2 className="flood-events-subheading">Explore Lakes with Current Floods and Potential Future Floods</h2>
 
       <div className="about-floods-card">

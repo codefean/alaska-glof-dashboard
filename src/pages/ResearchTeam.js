@@ -28,7 +28,8 @@ const teamMembers = [
 const ResearchTeam = () => {
   return (
     <div className="research-team-container">
-      <h2 className="team-title">Meet Our Research Team</h2>
+      <h2 className="flood-events-title">Our Research Team</h2>
+      <h2 className="flood-events-subheading">University of Alaska Southeast, Carnegie Mellon University, Alaska Division of Geological & Geophysical Surveys</h2>
       <div className="team-cards-container">
         {teamMembers.map((member, index) => (
           <div key={index} className="team-card">
