@@ -49,13 +49,12 @@ const Navigation = () => {
         </li>
         <li>
           <NavLink
-            to="/research-team"
+            to="/about-research"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            Research Team
+            About Research
           </NavLink>
         </li>
-
       </ul>
     </nav>
   );

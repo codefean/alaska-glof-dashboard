@@ -33,7 +33,7 @@ const GLOFDataPage = () => {
 };
 
 const ResearchTeamPage = () => {
-  useDocumentTitle("Research Team");
+  useDocumentTitle("About Research");
   return <ResearchTeam />;
 };
 
@@ -57,7 +57,7 @@ const App2 = () => {
             <Route path="/GLOF-map" element={<GLOFMapPage />} />
             <Route path="/GLOF-forecast" element={<GLOFForecastPage />} />
             <Route path="/GLOF-data" element={<GLOFDataPage />} />
-            <Route path="/research-team" element={<ResearchTeamPage />} />
+            <Route path="/about-research" element={<ResearchTeamPage />} />
             <Route path="/home" element={<HomePage />} />
           </Routes>
         </div>

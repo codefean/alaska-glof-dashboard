@@ -438,6 +438,13 @@ body {
   color: #154f89;
   margin-bottom: 10px;
 }
+.about-forecast-card h4 {
+  font-size: 1rem;
+  color: #000000;
+  margin-bottom: 5px;
+  margin-top: -25px;
+  font-weight: bold;
+}
 
 .about-forecast-card p {
   font-size: 1.1rem;

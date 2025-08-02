@@ -29,6 +29,22 @@ const ResearchTeam = () => {
   return (
     <div className="research-team-container">
       <h2 className="team-title">About Research</h2>
+       <h2 className="research-subheading">
+        Funded by National Science Foundation
+      </h2>
+      <div className="about-research-card">
+        <h2>Confronting glacier outburst flood hazards to improve glacial flood forecasts across northwest North America</h2>
+        <p>
+            Our research focuses on understanding and predicting glacier outburst floods—sudden, powerful floods that occur when water trapped by glaciers is rapidly released. 
+            We combine field observations, satellite data, and advanced computer models to study how glaciers store and release water. This work helps us assess current and future 
+            flood hazards as glaciers retreat, identify locations most prone to glacial floods across Alaska and western British Columbia, and improve forecasting tools to protect 
+            communities and infrastructure. We work closely with federal and state partners to ensure that the models we develop directly support hazard preparedness and effective 
+            risk communication.
+        </p>
+      </div>
+      
+      
+      
       <div className="team-cards-container">
         {teamMembers.map((member, index) => (
           <div key={index} className="team-card">

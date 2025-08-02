@@ -3,7 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  background: #f9f9f9;
+  background: #ffffff;
 }
 
 .team-title {
@@ -11,7 +11,17 @@
   font-size: 2.6rem;
   color: #154f89;
   font-weight: bold;
-  margin-top: -10px;
+  margin-top: -15px;
+  margin-bottom: 10px;
+}
+
+.research-subheading {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #0e2b4a;
+  font-weight: bold;
+  font-family: 'Open Sans', sans-serif;
+  margin-top: -20px;
 }
 
 .team-cards-container {
@@ -19,7 +29,7 @@
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
   justify-content: center;
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
 }
 
@@ -37,7 +47,6 @@
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* ✅ Circular images that scale properly */
 .team-card-image {
   width: 150px;
   height: 150px;
@@ -55,12 +64,8 @@
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  transition: transform 0.3s ease-in-out;
 }
 
-.team-card-image img:hover {
-  transform: scale(1.1);
-}
 
 .team-card-info h3 {
   margin: 0.5rem 0 0.25rem;
@@ -80,7 +85,7 @@
 }
 
 .team-role {
-  color: #555;
+  color: #2b2b2b;
   font-size: 0.95rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
@@ -88,8 +93,27 @@
 
 .team-bio {
   font-size: 0.9rem;
-  color: #666;
+  color: #2c2c2c;
   line-height: 1.4;
+}
+
+
+.about-research-card {
+  background: rgb(240, 241, 243); /* Same light neutral background */
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 90% !important;
+  max-width: 1320px;
+  margin: 20px auto;
+  font-family: 'Open Sans', sans-serif;
+  margin-bottom: 40px;
+}
+
+.about-research-card h2 {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1.2rem;
+  color: #000;
 }
 
 /* ✅ Mobile adjustments */
