@@ -13,9 +13,12 @@ const AlaskaMap = () => {
   const [lakeData, setLakeData] = useState([]);
   const [glacierData, setGlacierData] = useState([]);
   const [showGlaciers, setShowGlaciers] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const markersRef = useRef([]);
   const activePopupRef = useRef(null);
   const isPopupLocked = useRef(false);
+  const [suggestions, setSuggestions] = useState([]);
+
 
 useEffect(() => {
   const originalOverflow = document.body.style.overflow;
@@ -33,13 +36,13 @@ useEffect(() => {
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/satellite-streets-v12',
-      center: [-144.5, 59.5],
-      zoom: 3.8,
+      center: [-144.5, 59.9],
+      zoom: 4,
     });
 
     const handleKeydown = (e) => {
       if (e.key === 'r' || e.key === 'R') {
-        mapRef.current.flyTo({ center: [-144.5, 59.5], zoom: 3.8, speed: 1.9 });
+        mapRef.current.flyTo({ center: [-144.5, 59.5], zoom: 4, speed: 2.2 });
       }
     };
     window.addEventListener('keydown', handleKeydown);
@@ -150,7 +153,7 @@ const fetchLakeData = async () => {
       e.stopPropagation();
       isPopupLocked.current = true;
       showPopup();
-      map.flyTo({ center: [glacier.lon, glacier.lat], zoom: 11, speed: 1.4 });
+      map.flyTo({ center: [glacier.lon, glacier.lat], zoom: 10.5, speed: 2});
     });
     glacierEl.addEventListener('mouseenter', () => {
       if (!isPopupLocked.current) showPopup();
@@ -163,7 +166,7 @@ const fetchLakeData = async () => {
 
       // --- Add lake markers
       lakeData.forEach((lake) => {
-        const { lat, lon, LakeID, LakeName, GlacierName, isHazard, futureHazard, futureHazardETA, hazardURL } = lake;
+        const { lat, lon, LakeID, LakeName, GlacierName, isHazard, futureHazard, futureHazardETA} = lake;
         if (!isNaN(lat) && !isNaN(lon)) {
           let el;
           if (isHazard) {
@@ -209,7 +212,7 @@ const popupContent = `
             e.stopPropagation();
             isPopupLocked.current = true;
             showPopup();
-            map.flyTo({ center: [lon, lat], zoom: 12, speed: 1.9 });
+            map.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
           });
           el.addEventListener('mouseenter', () => {
             if (!isPopupLocked.current) showPopup();
@@ -235,6 +238,21 @@ const popupContent = `
 
   }, [lakeData, glacierData, showGlaciers]);
 
+  // Handle search and zoom to lake
+  const handleSearch = () => {
+    const query = searchQuery.trim().toLowerCase();
+    const foundLake = lakeData.find(lake =>
+      (lake.LakeName && lake.LakeName.toLowerCase() === query) ||
+      (lake.LakeID && lake.LakeID.toLowerCase() === query)
+    );
+
+    if (foundLake && mapRef.current) {
+      mapRef.current.flyTo({ center: [foundLake.lon, foundLake.lat], zoom: 12, speed: 2 });
+    } else {
+      alert('Lake not found');
+    }
+  };
+
   return (
     <>
       <div ref={mapContainerRef} style={{ width: '100vw', height: '100vh' }} />
@@ -244,6 +262,53 @@ const popupContent = `
     onClick={() => setShowGlaciers(!showGlaciers)}>
     {showGlaciers ? 'Hide Glaciers' : 'Show Glaciers'}
   </button>
+
+<div className="search-bar-container" style={{ position: 'absolute' }}>
+  <div style={{ position: 'relative', width: '100%' }}>
+    <input
+      type="text"
+      placeholder="Search for lakes by Name or LakeID..."
+      value={searchQuery}
+      onChange={(e) => {
+        const value = e.target.value;
+        setSearchQuery(value);
+
+        if (value.trim()) {
+          const matches = lakeData.filter(lake =>
+            (lake.LakeName && lake.LakeName.toLowerCase().includes(value.toLowerCase())) ||
+            (lake.LakeID && lake.LakeID.toLowerCase().includes(value.toLowerCase()))
+          ).slice(0, 4);
+          setSuggestions(matches);
+        } else {
+          setSuggestions([]);
+        }
+      }}
+      onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+    />
+    {suggestions.length > 0 && (
+      <ul className="dropdown-suggestions">
+        {suggestions.map((lake, index) => (
+          <li
+            key={index}
+            onClick={() => {
+              setSearchQuery(lake.LakeName || lake.LakeID);
+              setSuggestions([]);
+              mapRef.current?.flyTo({
+                center: [lake.lon, lake.lat],
+                zoom: 12,
+                speed: 2,
+              });
+            }}
+          >
+            {lake.LakeName || `Lake ${lake.LakeID}`}
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+  <button onClick={handleSearch}>Search</button>
+</div>
+
 
       <div className="hotkey-table">
         <table>
