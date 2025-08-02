@@ -10,15 +10,16 @@ const GLOFForecast = () => {
       </h2>
 
       <div className="about-forecast-card">
-        <h2>Flood Forecasting Starts 2026</h2>
-        <h4></h4>
-        <p>
-          The Alaska GLOF Dashboard provides a comprehensive overview of glacial
-          lake outburst flood (GLOF) events in Alaska. This platform is designed
-          to help researchers, emergency responders, and the public understand
-          the risks associated with GLOFs and access critical data for
-          decision-making.
-        </p>
+        <h2>Forecasting potential future glacial lakes starts in 2026</h2>
+      </div>
+
+      {/* Added Image Section */}
+      <div className="forecast-image-section">
+        <img
+          src={process.env.PUBLIC_URL + '/images/flood-forecast.jpg'}
+          alt="Flood Forecasting Process"
+          className="forecast-image"
+        />
       </div>
     </div>
   );
