@@ -5,8 +5,6 @@ import Papa from 'papaparse';
 import './GLOFmap.css';
 import MapLegend from './MapLegend';
 
-
-
 const AlaskaMap = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
@@ -19,20 +17,13 @@ const AlaskaMap = () => {
   const isPopupLocked = useRef(false);
   const [suggestions, setSuggestions] = useState([]);
 
-
-useEffect(() => {
-  const originalOverflow = document.body.style.overflow;
-  document.body.style.overflow = 'hidden';
-
-  return () => {
-    document.body.style.overflow = originalOverflow; 
-  };
-}, []);
-
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
+  }, []);
 
   useEffect(() => {
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFwZmVhbiIsImEiOiJjbTNuOGVvN3cxMGxsMmpzNThzc2s3cTJzIn0.1uhX17BCYd65SeQsW1yibA';
-
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/satellite-streets-v12',
@@ -41,53 +32,44 @@ useEffect(() => {
     });
 
     const handleKeydown = (e) => {
-      if (e.key === 'r' || e.key === 'R') {
+      if (e.key.toLowerCase() === 'r') {
         mapRef.current.flyTo({ center: [-144.5, 59.5], zoom: 4, speed: 2.2 });
       }
     };
     window.addEventListener('keydown', handleKeydown);
 
-    
+    const fetchLakeData = async () => {
+      try {
+        const response = await fetch('https://flood-events.s3.us-east-2.amazonaws.com/AK_GL.csv');
+        const csvText = await response.text();
+        Papa.parse(csvText, {
+          header: true,
+          dynamicTyping: true,
+          skipEmptyLines: true,
+          transformHeader: header => header.trim().replace(/^\uFEFF/, ''),
+          complete: (result) => {
+            const parsed = result.data.map(row => ({
+              LakeID: row.LakeID?.trim(),
+              km2: parseFloat(row.km2) || 0,
+              lat: parseFloat(row.lat),
+              lon: parseFloat(row.lon),
+              LakeName: (row.LakeName && row.LakeName.trim() !== 'NA') ? row.LakeName.trim() : null,
+              GlacierName: (row.GlacierName && row.GlacierName.trim() !== 'NA') ? row.GlacierName.trim() : null,
+              isHazard: row.isHazard?.toString().toLowerCase() === 'true',
+              futureHazard: row.futureHazard?.toString().toLowerCase() === 'true',
+              futureHazardETA: row.futureHazardETA?.trim() || null,
+              hazardURL: row.hazardURL?.trim() || null,
+              waterFlow: (row.waterFlow && row.waterFlow.trim() !== 'NA') ? row.waterFlow.trim() : null,
+              downstream: (row.downstream && row.downstream.trim() !== 'NA') ? row.downstream.trim() : null,
+            })).filter(row => row.LakeID && !isNaN(row.lat) && !isNaN(row.lon));
+            setLakeData(parsed);
+          },
+        });
+      } catch (error) {
+        console.error('Error fetching lake data:', error);
+      }
+    };
 
-const fetchLakeData = async () => {
-  try {
-    const response = await fetch('https://flood-events.s3.us-east-2.amazonaws.com/AK_GL.csv');
-    const csvText = await response.text();
-    Papa.parse(csvText, {
-      header: true,
-      dynamicTyping: true,
-      skipEmptyLines: true,
-      transformHeader: header => header.trim().replace(/^\uFEFF/, ''),
-      complete: (result) => {
-        const parsed = result.data
-          .map(row => ({
-            LakeID: row.LakeID?.trim(),
-            km2: typeof row.km2 === 'number' ? row.km2 : parseFloat(row.km2) || 0,
-            lat: parseFloat(row.lat),
-            lon: parseFloat(row.lon),
-            LakeName: (row.LakeName && row.LakeName.trim() !== 'NA') ? row.LakeName.trim() : null,
-            GlacierName: (row.GlacierName && row.GlacierName.trim() !== 'NA') ? row.GlacierName.trim() : null,
-            isHazard: row.isHazard?.toString().toLowerCase() === 'true',
-            futureHazard: row.futureHazard?.toString().toLowerCase() === 'true',
-            futureHazardETA: row.futureHazardETA?.trim() || null,
-            hazardURL: row.hazardURL?.trim() || null,
-            waterFlow: (row.waterFlow && row.waterFlow.trim() !== 'NA') ? row.waterFlow.trim() : null,
-            downstream: (row.downstream && row.downstream.trim() !== 'NA') ? row.downstream.trim() : null,
-
-          }))
-          .filter(row => row.LakeID && !isNaN(row.lat) && !isNaN(row.lon));
-
-        console.log('Parsed lake data:', parsed);
-        setLakeData(parsed);
-      },
-    });
-  } catch (error) {
-    console.error('Error fetching lake data:', error);
-  }
-};
-
-
-    // Fetch glaciers CSV
     const fetchGlacierData = async () => {
       try {
         const response = await fetch('https://flood-events.s3.us-east-2.amazonaws.com/alaska_glaciers.csv');
@@ -121,7 +103,6 @@ const fetchLakeData = async () => {
 
   useEffect(() => {
     if (!mapRef.current || lakeData.length === 0) return;
-
     const map = mapRef.current;
 
     const addMarkers = () => {
@@ -129,100 +110,55 @@ const fetchLakeData = async () => {
       markersRef.current = [];
 
       if (showGlaciers) {
-  glacierData.forEach((glacier) => {
-    const glacierEl = document.createElement('div');
-    glacierEl.className = 'marker glacier';
+        glacierData.forEach((glacier) => {
+          const glacierEl = document.createElement('div');
+          glacierEl.className = 'marker glacier';
+          const glacierMarker = new mapboxgl.Marker(glacierEl).setLngLat([glacier.lon, glacier.lat]).addTo(map);
+          markersRef.current.push(glacierMarker);
+          glacierEl.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isPopupLocked.current = true;
+            new mapboxgl.Popup({ closeOnClick: false })
+              .setLngLat([glacier.lon, glacier.lat])
+              .setHTML(`<h3>${glacier.name || 'Unnamed'}</h3>`)
+              .addTo(map);
+            map.flyTo({ center: [glacier.lon, glacier.lat], zoom: 10.5, speed: 2 });
+          });
+        });
+      }
 
-    const glacierMarker = new mapboxgl.Marker(glacierEl)
-      .setLngLat([glacier.lon, glacier.lat])
-      .addTo(map);
-    markersRef.current.push(glacierMarker);
-
-    const popupContent = `<h3>${glacier.name || 'Unnamed'}</h3>`;
-
-    const showPopup = () => {
-      activePopupRef.current?.remove();
-      const popup = new mapboxgl.Popup({ closeOnClick: false })
-        .setLngLat([glacier.lon, glacier.lat])
-        .setHTML(popupContent)
-        .addTo(map);
-      activePopupRef.current = popup;
-    };
-
-    glacierEl.addEventListener('click', (e) => {
-      e.stopPropagation();
-      isPopupLocked.current = true;
-      showPopup();
-      map.flyTo({ center: [glacier.lon, glacier.lat], zoom: 10.5, speed: 2});
-    });
-    glacierEl.addEventListener('mouseenter', () => {
-      if (!isPopupLocked.current) showPopup();
-    });
-    glacierEl.addEventListener('mouseleave', () => {
-      if (!isPopupLocked.current) activePopupRef.current?.remove();
-    });
-  });
-}
-
-      // --- Add lake markers
       lakeData.forEach((lake) => {
-        const { lat, lon, LakeID, LakeName, GlacierName, isHazard, futureHazard, futureHazardETA} = lake;
+        const { lat, lon, LakeID, LakeName, GlacierName, isHazard, futureHazard, futureHazardETA } = lake;
         if (!isNaN(lat) && !isNaN(lon)) {
-          let el;
-          if (isHazard) {
-            el = document.createElement('div');
-            el.className = 'marker square';
-          } else if (futureHazard) {
-            el = document.createElement('div');
-            el.className = 'marker diamond';
-          } else {
-            el = document.createElement('div');
-            el.className = 'marker circle';
-          }
+          let el = document.createElement('div');
+          el.className = isHazard ? 'marker square' : futureHazard ? 'marker diamond' : 'marker circle';
 
-          const marker = new mapboxgl.Marker(el, { anchor: 'center' })
-            .setLngLat([lon, lat])
-            .addTo(map);
+          const marker = new mapboxgl.Marker(el, { anchor: 'center' }).setLngLat([lon, lat]).addTo(map);
           markersRef.current.push(marker);
 
-const popupContent = `
-  <h4>${LakeName || `Lake ${LakeID}`}</h4>
-  <p>
-    <strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
-    ${lake.waterFlow ? `<strong>Flow:</strong> ${lake.waterFlow}<br/>` : ''}
-    ${lake.downstream ? `<strong>Downstream:</strong> ${lake.downstream}<br/>` : ''}
-    ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
-    ${(isHazard || futureHazard) ? `
-      <a href="https://codefean.github.io/alaska-glof-dashboard/#/GLOF-data?lake=${encodeURIComponent(LakeID)}" target="_blank">
-        See full hazard info
-      </a>` : ''}
-  </p>
-`;
-
-          const showPopup = () => {
-            activePopupRef.current?.remove();
-            const popup = new mapboxgl.Popup({ closeOnClick: false })
-              .setLngLat([lon, lat])
-              .setHTML(popupContent)
-              .addTo(map);
-            activePopupRef.current = popup;
-          };
+          const popupContent = `
+            <h4>${LakeName || `Lake ${LakeID}`}</h4>
+            <p><strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
+            ${lake.waterFlow ? `<strong>Flow:</strong> ${lake.waterFlow}<br/>` : ''}
+            ${lake.downstream ? `<strong>Downstream:</strong> ${lake.downstream}<br/>` : ''}
+            ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
+            ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}" target="_blank">See full hazard info</a>` : ''}</p>`;
 
           el.addEventListener('click', (e) => {
             e.stopPropagation();
             isPopupLocked.current = true;
-            showPopup();
+            activePopupRef.current?.remove();
+            activePopupRef.current = new mapboxgl.Popup({ closeOnClick: false })
+              .setLngLat([lon, lat])
+              .setHTML(popupContent)
+              .addTo(map);
             map.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
-          });
-          el.addEventListener('mouseenter', () => {
-            if (!isPopupLocked.current) showPopup();
-          });
-          el.addEventListener('mouseleave', () => {
-            if (!isPopupLocked.current) activePopupRef.current?.remove();
+
+            // ✅ Update URL for sharing
+            window.history.pushState({}, '', `#/GLOF-map?lake=${encodeURIComponent(LakeID)}`);
           });
         }
       });
-
 
       map.on('click', () => {
         isPopupLocked.current = false;
@@ -235,10 +171,26 @@ const popupContent = `
     } else {
       map.once('load', addMarkers);
     }
-
   }, [lakeData, glacierData, showGlaciers]);
 
-  // Handle search and zoom to lake
+  // ✅ Auto-zoom to lake from shared URL
+  useEffect(() => {
+    if (!window.location.hash.startsWith('#/GLOF-map')) return;
+    const params = new URLSearchParams(window.location.hash.split('?')[1]);
+    const lakeIdFromURL = params.get('lake');
+
+    if (lakeIdFromURL) {
+      const targetLake = lakeData.find(l => l.LakeID === lakeIdFromURL);
+      if (targetLake) {
+        mapRef.current.flyTo({ center: [targetLake.lon, targetLake.lat], zoom: 12, speed: 2 });
+        new mapboxgl.Popup({ closeOnClick: false })
+          .setLngLat([targetLake.lon, targetLake.lat])
+          .setHTML(`<h4>${targetLake.LakeName || `Lake ${targetLake.LakeID}`}</h4><p><strong>Glacier:</strong> ${targetLake.GlacierName || 'Unknown'}</p>`)
+          .addTo(mapRef.current);
+      }
+    }
+  }, [lakeData]);
+
   const handleSearch = () => {
     const query = searchQuery.trim().toLowerCase();
     const foundLake = lakeData.find(lake =>
@@ -257,58 +209,46 @@ const popupContent = `
     <>
       <div ref={mapContainerRef} style={{ width: '100vw', height: '100vh' }} />
 
-  <button
-    className="toggle-glaciers-button"
-    onClick={() => setShowGlaciers(!showGlaciers)}>
-    {showGlaciers ? 'Hide Glaciers' : 'Show Glaciers'}
-  </button>
+      <button className="toggle-glaciers-button" onClick={() => setShowGlaciers(!showGlaciers)}>
+        {showGlaciers ? 'Hide Glaciers' : 'Show Glaciers'}
+      </button>
 
-<div className="search-bar-container" style={{ position: 'absolute' }}>
-  <div style={{ position: 'relative', width: '100%' }}>
-    <input
-      type="text"
-      placeholder="Search for lakes by Name or LakeID..."
-      value={searchQuery}
-      onChange={(e) => {
-        const value = e.target.value;
-        setSearchQuery(value);
-
-        if (value.trim()) {
-          const matches = lakeData.filter(lake =>
-            (lake.LakeName && lake.LakeName.toLowerCase().includes(value.toLowerCase())) ||
-            (lake.LakeID && lake.LakeID.toLowerCase().includes(value.toLowerCase()))
-          ).slice(0, 4);
-          setSuggestions(matches);
-        } else {
-          setSuggestions([]);
-        }
-      }}
-      onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-    />
-    {suggestions.length > 0 && (
-      <ul className="dropdown-suggestions">
-        {suggestions.map((lake, index) => (
-          <li
-            key={index}
-            onClick={() => {
-              setSearchQuery(lake.LakeName || lake.LakeID);
-              setSuggestions([]);
-              mapRef.current?.flyTo({
-                center: [lake.lon, lake.lat],
-                zoom: 12,
-                speed: 2,
-              });
+      <div className="search-bar-container" style={{ position: 'absolute' }}>
+        <div style={{ position: 'relative', width: '100%' }}>
+          <input
+            type="text"
+            placeholder="Search for lakes by Name or LakeID..."
+            value={searchQuery}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSearchQuery(value);
+              if (value.trim()) {
+                setSuggestions(lakeData.filter(lake =>
+                  (lake.LakeName && lake.LakeName.toLowerCase().includes(value.toLowerCase())) ||
+                  (lake.LakeID && lake.LakeID.toLowerCase().includes(value.toLowerCase()))
+                ).slice(0, 4));
+              } else {
+                setSuggestions([]);
+              }
             }}
-          >
-            {lake.LakeName || `Lake ${lake.LakeID}`}
-          </li>
-        ))}
-      </ul>
-    )}
-  </div>
-  <button onClick={handleSearch}>Search</button>
-</div>
-
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+          />
+          {suggestions.length > 0 && (
+            <ul className="dropdown-suggestions">
+              {suggestions.map((lake, index) => (
+                <li key={index} onClick={() => {
+                  setSearchQuery(lake.LakeName || lake.LakeID);
+                  setSuggestions([]);
+                  mapRef.current?.flyTo({ center: [lake.lon, lake.lat], zoom: 12, speed: 2 });
+                }}>
+                  {lake.LakeName || `Lake ${lake.LakeID}`}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <button onClick={handleSearch}>Search</button>
+      </div>
 
       <div className="hotkey-table">
         <table>
@@ -320,8 +260,7 @@ const popupContent = `
         </table>
       </div>
 
-<MapLegend />
-
+      <MapLegend />
     </>
   );
 };

@@ -1,24 +1,25 @@
- import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Papa from "papaparse";
 import "./FloodTable.css";
 
 const LOCAL_CSV_URL = process.env.PUBLIC_URL + "/AK_GL.csv";
 
 const COLUMN_NAME_MAPPING = {
-  LakeID: "Lake ID",
-  LakeName: "Lake Name",
+  lakeid: "Lake ID",
+  lakename: "Lake Name",
   km2: "Lake Area (km²)",
   lat: "Latitude",
   lon: "Longitude",
-  isHazard: "Current Hazard",
-  futureHazard: "Future Hazard",
-  futureHazardETA: "Time to Future Hazard",
-  hazardURL: "Hazard Website",
+  ishazard: "Current Hazard",
+  futurehazard: "Future Hazard",
+  futurehazardeta: "Time to Future Hazard",
+  hazardurl: "Hazard Website",
   summary: "Summary",
   moreinfo: "More Info",
-  waterFlow: "Water Flow",
+  waterflow: "Water Flow",
   downstream: "Downstream",
-  GlacierName: "Glacier Name",
+  glaciername: "Glacier Name",
+  floodhistory: "Flood History",
 };
 
 const FloodTable = ({ type = "current" }) => {
@@ -48,7 +49,12 @@ const FloodTable = ({ type = "current" }) => {
             const processedData = rawData.map((row) => {
               const newRow = {};
               Object.keys(row).forEach((key) => {
-                const newKey = COLUMN_NAME_MAPPING[key] || key;
+                const normalizedKey = Object.keys(COLUMN_NAME_MAPPING).find(
+                  (mappedKey) => mappedKey.toLowerCase() === key.toLowerCase()
+                );
+                const newKey = normalizedKey
+                  ? COLUMN_NAME_MAPPING[normalizedKey]
+                  : key;
                 newRow[newKey] = row[key];
               });
               return newRow;
@@ -63,21 +69,21 @@ const FloodTable = ({ type = "current" }) => {
             const columnsToExclude =
               type === "current"
                 ? [
-                    "Lake ID",
                     "Lake Area (km²)",
                     "Latitude",
                     "Longitude",
                     "Future Hazard",
                     "Time to Future Hazard",
                     "Current Hazard",
+                    "More Info",
                   ]
                 : [
-                    "Lake ID",
                     "Lake Area (km²)",
                     "Latitude",
                     "Longitude",
                     "Future Hazard",
                     "Current Hazard",
+                    "Flood History",
                   ];
 
             const allHeaders = Object.keys(filteredData[0] || {});
@@ -90,9 +96,11 @@ const FloodTable = ({ type = "current" }) => {
               ...filteredHeaders.filter((h) => h !== "Lake Name"),
             ];
 
+            const finalHeaders = [...orderedHeaders, "View on Map"];
+
             setData(filteredData);
             setSortedData(filteredData);
-            setHeaders(orderedHeaders);
+            setHeaders(finalHeaders);
             setLoading(false);
           },
         });
@@ -103,32 +111,28 @@ const FloodTable = ({ type = "current" }) => {
       });
   }, [type]);
 
+  useEffect(() => {
+    if (!sortedData.length || !headers.length) return;
 
-useEffect(() => {
-  if (!sortedData.length || !headers.length) return;
+    const hash = window.location.hash;
+    const [, queryString] = hash.split("?");
+    if (!queryString) return;
 
-  // Get `lake` param from the hash portion (after "#/GLOF-data?lake=...")
-  const hash = window.location.hash; // e.g., "#/GLOF-data?lake=B117"
-  const [, queryString] = hash.split("?");
-  if (!queryString) return;
+    const lakeID = new URLSearchParams(queryString).get("lake");
+    if (!lakeID) return;
 
-  const lakeID = new URLSearchParams(queryString).get("lake");
-  if (!lakeID) return;
+    const targetIndex = sortedData.findIndex((row) => row["Lake ID"] === lakeID);
+    if (targetIndex === -1) return;
 
-  const targetIndex = sortedData.findIndex((row) => row["Lake ID"] === lakeID);
-  if (targetIndex === -1) return;
-
-  const rowElement = document.getElementById(`lake-row-${lakeID}`);
-  if (rowElement) {
-    rowElement.scrollIntoView({ behavior: "smooth", block: "center" });
-    rowElement.classList.add("highlighted-row");
-    setTimeout(() => {
-      rowElement.classList.remove("highlighted-row");
-    }, 5000);
-  }
-}, [sortedData, headers]);
-
-
+    const rowElement = document.getElementById(`lake-row-${lakeID}`);
+    if (rowElement) {
+      rowElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      rowElement.classList.add("highlighted-row");
+      setTimeout(() => {
+        rowElement.classList.remove("highlighted-row");
+      }, 5000);
+    }
+  }, [sortedData, headers]);
 
   const handleSort = (column) => {
     const direction =
@@ -161,10 +165,7 @@ useEffect(() => {
       ) : (
         <>
           <p className="flood-table-title">
-            Alaska Glacier Lakes {type === "current" ? "Current" : "Future"} Flood Table
-          </p>
-          <p className="flood-table-subtitle">
-            Showing lakes with {type === "current" ? "current" : "future"} flood hazards
+            {type === "current" ? "Current" : "Future"} Alaska Glacier Lakes Flood Table
           </p>
 
           <table className="flood-table">
@@ -197,6 +198,21 @@ useEffect(() => {
                     className="expandable-row"
                   >
                     {headers.map((header, colIndex) => {
+                      if (header === "View on Map") {
+                        return (
+                          <td key={colIndex}>
+                            <a
+                              className="button"
+                              href={`#/GLOF-map?lake=${encodeURIComponent(row["Lake ID"])}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Map
+                            </a>
+                          </td>
+                        );
+                      }
+
                       let cellContent = row[header] || "—";
 
                       if (
@@ -208,22 +224,24 @@ useEffect(() => {
                         cellContent = cellContent.substring(0, 300) + "...";
                       }
 
-                      if (
-                        header === "Hazard Website" &&
-                        row[header]?.includes("www.")
-                      ) {
-                        return (
-                          <td key={colIndex}>
-                            <a
-                              href={row[header]}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {row[header]}
-                            </a>
-                          </td>
-                        );
-                      }
+                        if (
+                          header === "Hazard Website" &&
+                          row[header]?.includes("www.")
+                        ) {
+                          return (
+                            <td key={colIndex}>
+                              <a
+                                className="button"
+                                href={row[header]}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                Link
+                              </a>
+                            </td>
+                          );
+                        }
+
 
                       return <td key={colIndex}>{cellContent}</td>;
                     })}
