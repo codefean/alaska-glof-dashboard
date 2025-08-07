@@ -142,7 +142,7 @@ const AlaskaMap = () => {
             ${lake.waterFlow ? `<strong>Flow:</strong> ${lake.waterFlow}<br/>` : ''}
             ${lake.downstream ? `<strong>Downstream:</strong> ${lake.downstream}<br/>` : ''}
             ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
-            ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}" target="_blank">See full hazard info</a>` : ''}</p>`;
+            ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}">See full hazard info</a>` : ''}</p>`;
 
           el.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -201,7 +201,7 @@ useEffect(() => {
         ${waterFlow ? `<strong>Flow:</strong> ${waterFlow}<br/>` : ''}
         ${downstream ? `<strong>Downstream:</strong> ${downstream}<br/>` : ''}
         ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
-        ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}" target="_blank">See full hazard info</a>` : ''}</p>`;
+        ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}">See full hazard info</a>` : ''}</p>`;
 
       mapRef.current.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
 
