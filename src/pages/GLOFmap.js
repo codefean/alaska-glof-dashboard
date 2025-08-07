@@ -173,23 +173,46 @@ const AlaskaMap = () => {
     }
   }, [lakeData, glacierData, showGlaciers]);
 
-  // ✅ Auto-zoom to lake from shared URL
-  useEffect(() => {
-    if (!window.location.hash.startsWith('#/GLOF-map')) return;
-    const params = new URLSearchParams(window.location.hash.split('?')[1]);
-    const lakeIdFromURL = params.get('lake');
+// ✅ Auto-zoom to lake from shared URL with full popup info
+useEffect(() => {
+  if (!window.location.hash.startsWith('#/GLOF-map')) return;
+  const params = new URLSearchParams(window.location.hash.split('?')[1]);
+  const lakeIdFromURL = params.get('lake');
 
-    if (lakeIdFromURL) {
-      const targetLake = lakeData.find(l => l.LakeID === lakeIdFromURL);
-      if (targetLake) {
-        mapRef.current.flyTo({ center: [targetLake.lon, targetLake.lat], zoom: 12, speed: 2 });
-        new mapboxgl.Popup({ closeOnClick: false })
-          .setLngLat([targetLake.lon, targetLake.lat])
-          .setHTML(`<h4>${targetLake.LakeName || `Lake ${targetLake.LakeID}`}</h4><p><strong>Glacier:</strong> ${targetLake.GlacierName || 'Unknown'}</p>`)
-          .addTo(mapRef.current);
-      }
+  if (lakeIdFromURL) {
+    const targetLake = lakeData.find(l => l.LakeID === lakeIdFromURL);
+    if (targetLake) {
+      const {
+        lat,
+        lon,
+        LakeID,
+        LakeName,
+        GlacierName,
+        isHazard,
+        futureHazard,
+        futureHazardETA,
+        waterFlow,
+        downstream
+      } = targetLake;
+
+      const popupContent = `
+        <h4>${LakeName || `Lake ${LakeID}`}</h4>
+        <p><strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
+        ${waterFlow ? `<strong>Flow:</strong> ${waterFlow}<br/>` : ''}
+        ${downstream ? `<strong>Downstream:</strong> ${downstream}<br/>` : ''}
+        ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
+        ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}" target="_blank">See full hazard info</a>` : ''}</p>`;
+
+      mapRef.current.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
+
+      new mapboxgl.Popup({ closeOnClick: false })
+        .setLngLat([lon, lat])
+        .setHTML(popupContent)
+        .addTo(mapRef.current);
     }
-  }, [lakeData]);
+  }
+}, [lakeData]);
+
 
   const handleSearch = () => {
     const query = searchQuery.trim().toLowerCase();
