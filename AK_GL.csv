@@ -1,6 +1,6 @@
 ﻿LakeID,km2,lat,lon,LakeName,GlacierName,waterFlow,downstream,isHazard,futureHazard,futureHazardETA,hazardURL,frequency,summary,moreinfo
 B1,0.72,61.14511519,-146.8381818,Lake Number One,NA,,,FALSE,FALSE,,,,,
-B2,0.22,61.69343392,-146.9239025,NA,Nelchina Glacier,Nelchina River,Nelchina,TRUE,FALSE,,https://pubs.usgs.gov/ha/455/report.pdf,first recorded in 1970,,NA
+B2,0.22,61.69343392,-146.9239025,NA,Nelchina Glacier,Nelchina River,Nelchina,TRUE,FALSE,,https://pubs.usgs.gov/ha/455/report.pdf,,,NA
 B3,0.53,60.81752052,-144.8632891,NA,Allen Glacier,Copper River,,FALSE,FALSE,,,,,
 B4,0.6,60.47664785,-142.7732323,NA,Bering Glacier,,,FALSE,FALSE,,,,,
 B5,0.21,60.60770969,-142.20566,NA,Jeffries Glacier,,,FALSE,FALSE,,,,,
