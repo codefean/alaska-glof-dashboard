@@ -19,7 +19,7 @@ const COLUMN_NAME_MAPPING = {
   waterflow: "Water Flow",
   downstream: "Downstream",
   glaciername: "Glacier Name",
-  floodhistory: "Flood History",
+  frequency: "Frequency",
 };
 
 const FloodTable = ({ type = "current" }) => {
@@ -84,7 +84,7 @@ const FloodTable = ({ type = "current" }) => {
                     "Longitude",
                     "Future Hazard",
                     "Current Hazard",
-                    "Flood History",
+                    "Frequency",
                   ];
 
             const allHeaders = Object.keys(filteredData[0] || {});
@@ -220,24 +220,26 @@ const FloodTable = ({ type = "current" }) => {
                         cellContent = cellContent.substring(0, 180) + "...";
                       }
 
-                          if (
-                            header === "Hazard Info" &&
-                            (row[header]?.includes("www.") || row[header]?.includes("https:"))
-                          ) {
-                          return (
-                            <td key={colIndex}>
-                              <a
-                                className="button"
-                                href={row[header]}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                Link
-                              </a>
-                            </td>
-                          );
-                        }
-
+                      if (
+                        header === "Hazard Info" &&
+                        typeof row[header] === "string" &&
+                        (row[header].includes("www.") || row[header].includes("https:"))
+                      ) {
+                        const rawUrl = row[header];
+                        const url = rawUrl.startsWith("http") ? rawUrl : `https://${rawUrl}`;
+                        return (
+                          <td key={colIndex}>
+                            <a
+                              className="button"
+                              href={encodeURI(url)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Link
+                            </a>
+                          </td>
+                        );
+                      }
 
                       return <td key={colIndex}>{cellContent}</td>;
                     })}
