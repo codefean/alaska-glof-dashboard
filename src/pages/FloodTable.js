@@ -13,7 +13,7 @@ const COLUMN_NAME_MAPPING = {
   ishazard: "Current Hazard",
   futurehazard: "Future Hazard",
   futurehazardeta: "Time to Future Hazard",
-  hazardurl: "Hazard Website",
+  hazardurl: "Hazard Info",
   summary: "Summary",
   moreinfo: "More Info",
   waterflow: "Water Flow",
@@ -27,8 +27,9 @@ const FloodTable = ({ type = "current" }) => {
   const [headers, setHeaders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortedData, setSortedData] = useState([]);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [expandedRows, setExpandedRows] = useState([]);
+  const [fontSize, setFontSize] = useState("font-default"); // 'font-default', 'font-medium', 'font-large'
+
 
   const toggleRow = (index) => {
     setExpandedRows((prev) =>
@@ -134,39 +135,39 @@ const FloodTable = ({ type = "current" }) => {
     }
   }, [sortedData, headers]);
 
-  const handleSort = (column) => {
-    const direction =
-      sortConfig.key === column && sortConfig.direction === "asc" ? "desc" : "asc";
-
-    const sorted = [...sortedData].sort((a, b) => {
-      const aVal = a[column] ?? "";
-      const bVal = b[column] ?? "";
-
-      const aNum = parseFloat(aVal);
-      const bNum = parseFloat(bVal);
-
-      if (!isNaN(aNum) && !isNaN(bNum)) {
-        return direction === "asc" ? aNum - bNum : bNum - aNum;
-      }
-
-      return direction === "asc"
-        ? String(aVal).localeCompare(String(bVal))
-        : String(bVal).localeCompare(String(aVal));
-    });
-
-    setSortedData(sorted);
-    setSortConfig({ key: column, direction });
-  };
+  
 
   return (
-    <div className="flood-table-container">
+    <div className={`flood-table-container ${fontSize}`}>
       {loading ? (
         <p>Loading data...</p>
       ) : (
         <>
-          <p className="flood-table-title">
-            {type === "current" ? "Current" : "Future"} Alaska Glacier Lakes Flood Table
-          </p>
+          <div className="flood-table-header">
+            <p className="flood-table-title">
+              {type === "current" ? "Current" : "Future"} Alaska Glacier Lakes Flood Table
+            </p>
+            <div className="font-size-buttons">
+              <button
+                onClick={() => setFontSize("font-default")}
+                className={fontSize === "font-default" ? "active" : ""}
+              >
+                A
+              </button>
+              <button
+                onClick={() => setFontSize("font-medium")}
+                className={fontSize === "font-medium" ? "active" : ""}
+              >
+                A
+              </button>
+              <button
+                onClick={() => setFontSize("font-large")}
+                className={fontSize === "font-large" ? "active" : ""}
+              >
+                A
+              </button>
+            </div>
+          </div>
 
           <table className="flood-table">
             <thead>
@@ -175,14 +176,9 @@ const FloodTable = ({ type = "current" }) => {
                   <th
                     key={index}
                     className="sortable"
-                    onClick={() => handleSort(header)}
                   >
                     {header}{" "}
-                    {sortConfig.key === header
-                      ? sortConfig.direction === "asc"
-                        ? "▲"
-                        : "▼"
-                      : ""}
+                
                   </th>
                 ))}
               </tr>
@@ -219,15 +215,15 @@ const FloodTable = ({ type = "current" }) => {
                         (header === "Summary" || header === "More Info") &&
                         !isExpanded &&
                         typeof cellContent === "string" &&
-                        cellContent.length > 300
+                        cellContent.length > 180
                       ) {
-                        cellContent = cellContent.substring(0, 300) + "...";
+                        cellContent = cellContent.substring(0, 180) + "...";
                       }
 
-                        if (
-                          header === "Hazard Website" &&
-                          row[header]?.includes("www.")
-                        ) {
+                          if (
+                            header === "Hazard Info" &&
+                            (row[header]?.includes("www.") || row[header]?.includes("https:"))
+                          ) {
                           return (
                             <td key={colIndex}>
                               <a

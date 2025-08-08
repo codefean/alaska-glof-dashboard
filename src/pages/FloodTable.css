@@ -25,7 +25,7 @@
   padding: 16px 20px;
   font-size: 15px;
   font-weight: 600;
-  color: #374151;
+  color: #050608;
   position: sticky;
   top: 0;
   cursor: pointer;
@@ -105,7 +105,7 @@
   background: #f1f5f9;
   padding: 16px 20px;
   font-size: 14px;
-  color: #1f2937;
+  color: #0f1319;
   border-top: 1px solid #d1d5db;
   animation: fadeIn 0.3s ease-in-out;
 }
@@ -173,4 +173,53 @@
 .button:hover {
   background-color: #9d0303;
   transform: scale(1.05);
+}
+
+/* Font size options */
+.font-default .flood-table th,
+.font-default .flood-table td {
+  font-size: 14px;
+}
+
+.font-medium .flood-table th,
+.font-medium .flood-table td {
+  font-size: 15px;
+}
+
+.font-large .flood-table th,
+.font-large .flood-table td {
+  font-size: 16px;
+}
+
+.flood-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.font-size-buttons button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 8px;
+  margin-right: 4px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.font-size-buttons button:nth-child(2) {
+  font-size: 16px;
+}
+
+.font-size-buttons button:nth-child(3) {
+  font-size: 18px;
+}
+
+.font-size-buttons button:hover,
+.font-size-buttons .active {
+  background-color: #d1e3ff;
 }
