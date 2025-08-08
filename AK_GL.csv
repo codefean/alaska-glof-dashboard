@@ -1,6 +1,6 @@
 ﻿LakeID,km2,lat,lon,LakeName,GlacierName,waterFlow,downstream,isHazard,futureHazard,futureHazardETA,hazardURL,summary,moreinfo
 B1,0.72,61.14511519,-146.8381818,Lake Number One,NA,,,FALSE,FALSE,,,,
-B2,0.22,61.69343392,-146.9239025,NA,Nelchina Glacier,Nelchina River,Nelchina,TRUE,FALSE,,NA,NA,NA
+B2,0.22,61.69343392,-146.9239025,NA,Nelchina Glacier,Nelchina River,Nelchina,TRUE,FALSE,,https://pubs.usgs.gov/ha/455/report.pdf,,NA
 B3,0.53,60.81752052,-144.8632891,NA,Allen Glacier,Copper River,,FALSE,FALSE,,,,
 B4,0.6,60.47664785,-142.7732323,NA,Bering Glacier,,,FALSE,FALSE,,,,
 B5,0.21,60.60770969,-142.20566,NA,Jeffries Glacier,,,FALSE,FALSE,,,,
@@ -84,7 +84,9 @@ B82,0.41,61.56042399,-143.0966375,NA,Kennicott Glacier,,,FALSE,FALSE,,,,
 B83,0.51,60.77984788,-139.1334117,NA,Kaskawulsh Glacier,,,FALSE,FALSE,,,,
 B84,0.48,60.03884129,-150.4546919,NA,Tustemena Glacier,Tustemena Lake,,FALSE,FALSE,,,,
 B85,0.4,60.19984368,-149.9440871,NA,NA,Skilak Lake,,FALSE,FALSE,,,,
-B86,1.26,60.06870074,-149.6130377,Bear Lake,Bear Glacier,Bear Glacier Lagoon,,TRUE,FALSE,,NA,NA,NA
+B86,1.26,60.06870074,-149.6130377,Bear Lake,Bear Glacier,Bear Glacier Lagoon,,TRUE,FALSE,,www.nps.gov/articles/aps-18-1-5.htm,"Between 2008 and 2024, glacial lake outburst floods at Bear Lake have occurred every 2–3 years, varying in intensity and impact. Some events caused temporary access issues as icebergs clogged the lake’s outflow, while others led to significant flooding in the proglacial lake that persisted for weeks. In August 2014, a GLOF raised water levels high enough to breach the moraine separating the lake from Resurrection Bay, flushing debris into the ocean and sweeping watercraft into the bay. Fortunately, this event occurred late in the season when visitor activity was lower.
+
+A particularly well-documented GLOF occurred in August 2018, when the glacier-dammed lake drained at a rate of 50–65 feet per day, releasing over 2,600 Olympic-sized swimming pools of water daily. Water levels in the proglacial lake rose by more than six feet in four days, ultimately breaching the moraine and rerouting the lake’s outflow directly into the bay. This sudden drainage rendered the normal outlet unnavigable for the rest of the season and dropped lake levels by an estimated 11 feet. The flood disrupted access and damaged equipment.",NA
 B87,8.42,60.95875845,-152.4468923,Blockade Lake,Blockade Glacier,,,FALSE,FALSE,,,,
 B88,2.47,58.50118375,-136.6243493,Abyss Lake,Brady Glacier,,,FALSE,FALSE,,,,
 B89,3.32,58.50140144,-136.9158924,NA,Brady Glacier,Palma Bay,,FALSE,FALSE,,,,
@@ -115,7 +117,7 @@ B113,0.19,60.43483151,-143.2866359,NA,Bering Glacier,Vitus Lake,,FALSE,FALSE,,,,
 B114,0.42,61.21957361,-146.1413132,Valdez Lake,Valdez Glacier,Valdez Glacier Stream,Valdez,FALSE,FALSE,,,,
 B115,0.6,58.45760644,-134.4932181,Suicide Basin,Mendenhall Glacier,Mendenhall River,Mendenhall Valley,TRUE,FALSE,,www.juneauflood.com,"From 2011, the onset of the Mendenhall GLOF, to 2022, the annual floods were highly variable, ranging from small events that went largely unnoticed to larger events that caused nuisance flooding of roads and a USFS campground and caused only minor property damage. On August 5, 2023, an unprecedented GLOF was released from Suicide Basin causing the Mendenhall River to rise rapidly to approximately 15 feet. This event resulted in widespread erosion along the river corridor in the Mendenhall Valley which swept a home into the river and damaged several other properties that were later condemned (Canny, 2024). Just one year later, on August 6, 2024, another GLOF triggered an even more extreme flood event, with the river cresting at a record-setting 16 feet. This flood resulted in widespread inundation within the Mendenhall Valley, affecting nearly 300 properties and prompting emergency evacuations that extended into the early morning hours (Zerkel, 2024; Travers, 2024). ",NA
 B116,1.07,56.18754475,-130.0682533,Summit Lake,NA,,,FALSE,FALSE,,,,
-B117,1.67,60.48355605,-148.9301765,Snow Lake,Snow Glacier,Kenai River,Kenai Lake,TRUE,FALSE,,NA,NA,NA
+B117,1.67,60.48355605,-148.9301765,Snow Lake,Snow Glacier,Kenai River,Kenai Lake,TRUE,FALSE,,NA,,NA
 B118,0.08,60.47921335,-149.0263055,Moose Lake,Snow Glacier,,,FALSE,FALSE,,,,
 B119,0.12,60.84376877,-143.2282456,NA,Bremner Glacier,,,FALSE,FALSE,,,,
 B120,0.33,60.33122992,-142.9522081,NA,Bering Glacier,,,FALSE,FALSE,,,,
@@ -123,5 +125,5 @@ B121,0.02,63.64894832,-146.4186812,NA,Trident Glacier,Delta Creek,Delta Junction
 B122,0,60.01647623,-150.3414851,NA,Tustemena Glacier,Tustemena Lake,,FALSE,FALSE,,,,
 B123,0.06,60.71160178,-152.4983973,NA,Double Glacier,Big River,,FALSE,FALSE,,,,
 B124,0.02,60.37032018,-143.4608808,NA,Bering Glacier,Vitus Lake,,FALSE,FALSE,,,,
-B125,0.02,58.383878,-134.510724,Lemon Creek Lake,Lemon Glacier,Lemon Creek,Lemon Creek,TRUE,FALSE,,NA,NA,NA
-B126,,,,TEST,TEST,,,FALSE,TRUE,20 years,NA,NA,NA
+B125,0.02,58.383878,-134.510724,Lemon Creek Lake,Lemon Glacier,Lemon Creek,Lemon Creek,TRUE,FALSE,,NA,,NA
+B126,,,,TEST,TEST,,,FALSE,TRUE,20 years,NA,,NA
