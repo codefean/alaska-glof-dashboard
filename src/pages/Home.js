@@ -35,8 +35,6 @@ const cardData = [
 
 
 
-
-
 const Home = () => {
 
   return (

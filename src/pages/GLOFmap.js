@@ -115,10 +115,30 @@ const AlaskaMap = () => {
           glacierEl.className = 'marker glacier';
           const glacierMarker = new mapboxgl.Marker(glacierEl).setLngLat([glacier.lon, glacier.lat]).addTo(map);
           markersRef.current.push(glacierMarker);
+
+          // HOVER: show the same popup as click (no fly-to)
+          glacierEl.addEventListener('mouseenter', () => {
+            if (isPopupLocked.current) return;
+            activePopupRef.current?.remove();
+            activePopupRef.current = new mapboxgl.Popup({ closeOnClick: false })
+              .setLngLat([glacier.lon, glacier.lat])
+              .setHTML(`<h3>${glacier.name || 'Unnamed'}</h3>`)
+              .addTo(map);
+          });
+
+          // LEAVE: hide if not locked
+          glacierEl.addEventListener('mouseleave', () => {
+            if (isPopupLocked.current) return;
+            activePopupRef.current?.remove();
+            activePopupRef.current = null;
+          });
+
+          // CLICK: lock popup and fly
           glacierEl.addEventListener('click', (e) => {
             e.stopPropagation();
             isPopupLocked.current = true;
-            new mapboxgl.Popup({ closeOnClick: false })
+            activePopupRef.current?.remove();
+            activePopupRef.current = new mapboxgl.Popup({ closeOnClick: false })
               .setLngLat([glacier.lon, glacier.lat])
               .setHTML(`<h3>${glacier.name || 'Unnamed'}</h3>`)
               .addTo(map);
@@ -144,6 +164,24 @@ const AlaskaMap = () => {
             ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
             ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}">See full hazard info</a>` : ''}</p>`;
 
+          // HOVER: show same popup as click (no fly-to, no URL change)
+          el.addEventListener('mouseenter', () => {
+            if (isPopupLocked.current) return;
+            activePopupRef.current?.remove();
+            activePopupRef.current = new mapboxgl.Popup({ closeOnClick: false })
+              .setLngLat([lon, lat])
+              .setHTML(popupContent)
+              .addTo(map);
+          });
+
+          // LEAVE: hide if not locked
+          el.addEventListener('mouseleave', () => {
+            if (isPopupLocked.current) return;
+            activePopupRef.current?.remove();
+            activePopupRef.current = null;
+          });
+
+          // CLICK: lock popup and fly + update URL (unchanged behavior)
           el.addEventListener('click', (e) => {
             e.stopPropagation();
             isPopupLocked.current = true;
@@ -160,9 +198,11 @@ const AlaskaMap = () => {
         }
       });
 
+      // Map click unlocks and clears any popup (kept)
       map.on('click', () => {
         isPopupLocked.current = false;
         activePopupRef.current?.remove();
+        activePopupRef.current = null;
       });
     };
 
@@ -173,45 +213,45 @@ const AlaskaMap = () => {
     }
   }, [lakeData, glacierData, showGlaciers]);
 
-// ✅ Auto-zoom to lake from shared URL with full popup info
-useEffect(() => {
-  if (!window.location.hash.startsWith('#/GLOF-map')) return;
-  const params = new URLSearchParams(window.location.hash.split('?')[1]);
-  const lakeIdFromURL = params.get('lake');
+  // ✅ Auto-zoom to lake from shared URL with full popup info
+  useEffect(() => {
+    if (!window.location.hash.startsWith('#/GLOF-map')) return;
+    const params = new URLSearchParams(window.location.hash.split('?')[1]);
+    const lakeIdFromURL = params.get('lake');
 
-  if (lakeIdFromURL) {
-    const targetLake = lakeData.find(l => l.LakeID === lakeIdFromURL);
-    if (targetLake) {
-      const {
-        lat,
-        lon,
-        LakeID,
-        LakeName,
-        GlacierName,
-        isHazard,
-        futureHazard,
-        futureHazardETA,
-        waterFlow,
-        downstream
-      } = targetLake;
+    if (lakeIdFromURL) {
+      const targetLake = lakeData.find(l => l.LakeID === lakeIdFromURL);
+      if (targetLake) {
+        const {
+          lat,
+          lon,
+          LakeID,
+          LakeName,
+          GlacierName,
+          isHazard,
+          futureHazard,
+          futureHazardETA,
+          waterFlow,
+          downstream
+        } = targetLake;
 
-      const popupContent = `
-        <h4>${LakeName || `Lake ${LakeID}`}</h4>
-        <p><strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
-        ${waterFlow ? `<strong>Flow:</strong> ${waterFlow}<br/>` : ''}
-        ${downstream ? `<strong>Downstream:</strong> ${downstream}<br/>` : ''}
-        ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
-        ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}">See full hazard info</a>` : ''}</p>`;
+        const popupContent = `
+          <h4>${LakeName || `Lake ${LakeID}`}</h4>
+          <p><strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
+          ${waterFlow ? `<strong>Flow:</strong> ${waterFlow}<br/>` : ''}
+          ${downstream ? `<strong>Downstream:</strong> ${downstream}<br/>` : ''}
+          ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
+          ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}">See full hazard info</a>` : ''}</p>`;
 
-      mapRef.current.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
+        mapRef.current.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
 
-      new mapboxgl.Popup({ closeOnClick: false })
-        .setLngLat([lon, lat])
-        .setHTML(popupContent)
-        .addTo(mapRef.current);
+        new mapboxgl.Popup({ closeOnClick: false })
+          .setLngLat([lon, lat])
+          .setHTML(popupContent)
+          .addTo(mapRef.current);
+      }
     }
-  }
-}, [lakeData]);
+  }, [lakeData]);
 
 
   const handleSearch = () => {
