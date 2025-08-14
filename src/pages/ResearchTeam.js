@@ -2,6 +2,15 @@ import React from "react";
 import "./ResearchTeam.css";
 
 const teamMembers = [
+
+  {
+    id: "Amundson",
+    name: "Jason Amundson",
+    role: "Geophysicist",
+    bio: "Professor of Geophysics at the University of Alaska Southeast whose research explores the complex dynamics at the boundaries of tidewater glaciers—where ice meets the ocean. Amundson earned his Ph.D. in Geophysics studying the iceberg calving dynamics of Jakobshavn Isbræ, Greenland. His international collaborations include visiting researcher appointments at the University of Helsinki, Aalto University, and Hokkaido University.",
+    image: `${process.env.PUBLIC_URL}/images/amundson.png`,
+    website: "https://uas.alaska.edu/dir/jmamundson.html",
+  },
   {
     id: "wolken",
     name: "Gabriel Wolken",
@@ -92,11 +101,11 @@ const ResearchTeam = () => {
         <ul>
           <li>
             <a
-              href="https://www.nsf.gov/"
+              href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2438778&HistoricalAwards=false"
               target="_blank"
               rel="noopener noreferrer"
             >
-              National Science Foundation (NSF)
+              National Science Foundation Integrative and Collaborative Education and Research Award
             </a>
           </li>
 
