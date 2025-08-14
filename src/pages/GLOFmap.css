@@ -361,3 +361,17 @@ html, body {
 .dropdown-suggestions li:hover {
   background: rgba(255, 255, 255, 0.15);
 }
+
+.cursor-readout {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 8px 10px;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.2;
+  pointer-events: none;
+  z-index: 2;
+}

@@ -17,6 +17,9 @@ const AlaskaMap = () => {
   const isPopupLocked = useRef(false);
   const [suggestions, setSuggestions] = useState([]);
 
+  // NEW: live cursor info (lng/lat/elevation in meters)
+  const [cursorInfo, setCursorInfo] = useState({ lng: null, lat: null, elevM: null });
+
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = ''; };
@@ -37,6 +40,19 @@ const AlaskaMap = () => {
       }
     };
     window.addEventListener('keydown', handleKeydown);
+
+    // NEW: Add DEM + enable terrain on load (for elevation queries)
+    mapRef.current.on('load', () => {
+      if (!mapRef.current.getSource('mapbox-dem')) {
+        mapRef.current.addSource('mapbox-dem', {
+          type: 'raster-dem',
+          url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+          tileSize: 512,
+          maxzoom: 14,
+        });
+      }
+      mapRef.current.setTerrain({ source: 'mapbox-dem', exaggeration: 1.0 });
+    });
 
     const fetchLakeData = async () => {
       try {
@@ -253,6 +269,39 @@ const AlaskaMap = () => {
     }
   }, [lakeData]);
 
+  // NEW: mousemove listener -> update cursorInfo with lng/lat/elevation
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    let rafId = null;
+
+    const onMove = (e) => {
+      if (rafId) return; // throttle via rAF
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+
+        const { lng, lat } = e.lngLat;
+        let elevM = null;
+        try {
+          // returns meters; may be null if DEM not loaded at point yet
+          elevM = map.queryTerrainElevation(e.lngLat, { exaggerated: false });
+        } catch {
+          // ignore if terrain not ready
+        }
+        if (typeof elevM !== 'number' || Number.isNaN(elevM)) elevM = null;
+
+        setCursorInfo({ lng, lat, elevM });
+      });
+    };
+
+    map.on('mousemove', onMove);
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      map.off('mousemove', onMove);
+    };
+  }, []);
 
   const handleSearch = () => {
     const query = searchQuery.trim().toLowerCase();
@@ -321,6 +370,41 @@ const AlaskaMap = () => {
             <tr><td><strong>-</strong></td><td>Zoom out</td></tr>
           </tbody>
         </table>
+      </div>
+
+      {/* NEW: Cursor readout box */}
+      <div
+        className="cursor-readout"
+        style={{
+          position: 'absolute',
+          left: 12,
+          bottom: 12,
+          padding: '8px 10px',
+          background: 'rgba(0,0,0,0.55)',
+          color: '#fff',
+          borderRadius: 8,
+          fontSize: 12,
+          lineHeight: 1.2,
+          pointerEvents: 'none',
+          zIndex: 2
+        }}
+      >
+        {cursorInfo.lat !== null && cursorInfo.lng !== null ? (
+          <>
+            <div>
+              <strong>Lat:</strong> {cursorInfo.lat.toFixed(5)} &nbsp;
+              <strong>Lng:</strong> {cursorInfo.lng.toFixed(5)}
+            </div>
+            <div>
+              <strong>Elev:</strong>{' '}
+              {cursorInfo.elevM === null
+                ? '—'
+                : `${Math.round(cursorInfo.elevM)} m (${Math.round(cursorInfo.elevM * 3.28084)} ft)`}
+            </div>
+          </>
+        ) : (
+          <div>Move cursor over map…</div>
+        )}
       </div>
 
       <MapLegend />
