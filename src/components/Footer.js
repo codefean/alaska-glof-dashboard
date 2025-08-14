@@ -17,6 +17,9 @@ const Footer = () => {
         <a href="https://www.nsf.gov/" target="_blank" rel="noopener noreferrer">
           <img src={`${process.env.PUBLIC_URL}/logos/NSF.png`} alt="NSF Logo" className="footer-logo" />
         </a>
+        <a href="https://www.cmu.edu/" target="_blank" rel="noopener noreferrer">
+          <img src={`${process.env.PUBLIC_URL}/logos/CMU.png`} alt="CMU Logo" className="footer-logo" />
+        </a>
       </div>
 
       <p>
