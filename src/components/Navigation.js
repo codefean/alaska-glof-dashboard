@@ -55,6 +55,14 @@ const Navigation = () => {
             About Research
           </NavLink>
         </li>
+                <li>
+          <NavLink
+            to="/submit-data"
+            className={({ isActive }) => (isActive ? "active-link" : "")}
+          >
+            Submit Data
+          </NavLink>
+        </li>
       </ul>
     </nav>
   );

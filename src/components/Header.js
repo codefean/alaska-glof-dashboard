@@ -12,6 +12,13 @@ const Header = () => {
             className="logo"
           />
         </a>
+        <a href="https://cmu.edu/" target="_blank" rel="noopener noreferrer">
+          <img
+            src={`${process.env.PUBLIC_URL}/CMU.png`}
+            alt="Carnegie Mellon University Logo"
+            className="logo"
+          />
+        </a>
       </div>
       <div className="header-title">
         <h1 onClick={() => window.location.href = 'https://codefean.github.io/alaska-glof-dashboard/#/home'} style={{ cursor: 'pointer' }}>

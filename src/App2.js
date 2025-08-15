@@ -9,6 +9,7 @@ import GLOFData from "./pages/GLOFData";
 import ResearchTeam from "./pages/ResearchTeam";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
+import SubmitDataPage from "./pages/feedback";
 
 const useDocumentTitle = (title) => {
   React.useEffect(() => {
@@ -42,6 +43,11 @@ const HomePage = () => {
   return <Home />;
 };
 
+const SubmitDataWrapper = () => {
+  useDocumentTitle("Submit Data");
+  return <SubmitDataPage />;
+};
+
 const App2 = () => {
   React.useEffect(() => {
   }, []);
@@ -59,6 +65,7 @@ const App2 = () => {
             <Route path="/GLOF-data" element={<GLOFDataPage />} />
             <Route path="/about-research" element={<ResearchTeamPage />} />
             <Route path="/home" element={<HomePage />} />
+            <Route path="/submit-data" element={<SubmitDataWrapper />} />
           </Routes>
         </div>
         <Footer />
