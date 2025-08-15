@@ -4,14 +4,7 @@
   position: relative;
 }
 
-/*   transform: translateX(-50%); */
 
-/* Responsive Styles */
-@media (max-width: 865px) {
-  .navigation {
-    max-height: 40px;
-  }
-}
 
 .navigation .menu-toggle {
   display: none; /* Hide by default */
@@ -56,9 +49,10 @@
 
 
 /* Responsive Styles */
-@media (max-width: 937px) {
+@media (max-width: 938px) {
   .navigation .menu-toggle {
-    display: block; /* Show the menu toggle on smaller screens */
+    display: block;
+    height: 30px;
   }
 
   .navigation ul {

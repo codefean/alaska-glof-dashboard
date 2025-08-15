@@ -82,7 +82,7 @@
   margin: 3px;
 }
         /* default (<= 949px) */
-@media (max-width: 930px) {
+@media (max-width: 937px) {
   .header-image { display: none; }
   .logo { display: none; }        /* only > 950px */
 }
