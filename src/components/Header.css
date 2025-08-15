@@ -74,3 +74,15 @@
 .header-image a:first-child {
   margin-right: 12px;
 }
+
+
+.logo {
+  height: 50px; /* adjust size */
+  width: auto;
+  margin: 3px;
+}
+        /* default (<= 949px) */
+@media (max-width: 930px) {
+  .header-image { display: none; }
+  .logo { display: none; }        /* only > 950px */
+}

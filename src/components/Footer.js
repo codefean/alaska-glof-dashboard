@@ -5,21 +5,52 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-logos">
-        <a href="https://www.iarc.uaf.edu/" target="_blank" rel="noopener noreferrer">
-          <img src={`${process.env.PUBLIC_URL}/logos/IARC.png`} alt="IARC Logo" className="footer-logo" />
-        </a>
-        <a href="https://uas.alaska.edu/" target="_blank" rel="noopener noreferrer">
-          <img src={`${process.env.PUBLIC_URL}/logos/UAS.png`} alt="UAS Logo" className="footer-logo" />
-        </a>
-        <a href="https://www.usgs.gov/" target="_blank" rel="noopener noreferrer">
-          <img src={`${process.env.PUBLIC_URL}/logos/USGS.png`} alt="USGS Logo" className="footer-logo" />
-        </a>
-        <a href="https://www.nsf.gov/" target="_blank" rel="noopener noreferrer">
-          <img src={`${process.env.PUBLIC_URL}/logos/NSF.png`} alt="NSF Logo" className="footer-logo" />
-        </a>
-        <a href="https://www.cmu.edu/" target="_blank" rel="noopener noreferrer">
-          <img src={`${process.env.PUBLIC_URL}/logos/CMU.png`} alt="CMU Logo" className="footer-logo" />
-        </a>
+
+
+    <a href="https://www.iarc.uaf.edu/" target="_blank" rel="noopener noreferrer">
+      <img
+        src={`${process.env.PUBLIC_URL}/IARC.png`}
+        alt="IARC Logo"
+        className="logo"
+      />
+    </a>
+    <a href="https://uas.alaska.edu/" target="_blank" rel="noopener noreferrer">
+      <img
+        src={`${process.env.PUBLIC_URL}/UAS.png`}
+        alt="University of Alaska Southeast Logo"
+        className="logo"
+      />
+    </a>
+
+    <a href="https://usgs.gov/" target="_blank" rel="noopener noreferrer">
+      <img
+        src={`${process.env.PUBLIC_URL}/USGS.png`}
+        alt="USGS Logo"
+        className="logo"
+      />
+    </a>
+    <a href="https://nsf.gov/" target="_blank" rel="noopener noreferrer">
+      <img
+        src={`${process.env.PUBLIC_URL}/NSF.png`}
+        alt="National Science Foundation Logo"
+        className="logo"
+      />
+    </a>
+    <a href="https://cmu.edu/" target="_blank" rel="noopener noreferrer">
+      <img
+        src={`${process.env.PUBLIC_URL}/CMU.png`}
+        alt="Carnegie Mellon University Logo"
+        className="logo"
+      />
+    </a>
+        <a href="https://akcasc.gov/" target="_blank" rel="noopener noreferrer">
+      <img
+        src={`${process.env.PUBLIC_URL}/ACASC2.png`}
+        alt="Alaska Climate Adaptation Science Center Logo"
+        className="logo"
+      />
+    </a>
+    
       </div>
 
       <p>
