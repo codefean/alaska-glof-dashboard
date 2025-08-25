@@ -11,25 +11,25 @@ const cardData = [
     title: 'Glacial Lake Map',
     link: '/GLOF-map',
     image: process.env.PUBLIC_URL + '/images/flood-map.png',
-    description: '',
+    description: 'View known & predicted locations of glacial lake outburst floods in Alaska.',
   },
   {
     title: 'Explore Data',
     link: '/GLOF-data',
     image: process.env.PUBLIC_URL + '/images/flood-events.jpg',
-    description: '',
+    description: 'Go deeper into the impacts & data of glacial lake outburst floods.',
   },
   {
     title: 'Flood Forecasting',
     link: '/GLOF-forecast',
     image: process.env.PUBLIC_URL + '/images/flood-forecast.jpg',
-    description: '',
+    description: 'Learn how forecasting of future glacial lakes is conducted.',
   },
   {
     title: 'About Research',
     link: '/research-team',
     image: process.env.PUBLIC_URL + '/images/suicide-basin.jpg',
-    description: '',
+    description: 'Meet the team & learn more about organizations supporting the research',
   },
 ];
 

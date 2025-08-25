@@ -44,7 +44,7 @@ const Navigation = () => {
             to="/GLOF-forecast"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            Flood Forecasting
+            Lake Forecasting
           </NavLink>
         </li>
         <li>
@@ -55,7 +55,15 @@ const Navigation = () => {
             About Research
           </NavLink>
         </li>
-                <li>
+        <li>
+          <NavLink
+            to="/story-map"
+            className={({ isActive }) => (isActive ? "active-link" : "")}
+          >
+            How GLOFs Work
+          </NavLink>
+        </li>
+        <li>
           <NavLink
             to="/submit-data"
             className={({ isActive }) => (isActive ? "active-link" : "")}

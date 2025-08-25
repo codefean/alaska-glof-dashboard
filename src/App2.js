@@ -10,6 +10,7 @@ import ResearchTeam from "./pages/ResearchTeam";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import SubmitDataPage from "./pages/feedback";
+import StoryMap from "./pages/StoryMap";
 
 const useDocumentTitle = (title) => {
   React.useEffect(() => {
@@ -48,6 +49,12 @@ const SubmitDataWrapper = () => {
   return <SubmitDataPage />;
 };
 
+const StoryMapPage = () => {
+  useDocumentTitle("Story Map");
+  return <StoryMap />;
+};
+
+
 const App2 = () => {
   React.useEffect(() => {
   }, []);
@@ -66,6 +73,7 @@ const App2 = () => {
             <Route path="/about-research" element={<ResearchTeamPage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/submit-data" element={<SubmitDataWrapper />} />
+            <Route path="/story-map" element={<StoryMapPage />} />
           </Routes>
         </div>
         <Footer />
