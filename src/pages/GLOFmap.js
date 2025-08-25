@@ -322,7 +322,7 @@ const AlaskaMap = () => {
       <div ref={mapContainerRef} style={{ width: '100vw', height: '100vh' }} />
 
       <button className="toggle-glaciers-button" onClick={() => setShowGlaciers(!showGlaciers)}>
-        {showGlaciers ? 'Hide Glaciers' : 'Show Glaciers'}
+        {showGlaciers ? 'Hide Glaciers' : 'Glacier Locations'}
       </button>
 
       <div className="search-bar-container" style={{ position: 'absolute' }}>

@@ -226,7 +226,7 @@ html, body {
 .toggle-glaciers-button {
   position: fixed;
   top: 215px;  /* Just below hotkey-table */
-  left: 18px;
+  left: 10px;
   background: rgba(0,0,0,0.6);
   backdrop-filter: blur(4px);
   border: 0.9px solid white !important;

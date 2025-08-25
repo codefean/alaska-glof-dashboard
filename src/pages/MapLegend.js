@@ -61,10 +61,10 @@ const MapLegend = () => {
       <div className="map-legend-item">
         <div className="map-legend-glacier" />
         <div className="map-legend-label">
-          <strong>Glacier</strong>
+          <strong>Glacier Location</strong>
           {expanded && (
             <div className="legend-description">
-              Slow-moving mass of ice formed from compacted snow that accumulates over time and flows under its own weight.
+              List of known glaciers from the Alaska State Library database.
             </div>
           )}
         </div>
