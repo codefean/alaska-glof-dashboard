@@ -60,7 +60,7 @@ const Navigation = () => {
             to="/story-map"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            How GLOFs Work
+            Story Map
           </NavLink>
         </li>
         <li>

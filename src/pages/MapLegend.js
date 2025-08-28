@@ -40,7 +40,7 @@ const MapLegend = () => {
           <strong>Lake With Known Impacts</strong>
           {expanded && (
             <div className="legend-description">
-              A lake with confirmed flooding and historical impact.
+              An icedamned glacial lake with confirmed flooding and historical impact.
             </div>
           )}
         </div>
@@ -52,23 +52,12 @@ const MapLegend = () => {
           <strong>Predicted Glacier Dammed Lake</strong>
           {expanded && (
             <div className="legend-description">
-              Forecasted to become a glacier dammed lake in the future.
+              Forecasted to become an iced dammed glacial lake in the future.
             </div>
           )}
         </div>
       </div>
 
-      <div className="map-legend-item">
-        <div className="map-legend-glacier" />
-        <div className="map-legend-label">
-          <strong>Glacier Location</strong>
-          {expanded && (
-            <div className="legend-description">
-              List of known glaciers from the Alaska State Library database.
-            </div>
-          )}
-        </div>
-      </div>
     </div>
   );
 };

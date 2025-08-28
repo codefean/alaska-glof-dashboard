@@ -1,3 +1,4 @@
+// GLOFmap.js
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -5,19 +6,25 @@ import Papa from 'papaparse';
 import './GLOFmap.css';
 import MapLegend from './MapLegend';
 
+// NEW: glacier layer hook + toggle button
+import { useGlacierLayer, GlacierToggleButton } from './glaciers';
+
 const AlaskaMap = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
+
   const [lakeData, setLakeData] = useState([]);
-  const [glacierData, setGlacierData] = useState([]);
   const [showGlaciers, setShowGlaciers] = useState(false);
+  const [glacierData, setGlacierData] = useState([]);
+
   const [searchQuery, setSearchQuery] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+
   const markersRef = useRef([]);
   const activePopupRef = useRef(null);
   const isPopupLocked = useRef(false);
-  const [suggestions, setSuggestions] = useState([]);
 
-  // NEW: live cursor info (lng/lat/elevation in meters)
+  // live cursor info (lng/lat/elevation in meters)
   const [cursorInfo, setCursorInfo] = useState({ lng: null, lat: null, elevM: null });
 
   useEffect(() => {
@@ -27,33 +34,35 @@ const AlaskaMap = () => {
 
   useEffect(() => {
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFwZmVhbiIsImEiOiJjbTNuOGVvN3cxMGxsMmpzNThzc2s3cTJzIn0.1uhX17BCYd65SeQsW1yibA';
-    mapRef.current = new mapboxgl.Map({
+    const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/satellite-streets-v12',
       center: [-144.5, 59.9],
       zoom: 4,
     });
+    mapRef.current = map;
 
     const handleKeydown = (e) => {
       if (e.key.toLowerCase() === 'r') {
-        mapRef.current.flyTo({ center: [-144.5, 59.5], zoom: 4, speed: 2.2 });
+        map.flyTo({ center: [-144.5, 59.5], zoom: 4, speed: 2.2 });
       }
     };
     window.addEventListener('keydown', handleKeydown);
 
-    // NEW: Add DEM + enable terrain on load (for elevation queries)
-    mapRef.current.on('load', () => {
-      if (!mapRef.current.getSource('mapbox-dem')) {
-        mapRef.current.addSource('mapbox-dem', {
+    // DEM + terrain for elevation
+    map.on('load', () => {
+      if (!map.getSource('mapbox-dem')) {
+        map.addSource('mapbox-dem', {
           type: 'raster-dem',
           url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
           tileSize: 512,
           maxzoom: 14,
         });
       }
-      mapRef.current.setTerrain({ source: 'mapbox-dem', exaggeration: 1.0 });
+      map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.0 });
     });
 
+    // Fetch lake data (unchanged)
     const fetchLakeData = async () => {
       try {
         const response = await fetch('https://flood-events.s3.us-east-2.amazonaws.com/AK_GL.csv');
@@ -87,221 +96,175 @@ const AlaskaMap = () => {
     };
 
     const fetchGlacierData = async () => {
-      try {
-        const response = await fetch('https://flood-events.s3.us-east-2.amazonaws.com/alaska_glaciers.csv');
-        const csvText = await response.text();
-        Papa.parse(csvText, {
-          header: true,
-          dynamicTyping: true,
-          complete: (result) => {
-            const parsed = result.data.map(row => ({
-              name: row.name?.trim(),
-              lat: parseFloat(row.latitude),
-              lon: parseFloat(row.longitude),
-            })).filter(gl => !isNaN(gl.lat) && !isNaN(gl.lon));
-            setGlacierData(parsed);
-          },
-        });
-      } catch (error) {
-        console.error('Error fetching glacier data:', error);
-      }
-    };
+  try {
+    const response = await fetch('https://flood-events.s3.us-east-2.amazonaws.com/alaska_glaciers.csv');
+    const csvText = await response.text();
+    Papa.parse(csvText, {
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true,
+      transformHeader: header => header.trim().replace(/^\uFEFF/, ''),
+      complete: (result) => {
+        const parsed = result.data
+          .map(row => ({
+            name: row.name?.trim(),
+            lat: parseFloat(row.latitude),
+            lon: parseFloat(row.longitude),
+          }))
+          .filter(gl => !isNaN(gl.lat) && !isNaN(gl.lon));
+        setGlacierData(parsed);
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching glacier data:', error);
+  }
+};
 
     fetchLakeData();
     fetchGlacierData();
 
+    // Global map click: unlock and clear any popup
+    const clearLock = () => {
+      isPopupLocked.current = false;
+      activePopupRef.current?.remove();
+      activePopupRef.current = null;
+    };
+    map.on('click', clearLock);
+
     return () => {
       window.removeEventListener('keydown', handleKeydown);
-      mapRef.current?.remove();
-      markersRef.current.forEach(marker => marker.remove());
+      map.off('click', clearLock);
+      markersRef.current.forEach(m => m.remove());
+      map.remove();
     };
   }, []);
 
+  // Add only LAKE markers (glaciers now handled by vector layer in glaciers.js)
   useEffect(() => {
-    if (!mapRef.current || lakeData.length === 0) return;
     const map = mapRef.current;
+    if (!map || lakeData.length === 0) return;
 
-    const addMarkers = () => {
-      markersRef.current.forEach(marker => marker.remove());
-      markersRef.current = [];
+    // clear existing lake markers
+    markersRef.current.forEach(marker => marker.remove());
+    markersRef.current = [];
 
-      if (showGlaciers) {
-        glacierData.forEach((glacier) => {
-          const glacierEl = document.createElement('div');
-          glacierEl.className = 'marker glacier';
-          const glacierMarker = new mapboxgl.Marker(glacierEl).setLngLat([glacier.lon, glacier.lat]).addTo(map);
-          markersRef.current.push(glacierMarker);
+    lakeData.forEach((lake) => {
+      const { lat, lon, LakeID, LakeName, GlacierName, isHazard, futureHazard, futureHazardETA } = lake;
+      if (isNaN(lat) || isNaN(lon)) return;
 
-          // HOVER: show the same popup as click (no fly-to)
-          glacierEl.addEventListener('mouseenter', () => {
-            if (isPopupLocked.current) return;
-            activePopupRef.current?.remove();
-            activePopupRef.current = new mapboxgl.Popup({ closeOnClick: false })
-              .setLngLat([glacier.lon, glacier.lat])
-              .setHTML(`<h3>${glacier.name || 'Unnamed'}</h3>`)
-              .addTo(map);
-          });
+      const el = document.createElement('div');
+      el.className = isHazard ? 'marker square' : futureHazard ? 'marker diamond' : 'marker circle';
 
-          // LEAVE: hide if not locked
-          glacierEl.addEventListener('mouseleave', () => {
-            if (isPopupLocked.current) return;
-            activePopupRef.current?.remove();
-            activePopupRef.current = null;
-          });
+      const marker = new mapboxgl.Marker(el, { anchor: 'center' })
+        .setLngLat([lon, lat])
+        .addTo(map);
+      markersRef.current.push(marker);
 
-          // CLICK: lock popup and fly
-          glacierEl.addEventListener('click', (e) => {
-            e.stopPropagation();
-            isPopupLocked.current = true;
-            activePopupRef.current?.remove();
-            activePopupRef.current = new mapboxgl.Popup({ closeOnClick: false })
-              .setLngLat([glacier.lon, glacier.lat])
-              .setHTML(`<h3>${glacier.name || 'Unnamed'}</h3>`)
-              .addTo(map);
-            map.flyTo({ center: [glacier.lon, glacier.lat], zoom: 10.5, speed: 2 });
-          });
-        });
-      }
+      const popupContent = `
+        <h4>${LakeName || `Lake ${LakeID}`}</h4>
+        <p><strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
+        ${lake.waterFlow ? `<strong>Flow:</strong> ${lake.waterFlow}<br/>` : ''}
+        ${lake.downstream ? `<strong>Downstream:</strong> ${lake.downstream}<br/>` : ''}
+        ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
+        ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}">See full hazard info</a>` : ''}</p>`;
 
-      lakeData.forEach((lake) => {
-        const { lat, lon, LakeID, LakeName, GlacierName, isHazard, futureHazard, futureHazardETA } = lake;
-        if (!isNaN(lat) && !isNaN(lon)) {
-          let el = document.createElement('div');
-          el.className = isHazard ? 'marker square' : futureHazard ? 'marker diamond' : 'marker circle';
-
-          const marker = new mapboxgl.Marker(el, { anchor: 'center' }).setLngLat([lon, lat]).addTo(map);
-          markersRef.current.push(marker);
-
-          const popupContent = `
-            <h4>${LakeName || `Lake ${LakeID}`}</h4>
-            <p><strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
-            ${lake.waterFlow ? `<strong>Flow:</strong> ${lake.waterFlow}<br/>` : ''}
-            ${lake.downstream ? `<strong>Downstream:</strong> ${lake.downstream}<br/>` : ''}
-            ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
-            ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}">See full hazard info</a>` : ''}</p>`;
-
-          // HOVER: show same popup as click (no fly-to, no URL change)
-          el.addEventListener('mouseenter', () => {
-            if (isPopupLocked.current) return;
-            activePopupRef.current?.remove();
-            activePopupRef.current = new mapboxgl.Popup({ closeOnClick: false })
-              .setLngLat([lon, lat])
-              .setHTML(popupContent)
-              .addTo(map);
-          });
-
-          // LEAVE: hide if not locked
-          el.addEventListener('mouseleave', () => {
-            if (isPopupLocked.current) return;
-            activePopupRef.current?.remove();
-            activePopupRef.current = null;
-          });
-
-          // CLICK: lock popup and fly + update URL (unchanged behavior)
-          el.addEventListener('click', (e) => {
-            e.stopPropagation();
-            isPopupLocked.current = true;
-            activePopupRef.current?.remove();
-            activePopupRef.current = new mapboxgl.Popup({ closeOnClick: false })
-              .setLngLat([lon, lat])
-              .setHTML(popupContent)
-              .addTo(map);
-            map.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
-
-            // ✅ Update URL for sharing
-            window.history.pushState({}, '', `#/GLOF-map?lake=${encodeURIComponent(LakeID)}`);
-          });
-        }
+      // hover
+      el.addEventListener('mouseenter', () => {
+        if (isPopupLocked.current) return;
+        activePopupRef.current?.remove();
+        activePopupRef.current = new mapboxgl.Popup({ closeOnClick: false })
+          .setLngLat([lon, lat])
+          .setHTML(popupContent)
+          .addTo(map);
       });
 
-      // Map click unlocks and clears any popup (kept)
-      map.on('click', () => {
-        isPopupLocked.current = false;
+      // leave
+      el.addEventListener('mouseleave', () => {
+        if (isPopupLocked.current) return;
         activePopupRef.current?.remove();
         activePopupRef.current = null;
       });
-    };
 
-    if (map.isStyleLoaded()) {
-      addMarkers();
-    } else {
-      map.once('load', addMarkers);
-    }
-  }, [lakeData, glacierData, showGlaciers]);
+      // click locks + fly + update URL
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        isPopupLocked.current = true;
+        activePopupRef.current?.remove();
+        activePopupRef.current = new mapboxgl.Popup({ closeOnClick: false })
+          .setLngLat([lon, lat])
+          .setHTML(popupContent)
+          .addTo(map);
+        map.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
+        window.history.pushState({}, '', `#/GLOF-map?lake=${encodeURIComponent(LakeID)}`);
+      });
+    });
+  }, [lakeData]);
 
-  // ✅ Auto-zoom to lake from shared URL with full popup info
+  // Auto-zoom to lake from shared URL with full popup
   useEffect(() => {
     if (!window.location.hash.startsWith('#/GLOF-map')) return;
     const params = new URLSearchParams(window.location.hash.split('?')[1]);
     const lakeIdFromURL = params.get('lake');
 
-    if (lakeIdFromURL) {
-      const targetLake = lakeData.find(l => l.LakeID === lakeIdFromURL);
-      if (targetLake) {
-        const {
-          lat,
-          lon,
-          LakeID,
-          LakeName,
-          GlacierName,
-          isHazard,
-          futureHazard,
-          futureHazardETA,
-          waterFlow,
-          downstream
-        } = targetLake;
+    if (!lakeIdFromURL) return;
+    const targetLake = lakeData.find(l => l.LakeID === lakeIdFromURL);
+    if (!targetLake || !mapRef.current) return;
 
-        const popupContent = `
-          <h4>${LakeName || `Lake ${LakeID}`}</h4>
-          <p><strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
-          ${waterFlow ? `<strong>Flow:</strong> ${waterFlow}<br/>` : ''}
-          ${downstream ? `<strong>Downstream:</strong> ${downstream}<br/>` : ''}
-          ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
-          ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}">See full hazard info</a>` : ''}</p>`;
+    const {
+      lat, lon, LakeID, LakeName, GlacierName,
+      isHazard, futureHazard, futureHazardETA, waterFlow, downstream
+    } = targetLake;
 
-        mapRef.current.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
+    const popupContent = `
+      <h4>${LakeName || `Lake ${LakeID}`}</h4>
+      <p><strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
+      ${waterFlow ? `<strong>Flow:</strong> ${waterFlow}<br/>` : ''}
+      ${downstream ? `<strong>Downstream:</strong> ${downstream}<br/>` : ''}
+      ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
+      ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}">See full hazard info</a>` : ''}</p>`;
 
-        new mapboxgl.Popup({ closeOnClick: false })
-          .setLngLat([lon, lat])
-          .setHTML(popupContent)
-          .addTo(mapRef.current);
-      }
-    }
+    mapRef.current.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
+    new mapboxgl.Popup({ closeOnClick: false })
+      .setLngLat([lon, lat])
+      .setHTML(popupContent)
+      .addTo(mapRef.current);
   }, [lakeData]);
 
-  // NEW: mousemove listener -> update cursorInfo with lng/lat/elevation
+  // mousemove -> update cursorInfo
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
 
     let rafId = null;
-
     const onMove = (e) => {
-      if (rafId) return; // throttle via rAF
+      if (rafId) return;
       rafId = requestAnimationFrame(() => {
         rafId = null;
-
         const { lng, lat } = e.lngLat;
         let elevM = null;
         try {
-          // returns meters; may be null if DEM not loaded at point yet
           elevM = map.queryTerrainElevation(e.lngLat, { exaggerated: false });
-        } catch {
-          // ignore if terrain not ready
-        }
+        } catch {}
         if (typeof elevM !== 'number' || Number.isNaN(elevM)) elevM = null;
-
         setCursorInfo({ lng, lat, elevM });
       });
     };
 
     map.on('mousemove', onMove);
-
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
       map.off('mousemove', onMove);
     };
   }, []);
+
+  // Hook: add glacier vector layer + interactions; reacts to showGlaciers
+useGlacierLayer({
+  mapRef,
+  showGlaciers,
+  glacierData,        
+  activePopupRef,
+  isPopupLockedRef: isPopupLocked,
+});
 
   const handleSearch = () => {
     const query = searchQuery.trim().toLowerCase();
@@ -320,10 +283,6 @@ const AlaskaMap = () => {
   return (
     <>
       <div ref={mapContainerRef} style={{ width: '100vw', height: '100vh' }} />
-
-      <button className="toggle-glaciers-button" onClick={() => setShowGlaciers(!showGlaciers)}>
-        {showGlaciers ? 'Hide Glaciers' : 'Glacier Locations'}
-      </button>
 
       <div className="search-bar-container" style={{ position: 'absolute' }}>
         <div style={{ position: 'relative', width: '100%' }}>
@@ -372,7 +331,7 @@ const AlaskaMap = () => {
         </table>
       </div>
 
-      {/* NEW: Cursor readout box */}
+      {/* Cursor readout */}
       <div
         className="cursor-readout"
         style={{

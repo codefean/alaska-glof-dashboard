@@ -40,12 +40,12 @@ const GLOFData = () => {
           
           <li>
             <a
-              href="https://pubs.usgs.gov/publication/ha455"
+              href="https://nsidc.org/data/nsidc-0770/versions/7"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Glacier dammed lakes and outburst floods in Alaska (Post &amp; Mayo,
-            1971)
+            RGI 7.0 Consortium (2023), Randolph Glacier Inventory: A Dataset of Global Glacier Outlines, Version 7.0. NSIDC.
+
             </a>
           </li>
           <li>

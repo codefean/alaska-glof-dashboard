@@ -29,7 +29,7 @@ const Header = () => {
       }
       style={{ cursor: 'pointer' }}
     >
-      Alaska Glacial Lake Flood Forecast
+      Alaska Glacial Lake Flood Dashboard
     </h1>
   </div>
 
