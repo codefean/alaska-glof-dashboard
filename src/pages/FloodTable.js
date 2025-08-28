@@ -127,7 +127,6 @@ const FloodTable = ({ type = "current" }) => {
 
     const rowElement = document.getElementById(`lake-row-${lakeID}`);
     if (rowElement) {
-      rowElement.scrollIntoView({ behavior: "smooth", block: "center" });
       rowElement.classList.add("highlighted-row");
       setTimeout(() => {
         rowElement.classList.remove("highlighted-row");

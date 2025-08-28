@@ -30,6 +30,14 @@ html, body {
   height: 100%;
 }
 
+.mapboxgl-canvas {
+  cursor: crosshair !important;
+}
+
+.glofmap-page ~ footer {
+  display: none !important;
+}
+
 
 .map-loading-overlay {
   position: fixed;

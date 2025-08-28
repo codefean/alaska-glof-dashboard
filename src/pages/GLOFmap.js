@@ -32,6 +32,25 @@ const AlaskaMap = () => {
     return () => { document.body.style.overflow = ''; };
   }, []);
 
+useEffect(() => {
+  if ('scrollRestoration' in window.history) {
+    window.history.scrollRestoration = 'manual';
+  }
+
+  const scrollToTop = () => {
+    if (window.location.hash.startsWith('#/GLOF-map')) {
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 30);
+    }
+  };
+
+  scrollToTop(); // Run once on mount
+
+  window.addEventListener('hashchange', scrollToTop);
+  return () => window.removeEventListener('hashchange', scrollToTop);
+}, []);
+
   useEffect(() => {
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFwZmVhbiIsImEiOiJjbTNuOGVvN3cxMGxsMmpzNThzc2s3cTJzIn0.1uhX17BCYd65SeQsW1yibA';
     const map = new mapboxgl.Map({
@@ -201,34 +220,40 @@ const AlaskaMap = () => {
   }, [lakeData]);
 
   // Auto-zoom to lake from shared URL with full popup
-  useEffect(() => {
-    if (!window.location.hash.startsWith('#/GLOF-map')) return;
-    const params = new URLSearchParams(window.location.hash.split('?')[1]);
-    const lakeIdFromURL = params.get('lake');
+useEffect(() => {
+  if (!window.location.hash.startsWith('#/GLOF-map')) return;
+  const params = new URLSearchParams(window.location.hash.split('?')[1]);
+  const lakeIdFromURL = params.get('lake');
 
-    if (!lakeIdFromURL) return;
-    const targetLake = lakeData.find(l => l.LakeID === lakeIdFromURL);
-    if (!targetLake || !mapRef.current) return;
+  if (!lakeIdFromURL) return;
+  const targetLake = lakeData.find(l => l.LakeID === lakeIdFromURL);
+  if (!targetLake || !mapRef.current) return;
 
-    const {
-      lat, lon, LakeID, LakeName, GlacierName,
-      isHazard, futureHazard, futureHazardETA, waterFlow, downstream
-    } = targetLake;
+  const {
+    lat, lon, LakeID, LakeName, GlacierName,
+    isHazard, futureHazard, futureHazardETA, waterFlow, downstream
+  } = targetLake;
 
-    const popupContent = `
-      <h4>${LakeName || `Lake ${LakeID}`}</h4>
-      <p><strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
-      ${waterFlow ? `<strong>Flow:</strong> ${waterFlow}<br/>` : ''}
-      ${downstream ? `<strong>Downstream:</strong> ${downstream}<br/>` : ''}
-      ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
-      ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}">See full hazard info</a>` : ''}</p>`;
+  const popupContent = `
+    <h4>${LakeName || `Lake ${LakeID}`}</h4>
+    <p><strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
+    ${waterFlow ? `<strong>Flow:</strong> ${waterFlow}<br/>` : ''}
+    ${downstream ? `<strong>Downstream:</strong> ${downstream}<br/>` : ''}
+    ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
+    ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}">See full hazard info</a>` : ''}</p>`;
 
-    mapRef.current.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
-    new mapboxgl.Popup({ closeOnClick: false })
-      .setLngLat([lon, lat])
-      .setHTML(popupContent)
-      .addTo(mapRef.current);
-  }, [lakeData]);
+  mapRef.current.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
+  new mapboxgl.Popup({ closeOnClick: false })
+    .setLngLat([lon, lat])
+    .setHTML(popupContent)
+    .addTo(mapRef.current);
+
+  // ✅ Force scroll to top when loading a lake directly
+  setTimeout(() => {
+    window.scrollTo(0, 0);
+  }, 50);
+}, [lakeData]);
+
 
   // mousemove -> update cursorInfo
   useEffect(() => {
@@ -282,7 +307,16 @@ useGlacierLayer({
 
   return (
     <>
-      <div ref={mapContainerRef} style={{ width: '100vw', height: '100vh' }} />
+<div
+  ref={mapContainerRef}
+  style={{
+    width: '100%',
+    height: 'calc(100vh - 70px)', // adjust for header height
+    overflow: 'hidden',
+    zIndex: 1
+  }}
+/>
+
 
       <div className="search-bar-container" style={{ position: 'absolute' }}>
         <div style={{ position: 'relative', width: '100%' }}>
