@@ -75,11 +75,22 @@ useEffect(() => {
           type: 'raster-dem',
           url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
           tileSize: 512,
-          maxzoom: 14,
-        });
-      }
-      map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.0 });
+     maxzoom: 14,
     });
+  }
+  map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.0 });
+
+  // 🚫 Hide Mapbox's glacier labels to avoid conflicts
+  map.getStyle().layers.forEach((layer) => {
+    if (
+      layer.type === 'symbol' &&
+      layer.layout?.['text-field'] &&
+      /\bglacier\b/i.test(layer.layout['text-field'])
+    ) {
+      map.setLayoutProperty(layer.id, 'visibility', 'none');
+    }
+  });
+});
 
     // Fetch lake data (unchanged)
     const fetchLakeData = async () => {

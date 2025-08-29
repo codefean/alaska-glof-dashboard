@@ -162,8 +162,8 @@ html, body {
 }
 
 .marker.square {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   background: red;
   border: 1.5px solid white;
   z-index: 4;
@@ -209,24 +209,13 @@ html, body {
 
 
 .marker.circle {
-  width: 9px;
-  height: 9px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   border: 1.5px solid white;
   background-color: rgba(0, 0, 255, 0.654);
 }
 
-
-.marker.glacier {
-
-  border: 2px solid #1e8fff; /* DodgerBlue */
-  background-color: rgba(255, 255, 255, 0.292);
-  border-radius: 50%;
-  width: 5px;
-  height: 5px;
-  cursor: pointer;
-  z-index: 1 !important;
-}
 
 
 
@@ -277,6 +266,11 @@ html, body {
 .search-bar-container input::placeholder {
   color: #dedbdbbe;
 }
+
+a:focus {
+    outline: none;
+}
+
 
 .search-bar-container button {
   background: rgba(35, 123, 207, 0.8);

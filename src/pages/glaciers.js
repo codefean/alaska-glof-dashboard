@@ -56,7 +56,7 @@ export function useGlacierLayer({ mapRef }) {
       map.setLayoutProperty(fillLayerId, 'visibility', 'visible');
       map.setLayoutProperty(lineLayerId, 'visibility', 'visible');
 
-      // Add hover popup for glacier names
+      // Create a popup for glacier names
       const popup = new mapboxgl.Popup({
         closeButton: false,
         closeOnClick: false,
@@ -64,15 +64,21 @@ export function useGlacierLayer({ mapRef }) {
         className: 'glacier-popup'
       });
 
-      map.on('mousemove', fillLayerId, (e) => {
+      // Mouse move over glaciers only
+      map.on('mousemove', (e) => {
+        // Query **only the glacier fill layer**
         const features = map.queryRenderedFeatures(e.point, { layers: [fillLayerId] });
+
+        // If hovering on anything that's NOT a glacier, remove popup
         if (!features.length) {
           popup.remove();
           return;
         }
 
         const glacName = features[0].properties?.glac_name;
-        if (glacName) {
+
+        // If glacier has a name, show it — otherwise hide the popup
+        if (glacName && glacName.trim() !== '') {
           popup
             .setLngLat(e.lngLat)
             .setHTML(`<div class="glacier-label">${glacName}</div>`)
@@ -82,6 +88,7 @@ export function useGlacierLayer({ mapRef }) {
         }
       });
 
+      // Remove popup when leaving glacier area
       map.on('mouseleave', fillLayerId, () => {
         popup.remove();
       });
