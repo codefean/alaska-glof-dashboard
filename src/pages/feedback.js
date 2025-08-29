@@ -128,7 +128,7 @@ const Feedback = () => {
 
       <div className="about-feedback">
         <p>
-          Share coordinates to help map glacial lakes and potential downstream impacts.
+          Direct us to places to look at potential glacial lakes or properties downstream of existing or potential glacial lakes. Your submissions will be reviewed by the research team and may be included in future updates to the Glacial Lake Map.
         </p>
       </div>
 
