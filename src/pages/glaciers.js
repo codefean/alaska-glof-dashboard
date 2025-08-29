@@ -55,6 +55,36 @@ export function useGlacierLayer({ mapRef }) {
       // Always make layers visible
       map.setLayoutProperty(fillLayerId, 'visibility', 'visible');
       map.setLayoutProperty(lineLayerId, 'visibility', 'visible');
+
+      // Add hover popup for glacier names
+      const popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false,
+        offset: 10,
+        className: 'glacier-popup'
+      });
+
+      map.on('mousemove', fillLayerId, (e) => {
+        const features = map.queryRenderedFeatures(e.point, { layers: [fillLayerId] });
+        if (!features.length) {
+          popup.remove();
+          return;
+        }
+
+        const glacName = features[0].properties?.glac_name;
+        if (glacName) {
+          popup
+            .setLngLat(e.lngLat)
+            .setHTML(`<div class="glacier-label">${glacName}</div>`)
+            .addTo(map);
+        } else {
+          popup.remove();
+        }
+      });
+
+      map.on('mouseleave', fillLayerId, () => {
+        popup.remove();
+      });
     };
 
     if (map.isStyleLoaded()) {

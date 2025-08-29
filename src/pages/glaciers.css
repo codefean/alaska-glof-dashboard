@@ -5,74 +5,38 @@
 @import 'mapbox-gl/dist/mapbox-gl.css';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
 
-/* Glacier popup styling — consistent with GLOFmap popups */
-.mapboxgl-popup.glacier-popup {
-  max-width: 250px;
-  font-family: 'Open Sans', sans-serif;
-  z-index: 90 !important;
+/* Remove the default popup container background */
+.glacier-popup.mapboxgl-popup {
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
 }
 
-.mapboxgl-popup.glacier-popup .mapboxgl-popup-content {
-  overflow: hidden;
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(3px);
-  color: white;
-  padding: 12px;
-  z-index: 4;
-  border: 1px solid rgba(30, 143, 255, 0.6); /* DodgerBlue accent */
+/* Remove the inner popup content box */
+.glacier-popup .mapboxgl-popup-content {
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  backdrop-filter: none !important; /* <— THIS kills the blur */
+  -webkit-backdrop-filter: none !important; /* Safari-specific */
 }
 
-.mapboxgl-popup.glacier-popup .mapboxgl-popup-tip {
-  border-top-color: rgba(0, 0, 0, 0.6) !important;
+/* Remove the little arrow pointer under the popup */
+.glacier-popup .mapboxgl-popup-tip {
+  display: none !important;
 }
 
-.mapboxgl-popup.glacier-popup .mapboxgl-popup-content h3 {
-  margin: 0 0 6px 0;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.mapboxgl-popup.glacier-popup .mapboxgl-popup-content p {
-  margin: 0;
-  font-size: 0.85rem;
-  line-height: 1.2;
-}
-
-/* Glacier toggle button — styled to match GLOFmap buttons */
-.toggle-glaciers-button {
-  position: fixed;
-  top: 215px; /* Below hotkey-table */
-  left: 20px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  border: 0.9px solid white !important;
-  border-radius: 8px;
-  color: white;
-  padding: 8px 14px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  z-index: 999;
-  transition: background 0.2s ease;
-}
-
-/* Hover effect */
-.toggle-glaciers-button:hover {
-  background: rgba(35, 123, 207, 0.8);
-}
-
-/* Active/On state */
-.toggle-glaciers-button.active {
-  background: rgba(35, 123, 207, 0.8);
-}
-
-/* Mobile adjustments */
-@media (max-width: 800px) {
-  .toggle-glaciers-button {
-    top: 335px !important;
-    left: 18px;
-    padding: 10px;
-    font-size: 0.95rem;
-    justify-content: center;
-  }
+/* Make the label look clean and text-only */
+.glacier-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(0, 32, 96, 0.85); /* faint dark blue */
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
 }

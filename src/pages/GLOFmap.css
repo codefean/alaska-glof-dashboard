@@ -230,43 +230,6 @@ html, body {
 
 
 
-/* Desktop and default styling */
-.toggle-glaciers-button {
-  position: fixed;
-  top: 215px;  /* Just below hotkey-table */
-  left: 10px;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(4px);
-  border: 0.9px solid white !important;
-  border-radius: 8px;
-  color: white;
-  padding: 8px 14px;
-  font-size: .85rem;
-  cursor: pointer;
-  z-index: 999;
-}
-
-/* Mobile-specific override */
-@media (max-width: 800px) {
-  .toggle-glaciers-button {
-    top: 110px !important;
-    padding: 10px;
-    font-size: 0.95rem;
-    justify-content: center;
-    left: 18px;
-  }
-}
-
-
-@media (max-width: 800px) {
-  .toggle-glaciers-button {
-    top: 335px; /* your requested position */
-  }
-}
-
-.toggle-glaciers-button:hover {
-  background: rgba(35, 123, 207, 0.8);
-}
 
 .marker.square,
 .marker.diamond,
