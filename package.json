@@ -13,6 +13,7 @@
     "mapbox-gl": "^3.8.0",
     "nodemailer": "^7.0.5",
     "papaparse": "^5.5.3",
+    "proj4": "^2.19.10",
     "react": "^18.3.1",
     "react-before-after-slider-component": "^1.1.8",
     "react-compare-image": "^3.5.0",
@@ -24,6 +25,7 @@
     "react-slick": "^0.30.3",
     "recharts": "^2.15.1",
     "slick-carousel": "^1.8.1",
+    "three": "^0.179.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -1,215 +1,228 @@
-import React, { useRef, useState, useEffect } from "react";
-import "@google/model-viewer";
+import React, { useEffect, useRef } from "react";
+import mapboxgl from "mapbox-gl";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import * as THREE from "three";
+import proj4 from "proj4";
+import Loc3D from "./Loc3D";
 import "./SuicideBasin.css";
 
-const debounce = (fn, delay) => {
-  let timeout;
-  return (...args) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => fn(...args), delay);
+mapboxgl.accessToken =
+  "pk.eyJ1IjoibWFwZmVhbiIsImEiOiJjbTNuOGVvN3cxMGxsMmpzNThzc2s3cTJzIn0.1uhX17BCYd65SeQsW1yibA";
+
+export default function SuicideBasin() {
+  const mapContainer = useRef(null);
+  const mapRef = useRef(null);
+  const modelRef = useRef(null);
+  const sceneRef = useRef(null);
+  const cameraRef = useRef(null);
+  const rendererRef = useRef(null);
+
+  const utm8n = "+proj=utm +zone=8 +datum=WGS84 +units=m +no_defs";
+  const wgs84 = "+proj=longlat +datum=WGS84 +no_defs";
+
+  const OFFSET_E = -100;
+  const OFFSET_N = 1200;
+  const OFFSET_Z = -230;
+  const YAW_DEG = 0;
+
+const addGlacierModel = (map, url, utmEasting, utmNorthing) => {
+  const adjustedE = utmEasting + OFFSET_E;
+  const adjustedN = utmNorthing + OFFSET_N;
+  const [lng, lat] = proj4(utm8n, wgs84, [adjustedE, adjustedN]);
+
+  const baseElevation =
+    map.queryTerrainElevation([lng, lat], { exaggerated: false }) || 0;
+  const modelAltitude = baseElevation + OFFSET_Z;
+
+  const yaw = THREE.MathUtils.degToRad(YAW_DEG);
+  const modelRotate = [0, 0, yaw];
+
+  const modelAsMercator = mapboxgl.MercatorCoordinate.fromLngLat(
+    [lng, lat],
+    modelAltitude
+  );
+
+  const modelTransform = {
+    translateX: modelAsMercator.x,
+    translateY: modelAsMercator.y,
+    translateZ: modelAsMercator.z,
+    rotateX: modelRotate[0],
+    rotateY: modelRotate[1],
+    rotateZ: modelRotate[2],
+    scale: modelAsMercator.meterInMercatorCoordinateUnits(),
   };
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.Camera();
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.autoClear = false;
+  renderer.setClearColor(0x000000, 0);
+  renderer.getContext().depthFunc(renderer.getContext().LEQUAL);
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 4.0); // was 0.6
+scene.add(ambientLight);
+
+
+const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.6); // sky, ground, intensity
+hemiLight.position.set(0, 200, 0);
+scene.add(hemiLight);
+
+
+  sceneRef.current = scene;
+  cameraRef.current = camera;
+  rendererRef.current = renderer;
+
+  const loader = new GLTFLoader();
+  loader.load(
+    url,
+    (gltf) => {
+      const model = gltf.scene;
+
+      model.traverse((child) => {
+        if (child.isMesh) {
+          child.material.depthTest = false;
+          child.material.depthWrite = false;
+        }
+      });
+
+      const debugScale = modelTransform.scale * 500;
+      model.scale.set(debugScale, debugScale, debugScale);
+      model.position.set(0, 0, 0);
+      model.rotation.set(...modelRotate);
+      model.renderOrder = 999;
+      model.matrixAutoUpdate = false;
+
+      modelRef.current = model;
+      scene.add(model);
+    },
+    undefined,
+    (error) => {
+      console.error("Error loading glacier model:", error);
+    }
+  );
+
+  map.addLayer({
+    id: "glacier-model",
+    type: "custom",
+    renderingMode: "3d",
+    onAdd: (map, gl) => {
+      const renderer = rendererRef.current;
+      renderer.domElement.style.position = "absolute";
+      map.getCanvas().parentNode.appendChild(renderer.domElement);
+      renderer.setSize(map.getCanvas().clientWidth, map.getCanvas().clientHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+    },
+    render: (gl, matrix) => {
+      const model = modelRef.current;
+      const camera = cameraRef.current;
+      const renderer = rendererRef.current;
+      const scene = sceneRef.current;
+      if (!model) return;
+
+      const rotationX = new THREE.Matrix4().makeRotationAxis(
+        new THREE.Vector3(1, 0, 0),
+        modelTransform.rotateX
+      );
+      const rotationY = new THREE.Matrix4().makeRotationAxis(
+        new THREE.Vector3(0, 1, 0),
+        modelTransform.rotateY
+      );
+      const rotationZ = new THREE.Matrix4().makeRotationAxis(
+        new THREE.Vector3(0, 0, 1),
+        modelTransform.rotateZ
+      );
+
+      const modelMatrix = new THREE.Matrix4()
+        .makeTranslation(
+          modelTransform.translateX,
+          modelTransform.translateY,
+          modelTransform.translateZ
+        )
+        .scale(
+          new THREE.Vector3(
+            modelTransform.scale,
+            -modelTransform.scale,
+            modelTransform.scale
+          )
+        )
+        .multiply(rotationX)
+        .multiply(rotationY)
+        .multiply(rotationZ);
+
+      camera.projectionMatrix.fromArray(matrix);
+      model.matrix = modelMatrix;
+
+      renderer.state.reset();
+      renderer.setSize(map.getCanvas().clientWidth, map.getCanvas().clientHeight);
+      renderer.render(scene, camera);
+      map.triggerRepaint();
+    },
+  });
 };
 
-const SB = () => {
-  const modelRef = useRef(null);
-  const [loadingProgress, setLoadingProgress] = useState(0);
-  const [selectedElevation, setSelectedElevation] = useState(null);
-  const [cameraInfo, setCameraInfo] = useState({
-    rotation: "0°",
-    elevation: "0°",
-    radius: "0m",
-  });
-
-  const [targetInfo, setTargetInfo] = useState({ x: 0, y: 0, z: 0 });
-
-  const DEFAULT_CAMERA_ORBIT = "363.1deg 158.8deg 2350.49m";
-  const [zeroTheta, setZeroTheta] = useState(0);
-  const [rotationOffset, setRotationOffset] = useState(0);
-
-  const radToDeg = (rad) => ((rad * 180) / Math.PI).toFixed(1);
 
   useEffect(() => {
-    const modelViewer = modelRef.current;
-    if (!modelViewer) return;
+    const map = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/mapbox/satellite-v9",
+      center: [-134.49923, 58.45039],
+      zoom: 13,
+      pitch: 40,
+      bearing: -10,
+      antialias: true,
+    });
 
-    modelViewer.setAttribute("camera-controls", "");
-    modelViewer.setAttribute("camera-up", "0 0 1");
-    modelViewer.setAttribute("orbit-sensitivity", "2");
-    modelViewer.removeAttribute("disable-zoom");
+    mapRef.current = map;
 
-    const handleModelLoad = () => {
-      modelViewer.cameraOrbit = DEFAULT_CAMERA_ORBIT;
-
-      const initialOrbit = modelViewer.getCameraOrbit();
-      const initialTheta = (initialOrbit.theta * 180) / Math.PI;
-      setZeroTheta(initialTheta);
-      setRotationOffset(0);
-
-      // Get initial camera target XYZ
-      const target = modelViewer.getCameraTarget();
-      setTargetInfo({
-        x: target.x.toFixed(2),
-        y: target.y.toFixed(2),
-        z: target.z.toFixed(2),
-      });
-    };
-
-    const handleProgress = (event) => {
-      const progress = Math.round(
-        ((event.detail.totalProgress ?? event.detail.loaded) || 0) * 100
-      );
-      setLoadingProgress(progress);
-    };
-
-    const handleClick = (event) => {
-      const { detail } = event;
-      if (detail?.intersection?.point) {
-        const elevation = detail.intersection.point.y.toFixed(2);
-        setSelectedElevation(elevation);
-      }
-    };
-
-    const handleCameraChange = debounce(() => {
-      const orbit = modelViewer.getCameraOrbit();
-      setCameraInfo({
-        rotation: `${radToDeg(orbit.theta)}°`,
-        elevation: `${radToDeg(orbit.phi)}°`,
-        radius: `${orbit.radius.toFixed(2)}m`,
+    map.on("load", () => {
+      map.addSource("mapbox-dem", {
+        type: "raster-dem",
+        url: "mapbox://mapbox.mapbox-terrain-dem-v1",
+        tileSize: 512,
+        maxzoom: 14,
       });
 
-      // Update XYZ whenever camera changes
-      const target = modelViewer.getCameraTarget();
-      setTargetInfo({
-        x: target.x.toFixed(2),
-        y: target.y.toFixed(2),
-        z: target.z.toFixed(2),
+      map.setTerrain({ source: "mapbox-dem", exaggeration: 1.5 });
+
+      map.addLayer({
+        id: "sky",
+        type: "sky",
+        paint: {
+          "sky-type": "atmosphere",
+          "sky-atmosphere-sun": [0.0, 0.0],
+          "sky-atmosphere-sun-intensity": 15,
+        },
       });
-    }, 50);
 
-    modelViewer.addEventListener("load", handleModelLoad);
-    modelViewer.addEventListener("progress", handleProgress);
-    modelViewer.addEventListener("click", handleClick);
-    modelViewer.addEventListener("camera-change", handleCameraChange);
+      map.once("idle", () => {
+        const centerLngLat = [-134.49923, 58.45039];
+        const [utmE, utmN] = proj4(wgs84, utm8n, centerLngLat);
 
-    return () => {
-      modelViewer.removeEventListener("load", handleModelLoad);
-      modelViewer.removeEventListener("progress", handleProgress);
-      modelViewer.removeEventListener("click", handleClick);
-      modelViewer.removeEventListener("camera-change", handleCameraChange);
-    };
+        addGlacierModel(
+          map,
+          `${process.env.PUBLIC_URL}/models/sb_geo.glb`,
+          utmE,
+          utmN
+        );
+      });
+
+      map.addControl(new mapboxgl.NavigationControl());
+      map.addControl(new mapboxgl.FullscreenControl());
+    });
+
+    return () => map.remove();
   }, []);
-
-  useEffect(() => {
-    if (modelRef.current) {
-      const orbit = modelRef.current.getCameraOrbit();
-      const phiDeg = (orbit.phi * 180) / Math.PI;
-      const radius = orbit.radius.toFixed(2) + "m";
-      const newTheta = zeroTheta + rotationOffset;
-
-      modelRef.current.cameraOrbit = `${newTheta}deg ${phiDeg}deg ${radius}`;
-    }
-  }, [rotationOffset, zeroTheta]);
-
-  useEffect(() => {
-    let animationFrame;
-    const handleKeyDown = (e) => {
-      const step = e.shiftKey ? 15 : 5;
-      if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
-        animationFrame = requestAnimationFrame(() => {
-          setRotationOffset((prev) =>
-            e.key === "ArrowLeft" ? prev - step : prev + step
-          );
-        });
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      cancelAnimationFrame(animationFrame);
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-
-  const handleResetCamera = () => {
-    if (modelRef.current) {
-      modelRef.current.cameraOrbit = DEFAULT_CAMERA_ORBIT;
-      setRotationOffset(0);
-
-      // Reset XYZ as well
-      const target = modelRef.current.getCameraTarget();
-      setTargetInfo({
-        x: target.x.toFixed(2),
-        y: target.y.toFixed(2),
-        z: target.z.toFixed(2),
-      });
-    }
-  };
-
-  const rotateModel = (angle) => setRotationOffset((prev) => prev + angle);
 
   return (
-    <div className="model-container">
-      {/* Loading Overlay */}
-      {loadingProgress < 100 && (
-        <div className="loading-overlay">
-          <div
-            className="loading-bar"
-            style={{ width: `${loadingProgress}%` }}
-          ></div>
-          <span>Loading {loadingProgress}%</span>
-        </div>
-      )}
-
-      {/* Model Viewer */}
-      <model-viewer
-        ref={modelRef}
-        src={`${process.env.PUBLIC_URL}/models/suicide_basin.glb`}
-        alt="3D Model of Suicide Basin"
-        camera-controls
-        camera-up="0 0 1"
-        touch-action="pan-y"
-        environment-image="neutral"
-        shadow-intensity="1"
-        exposure="1"
-        style={{
-          width: "100%",
-          height: "750px",
-          backgroundColor: "#000000ff",
-          opacity: 0.9,
-        }}
+    <div style={{ position: "relative" }}>
+      <div ref={mapContainer} className="map-container" />
+      <Loc3D
+        mapRef={mapRef}
+        position={{ left: 12, bottom: 12 }}
+        precision={5}
+        showFeet={true}
+        className="loc-overlay"
       />
-
-      {/* Elevation Display */}
-      {selectedElevation && (
-        <div className="elevation-display">
-          Elevation: <strong>{selectedElevation} m</strong>
-        </div>
-      )}
-
-      {/* Scale Overlay */}
-      <div className="scale-overlay">
-        <div className="scale-line height">Height (Z): 220m</div>
-        <div className="scale-line length">Length (X): 1300m</div>
-        <div className="scale-line width">Width (Y): 465m</div>
-      </div>
-
-      {/* Camera Info */}
-      <div className="camera-info">
-        <strong>Camera Info:</strong>
-        <div>Rotation Angle: {cameraInfo.rotation}</div>
-        <div>Elevation: {cameraInfo.elevation}</div>
-        <div>Zoom: {cameraInfo.radius}</div>
-
-      </div>
-
-      {/* Controls */}
-      <div className="controls">
-        <button onClick={handleResetCamera}>Reset Camera</button>
-        <button onClick={() => rotateModel(-15)}>⟲ Rotate Left</button>
-        <button onClick={() => rotateModel(15)}>⟳ Rotate Right</button>
-      </div>
     </div>
   );
-};
-
-export default SB;
+}

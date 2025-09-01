@@ -1,72 +1,64 @@
-// Loc.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from "react";
+import "./loc.css";
 
-/**
- * Props:
- * - mapRef: React ref to your Mapbox GL JS map instance (i.e., the same mapRef you already use)
- * - className (optional): extra class names to add to the readout container
- * - position (optional): { left, right, top, bottom } numbers to quickly position the box
- * - showFeet (optional): boolean to also show feet in parentheses (default: true)
- * - precision (optional): number of decimals for lat/lng (default: 5)
- */
 const Loc = ({
   mapRef,
-  className = '',
+  className = "",
   position = { left: 12, bottom: 12 },
   showFeet = true,
   precision = 5,
 }) => {
   const [info, setInfo] = useState({ lng: null, lat: null, elevM: null });
+  const rafId = useRef(null);
+  const prevInfo = useRef({ lng: null, lat: null, elevM: null });
 
   useEffect(() => {
     const map = mapRef?.current;
     if (!map) return;
 
-    // Ensure DEM + terrain are set up (safe to call if already present)
-    const onLoad = () => {
-      if (!map.getSource('mapbox-dem')) {
-        map.addSource('mapbox-dem', {
-          type: 'raster-dem',
-          url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
-          tileSize: 512,
-          maxzoom: 14,
-        });
-      }
-      // If terrain already set, calling again is harmless
-      map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.0 });
-    };
-
-    if (map.loaded()) {
-      onLoad();
-    } else {
-      map.once('load', onLoad);
-    }
-
-    let rafId = null;
     const onMove = (e) => {
-      if (rafId) return;
-      rafId = requestAnimationFrame(() => {
-        rafId = null;
-        const { lng, lat } = e.lngLat || {};
+      if (!e?.lngLat) return;
+      if (rafId.current) return;
+
+      rafId.current = requestAnimationFrame(() => {
+        rafId.current = null;
+        const { lng, lat } = e.lngLat;
+
         let elevM = null;
         try {
-          // IMPORTANT: use e.lngLat, not e.point
-          elevM = map.queryTerrainElevation(e.lngLat, { exaggerated: false });
+          // ✅ Only query elevation when DEM & terrain are ready
+          if (map.queryTerrainElevation && map.getTerrain()) {
+            elevM = map.queryTerrainElevation(e.lngLat, { exaggerated: false });
+          }
         } catch {
-          // ignore if terrain not ready/available
+          elevM = null;
         }
-        if (typeof elevM !== 'number' || Number.isNaN(elevM)) elevM = null;
-        setInfo({ lng, lat, elevM });
+
+        // Fallback elevation from map projection if terrain is missing
+        if (typeof elevM !== "number" || Number.isNaN(elevM)) {
+          elevM = null;
+        }
+
+        // ✅ Prevent unnecessary re-renders
+        const prev = prevInfo.current;
+        if (
+          prev.lng !== lng ||
+          prev.lat !== lat ||
+          prev.elevM !== elevM
+        ) {
+          prevInfo.current = { lng, lat, elevM };
+          setInfo(prevInfo.current);
+        }
       });
     };
 
-    map.on('mousemove', onMove);
+    map.on("mousemove", onMove);
 
     return () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      map.off('mousemove', onMove);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+      map.off("mousemove", onMove);
     };
-  }, [mapRef]);
+  }, [mapRef, precision, showFeet]);
 
   const stylePos = {
     ...(position.left != null ? { left: position.left } : {}),
@@ -86,10 +78,12 @@ const Loc = ({
             <strong>Lng:</strong> {info.lng.toFixed(precision)}
           </div>
           <div>
-            <strong>Elev:</strong>{' '}
+            <strong>Elev:</strong>{" "}
             {info.elevM == null
-              ? '—'
-              : `${Math.round(info.elevM)} m${showFeet ? ` (${feet} ft)` : ''}`}
+              ? mapRef?.current?.getTerrain()
+                ? "Loading…"
+                : "—"
+              : `${Math.round(info.elevM)} m${showFeet ? ` (${feet} ft)` : ""}`}
           </div>
         </>
       ) : (
