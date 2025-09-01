@@ -13,6 +13,7 @@ import SubmitDataPage from "./pages/feedback";
 import StoryMap from "./pages/StoryMap";
 import SB from "./pages/SuicideBasin";
 
+
 const useDocumentTitle = (title) => {
   React.useEffect(() => {
     document.title = title;
