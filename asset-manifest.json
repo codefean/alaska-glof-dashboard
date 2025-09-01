@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/alaska-glof-dashboard/static/css/main.e3cf81d4.css",
-    "main.js": "/alaska-glof-dashboard/static/js/main.26857758.js",
+    "main.js": "/alaska-glof-dashboard/static/js/main.8947e6a8.js",
     "index.html": "/alaska-glof-dashboard/index.html",
     "main.e3cf81d4.css.map": "/alaska-glof-dashboard/static/css/main.e3cf81d4.css.map",
-    "main.26857758.js.map": "/alaska-glof-dashboard/static/js/main.26857758.js.map"
+    "main.8947e6a8.js.map": "/alaska-glof-dashboard/static/js/main.8947e6a8.js.map"
   },
   "entrypoints": [
     "static/css/main.e3cf81d4.css",
-    "static/js/main.26857758.js"
+    "static/js/main.8947e6a8.js"
   ]
 }
