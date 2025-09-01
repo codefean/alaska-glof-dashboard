@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Home.css';
+
+// cd /Users/seanfagan/Desktop/Alaska-GLOF
+
 const resourceLinks = [
 
   {
