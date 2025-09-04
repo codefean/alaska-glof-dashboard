@@ -4,8 +4,6 @@
   position: relative;
 }
 
-
-
 .navigation .menu-toggle {
   display: none; /* Hide by default */
   cursor: pointer;
@@ -47,6 +45,21 @@
   border-bottom: 2px solid #4496fa;
 }
 
+.navigation ul li a.secondary {
+  color: #1c81fc;
+  text-decoration: none;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 1.1em;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  border-bottom: 2px solid transparent;
+  text-align: center; /* Ensures links are centered within their container */
+}
+
+.navigation ul li a.secondary:hover {
+  color: white;
+  border-bottom: 2px solid white;
+}
+
 
 /* Responsive Styles */
 @media (max-width: 938px) {
@@ -75,6 +88,10 @@
   }
 
   .navigation ul li a {
+    font-size: 1em; /* Adjust font size for smaller screens */
+  }
+
+  .navigation ul li b {
     font-size: 1em; /* Adjust font size for smaller screens */
   }
 }

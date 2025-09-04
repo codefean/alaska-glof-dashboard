@@ -18,7 +18,9 @@ const Navigation = () => {
       <li>
           <NavLink
             to="/home"
-            className={({ isActive }) => (isActive ? "active-link" : "")}
+            className={({ isActive }) =>
+              isActive ? "secondary active-link" : "secondary"
+            }
           >
             Home
           </NavLink>
@@ -58,15 +60,19 @@ const Navigation = () => {
         <li>
           <NavLink
             to="/story-map"
-            className={({ isActive }) => (isActive ? "active-link" : "")}
+            className={({ isActive }) =>
+              isActive ? "secondary active-link" : "secondary"
+            }
           >
-            Story Map
+          Story Map
           </NavLink>
         </li>
         <li>
           <NavLink
             to="/submit-data"
-            className={({ isActive }) => (isActive ? "active-link" : "")}
+            className={({ isActive }) =>
+              isActive ? "secondary active-link" : "secondary"
+            }
           >
             Submit Data
           </NavLink>
