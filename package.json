@@ -2,7 +2,7 @@
   "name": "Alaska-GLOF",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://codefean.github.io/alaska-glof-dashboard",
+  "homepage": "https://www.alaskaglacialfloods.org",
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@google-analytics/data": "^5.1.0",
