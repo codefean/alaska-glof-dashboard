@@ -5,6 +5,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import Papa from 'papaparse';
 import './GLOFmap.css';
 import MapLegend from './MapLegend';
+import Citation from './citation';
 
 // NEW: glacier layer hook + toggle button
 import { useGlacierLayer, GlacierToggleButton } from './glaciers';
@@ -327,7 +328,7 @@ useGlacierLayer({
     zIndex: 1
   }}
 />
-
+<Citation className="citation-readout" stylePos={{ position: 'absolute', right: 12, bottom: 12, zIndex: 2 }} />
 
       <div className="search-bar-container" style={{ position: 'absolute' }}>
         <div style={{ position: 'relative', width: '100%' }}>
