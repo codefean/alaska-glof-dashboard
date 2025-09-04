@@ -184,7 +184,7 @@ export default function SuicideBasin() {
 
       addGlacierModel(
         map,
-        `${process.env.PUBLIC_URL}/models/sb_geo.glb`,
+        `${process.env.PUBLIC_URL}/models/sb_813.glb`,
         utmE,
         utmN
       );

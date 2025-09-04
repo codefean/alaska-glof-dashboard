@@ -32,8 +32,8 @@ export function useGlacierLayer({ mapRef }) {
           source: sourceId,
           'source-layer': sourceLayer,
           paint: {
-            'fill-color': '#2b9fff',
-            'fill-opacity': 0.25,
+            'fill-color': '#2ba0ff',
+            'fill-opacity': 0.01,
           },
         });
       }
