@@ -25,7 +25,7 @@ const Header = () => {
     <h1
       onClick={() =>
         (window.location.href =
-          'https://codefean.github.io/alaska-glof-dashboard/#/home')
+          'https://www.alaskaglacialfloods.org')
       }
       style={{ cursor: 'pointer' }}
     >
