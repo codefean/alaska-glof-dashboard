@@ -96,7 +96,7 @@ const faqData = [
 const Home = () => {
   const [openIndex, setOpenIndex] = useState(null);
   const [showAllFAQs, setShowAllFAQs] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [, setIsMobile] = useState(false);
 
   // Adjust based on how many FAQs you want previewed initially
   const previewFAQCount = 3;

@@ -23,7 +23,7 @@ const COLUMN_NAME_MAPPING = {
 };
 
 const FloodTable = ({ type = "current" }) => {
-  const [data, setData] = useState([]);
+  const [, setData] = useState([]);
   const [headers, setHeaders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortedData, setSortedData] = useState([]);

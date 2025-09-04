@@ -46,8 +46,6 @@ export function useGlacierLayer({ mapRef }) {
           source: sourceId,
           'source-layer': sourceLayer,
           paint: {
-            'line-color': '#000000ff',
-            'line-width': 20,
           },
         });
       }

@@ -8,14 +8,14 @@ import MapLegend from './MapLegend';
 import Citation from './citation';
 
 // NEW: glacier layer hook + toggle button
-import { useGlacierLayer, GlacierToggleButton } from './glaciers';
+import { useGlacierLayer} from './glaciers';
 
 const AlaskaMap = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
 
   const [lakeData, setLakeData] = useState([]);
-  const [showGlaciers, setShowGlaciers] = useState(false);
+  const [showGlaciers] = useState(false);
   const [glacierData, setGlacierData] = useState([]);
 
   const [searchQuery, setSearchQuery] = useState('');
