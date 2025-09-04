@@ -7,6 +7,7 @@ const teamMembers = [
     id: "Amundson",
     name: "Jason Amundson",
     role: "Geophysicist",
+    affiliation: "University of Alaska Southeast",
     bio: "Professor of Geophysics at the University of Alaska Southeast whose research explores the complex dynamics at the boundaries of tidewater glaciers—where ice meets the ocean. Amundson earned his Ph.D. in Geophysics studying the iceberg calving dynamics of Jakobshavn Isbræ, Greenland. His international collaborations include visiting researcher appointments at the University of Helsinki, Aalto University, and Hokkaido University.",
     image: `${process.env.PUBLIC_URL}/images/amundson.png`,
     website: "https://uas.alaska.edu/dir/jmamundson.html",
@@ -15,6 +16,7 @@ const teamMembers = [
     id: "wolken",
     name: "Gabriel Wolken",
     role: "Geological Scientist",
+    affiliation: "Alaska Division of Geological & Geophysical Surveys",
     bio: "Geological Scientist with the Alaska Division of Geological & Geophysical Surveys, focusing on Alaska’s geologic framework and contributing to regional publications and public outreach.",
     image: `${process.env.PUBLIC_URL}/images/wolken.jpg`,
     website: "https://dggs.alaska.gov/pubs/staff/gjwolken",
@@ -23,6 +25,7 @@ const teamMembers = [
     id: "rounce",
     name: "David Rounce",
     role: "Glaciologist",
+    affiliation: "Carnegie Mellon University",
     bio: "Assistant Professor at Carnegie Mellon University. Leads the CryoTartans research group using computational modeling, remote sensing, and fieldwork to understand glacier, water resource, and hazard responses to climate change. Creator of the open-source PyGEM glacier evolution model and recipient of the IGS Firn Award.",
     image: `${process.env.PUBLIC_URL}/images/rounce.jpeg`,
     website: "https://davidrounce.weebly.com/",
@@ -31,9 +34,28 @@ const teamMembers = [
     id: "hood",
     name: "Eran Hood",
     role: "Environmental Scientist",
+    affiliation: "University of Alaska Southeast",
     bio: "Professor of Environmental Science and Department Chair at University of Alaska Southeast. Researches watershed-scale biogeochemistry, alpine and snow hydrology, and glacier-influenced aquatic systems, while fostering interdisciplinary teaching and bridging Indigenous and Western scientific knowledge.",
     image: `${process.env.PUBLIC_URL}/images/hood.png`,
     website: "https://uas.alaska.edu/dir/ewhood.html",
+  },
+  {
+    id: "fagan",
+    name: "Sean Fagan",
+    role: "Environmental Scientist",
+    affiliation: "University of Alaska Southeast",
+    bio: "Sean Fagan is a researcher whose work has focused on glacier outburst flood hazards in Alaska and climate adaptation projects in Scandinavia. He is the lead programmer for the Alaska Glacial Lake Flood Dashboard and Juneau Glacial Flood Dashboard, platforms designed to improve public access to real-time flood risk data and hazard forecasts. Sean recieved an M.S. in Environmental and Sustainability Science at Lund University in Sweden, where his research focused on social dimensions of climate adaptation.",
+    image: `${process.env.PUBLIC_URL}/images/sfagan.jpeg`,
+    website: "",
+  },
+  {
+    id: "abbruscato",
+    name: "Morgan Abbruscato",
+    role: "Environmental Scientist",
+    affiliation: "Carnegie Mellon University",
+    bio: "PhD Student at Carnegie Mellon University in Environmental Engineering whose research explores glacier–lake interactions and their implications for glacier evolution and hazard assessment in a changing climate. She is developing and integrating new modeling frameworks into the Python Glacier Evolution Model (PyGEM) to simulate the presence, evolution, and melt-enhancing effects of supraglacial and proglacial lakes in High Mountain Asia. Morgan also works on the Mendenhall Glacier in Alaska, combining field measurements and multi-flowline modeling within PyGEM to improve predictions of glacial lake outburst flood risks.",
+    image: `${process.env.PUBLIC_URL}/images/abbruscato.jpeg`,
+    website: "",
   },
 ];
 
@@ -88,6 +110,7 @@ const ResearchTeam = () => {
                   </a>
                 </h4>
                 <p className="team-role">{member.role}</p>
+                <p className="affiliation-role">{member.affiliation}</p>
                 <p className="team-bio">{member.bio}</p>
               </div>
             </div>

@@ -26,12 +26,13 @@
 
 .team-cards-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, 1fr); /* ✅ Up to 3 cards per row */
   gap: 1.5rem;
-  justify-content: center;
   max-width: 1300px;
   margin: 0 auto;
+  justify-items: center; /* ✅ Centers cards if fewer than 3 */
 }
+
 
 .team-card {
   background: #fff;
@@ -88,6 +89,12 @@
   color: #2b2b2b;
   font-size: 0.95rem;
   font-weight: bold;
+  margin-top: -20px;
+}
+
+.affiliation-role {
+  color: #2b2b2b98;
+  font-size: 0.9rem;
   margin-top: -20px;
 }
 
