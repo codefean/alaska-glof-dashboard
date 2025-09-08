@@ -203,22 +203,51 @@ useEffect(() => {
         ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
         ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}">See full hazard info</a>` : ''}</p>`;
 
-      // hover
-      el.addEventListener('mouseenter', () => {
-        if (isPopupLocked.current) return;
-        activePopupRef.current?.remove();
-        activePopupRef.current = new mapboxgl.Popup({ closeOnClick: false })
-          .setLngLat([lon, lat])
-          .setHTML(popupContent)
-          .addTo(map);
-      });
+let hoverTimeout;
 
-      // leave
-      el.addEventListener('mouseleave', () => {
-        if (isPopupLocked.current) return;
-        activePopupRef.current?.remove();
-        activePopupRef.current = null;
-      });
+// hover — show popup temporarily
+el.addEventListener('mouseenter', () => {
+  if (isPopupLocked.current) return;
+  clearTimeout(hoverTimeout);
+  activePopupRef.current?.remove();
+
+  activePopupRef.current = new mapboxgl.Popup({ closeOnClick: false, closeButton: false })
+    .setLngLat([lon, lat])
+    .setHTML(popupContent)
+    .addTo(map);
+
+  // auto-close after 2.5 seconds unless locked
+  hoverTimeout = setTimeout(() => {
+    if (!isPopupLocked.current && activePopupRef.current) {
+      activePopupRef.current.remove();
+      activePopupRef.current = null;
+    }
+  }, 2500);
+});
+
+// leave — hide popup immediately unless locked
+el.addEventListener('mouseleave', () => {
+  clearTimeout(hoverTimeout);
+  if (isPopupLocked.current) return;
+  activePopupRef.current?.remove();
+  activePopupRef.current = null;
+});
+
+// click — lock popup
+el.addEventListener('click', (e) => {
+  e.stopPropagation();
+  clearTimeout(hoverTimeout);
+  isPopupLocked.current = true;
+  activePopupRef.current?.remove();
+  activePopupRef.current = new mapboxgl.Popup({ closeOnClick: false })
+    .setLngLat([lon, lat])
+    .setHTML(popupContent)
+    .addTo(map);
+
+  map.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
+  window.history.pushState({}, '', `#/GLOF-map?lake=${encodeURIComponent(LakeID)}`);
+});
+
 
       // click locks + fly + update URL
       el.addEventListener('click', (e) => {
