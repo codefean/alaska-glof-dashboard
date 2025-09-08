@@ -11,7 +11,6 @@ import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import SubmitDataPage from "./pages/feedback";
 import StoryMap from "./pages/StoryMap";
-import SB from "./pages/SuicideBasin";
 
 
 const useDocumentTitle = (title) => {
@@ -56,10 +55,6 @@ const StoryMapPage = () => {
   return <StoryMap />;
 };
 
-const SuicideBasinPage = () => {
-  useDocumentTitle("Suicide Basin");
-  return <SB />;
-};
 
 const App2 = () => {
   React.useEffect(() => {
@@ -80,7 +75,6 @@ const App2 = () => {
             <Route path="/home" element={<HomePage />} />
             <Route path="/submit-data" element={<SubmitDataWrapper />} />
             <Route path="/story-map" element={<StoryMapPage />} />
-            <Route path="/suicide-basin" element={<SuicideBasinPage />} />
           </Routes>
         </div>
         <Footer />
