@@ -261,7 +261,7 @@ const Home = () => {
           <div className="analytics-iframe-wrapper">
             <iframe
               title="Public Analytics Dashboard"
-              src="https://lookerstudio.google.com/embed/reporting/1f1348f9-369e-4e90-9485-45fc7b2cae7f/page/lpBOF?hl=en"
+              src="https://lookerstudio.google.com/reporting/42f86b31-6c37-46d0-b147-b49d3c8822cf"
             ></iframe>
           </div>
         </div>
