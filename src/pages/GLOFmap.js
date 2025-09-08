@@ -68,7 +68,7 @@ useEffect(() => {
 
     const handleKeydown = (e) => {
       if (e.key.toLowerCase() === 'r') {
-        map.flyTo({ center: [-144.5, 59.5], zoom: 4, speed: 2.2 });
+        map.flyTo({ center: [-144.5, 59.5], zoom: 4, speed: 2.2, pitch: 20 });
       }
     };
     window.addEventListener('keydown', handleKeydown);
