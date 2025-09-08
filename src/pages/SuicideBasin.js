@@ -1,223 +1,151 @@
 import React, { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as THREE from "three";
-import proj4 from "proj4";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import "./SuicideBasin.css";
 
-import { UTM8N, WGS84, MODEL_OFFSETS } from "./constants";
-import { setupMap } from "./mapSetup";
-import { setupTooltip } from "./tooltip";
+mapboxgl.accessToken =
+  "pk.eyJ1IjoibWFwZmVhbiIsImEiOiJjbTNuOGVvN3cxMGxsMmpzNThzc2s3cTJzIn0.1uhX17BCYd65SeQsW1yibA";
 
-export default function SuicideBasin() {
+export default function Topographic3DTerrainMap() {
   const mapContainer = useRef(null);
-  const mapRef = useRef(null);
-  const modelRef = useRef(null);
-  const sceneRef = useRef(null);
-  const cameraRef = useRef(null);
-  const rendererRef = useRef(null);
+  const animationRef = useRef(null);
 
-  /**
-   * Adds the GLTF glacier model to the map
-   */
-  const addGlacierModel = (map, url, utmEasting, utmNorthing) => {
-    // ✅ Apply offsets from constants.js
-    const adjustedE = utmEasting + MODEL_OFFSETS.OFFSET_E;
-    const adjustedN = utmNorthing + MODEL_OFFSETS.OFFSET_N;
-
-    // ✅ Convert UTM coords to WGS84 (lng, lat)
-    const [lng, lat] = proj4(UTM8N, WGS84, [adjustedE, adjustedN]);
-
-    // ✅ Calculate elevation
-    const baseElevation =
-      map.queryTerrainElevation([lng, lat], { exaggerated: false }) || 0;
-    const modelAltitude = baseElevation + MODEL_OFFSETS.OFFSET_Z;
-
-    const yaw = THREE.MathUtils.degToRad(MODEL_OFFSETS.YAW_DEG);
-    const modelRotate = [0, 0, yaw];
-
-    // ✅ Convert lng/lat to Mapbox Mercator coordinates
-    const modelAsMercator = mapboxgl.MercatorCoordinate.fromLngLat(
-      [lng, lat],
-      modelAltitude
-    );
-
-    // ✅ Model transformation info
-    const modelTransform = {
-      translateX: modelAsMercator.x,
-      translateY: modelAsMercator.y,
-      translateZ: modelAsMercator.z,
-      rotateX: modelRotate[0],
-      rotateY: modelRotate[1],
-      rotateZ: modelRotate[2],
-      scale: modelAsMercator.meterInMercatorCoordinateUnits(),
-    };
-
-    // ✅ Initialize Three.js scene
-    const scene = new THREE.Scene();
-    const camera = new THREE.Camera();
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.autoClear = false;
-    renderer.setClearColor(0x000000, 0);
-    renderer.getContext().depthFunc(renderer.getContext().LEQUAL);
-
-    // ✅ Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 4.0);
-    scene.add(ambientLight);
-
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.6);
-    hemiLight.position.set(0, 200, 0);
-    scene.add(hemiLight);
-
-    // ✅ Store references for later
-    sceneRef.current = scene;
-    cameraRef.current = camera;
-    rendererRef.current = renderer;
-
-    // ✅ Load glacier model
-    const loader = new GLTFLoader();
-    loader.load(
-      url,
-      (gltf) => {
-        const model = gltf.scene;
-
-        model.traverse((child) => {
-          if (child.isMesh) {
-            // Avoid z-fighting with terrain
-            child.material.depthTest = false;
-            child.material.depthWrite = false;
-          }
-        });
-
-        // Adjust scale factor
-        const debugScale = modelTransform.scale * 500;
-        model.scale.set(debugScale, debugScale, debugScale);
-        model.position.set(0, 0, 0);
-        model.rotation.set(...modelRotate);
-        model.renderOrder = 999;
-        model.matrixAutoUpdate = false;
-
-        modelRef.current = model;
-        scene.add(model);
-      },
-      undefined,
-      (error) => {
-        console.error("Error loading glacier model:", error);
-      }
-    );
-
-    // ✅ Add custom Three.js layer to Mapbox
-    map.addLayer({
-      id: "glacier-model",
-      type: "custom",
-      renderingMode: "3d",
-      onAdd: (map, gl) => {
-        const renderer = rendererRef.current;
-        renderer.domElement.style.position = "absolute";
-        map.getCanvas().parentNode.appendChild(renderer.domElement);
-        renderer.setSize(map.getCanvas().clientWidth, map.getCanvas().clientHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-      },
-      render: (gl, matrix) => {
-        const model = modelRef.current;
-        const camera = cameraRef.current;
-        const renderer = rendererRef.current;
-        const scene = sceneRef.current;
-        if (!model) return;
-
-        // ✅ Model transformation matrix
-        const rotationX = new THREE.Matrix4().makeRotationAxis(
-          new THREE.Vector3(1, 0, 0),
-          modelTransform.rotateX
-        );
-        const rotationY = new THREE.Matrix4().makeRotationAxis(
-          new THREE.Vector3(0, 1, 0),
-          modelTransform.rotateY
-        );
-        const rotationZ = new THREE.Matrix4().makeRotationAxis(
-          new THREE.Vector3(0, 0, 1),
-          modelTransform.rotateZ
-        );
-
-        const modelMatrix = new THREE.Matrix4()
-          .makeTranslation(
-            modelTransform.translateX,
-            modelTransform.translateY,
-            modelTransform.translateZ
-          )
-          .scale(
-            new THREE.Vector3(
-              modelTransform.scale,
-              -modelTransform.scale,
-              modelTransform.scale
-            )
-          )
-          .multiply(rotationX)
-          .multiply(rotationY)
-          .multiply(rotationZ);
-
-        camera.projectionMatrix.fromArray(matrix);
-        model.matrix = modelMatrix;
-
-        renderer.state.reset();
-        renderer.setSize(map.getCanvas().clientWidth, map.getCanvas().clientHeight);
-        renderer.render(scene, camera);
-        map.triggerRepaint();
-      },
-    });
-  };
-
-  /**
-   * Initialize map and glacier model
-   */
   useEffect(() => {
-    // ✅ Setup the base Mapbox map
-    const map = setupMap(mapContainer.current, { mapRef });
+    const center = [-134.4199, 58.29999]; // Juneau, Alaska
 
-    // ✅ Setup real-time tooltip for lat/lon/elevation
-    setupTooltip(map);
-
-    // ✅ Wait until map is idle before adding model
-    map.once("idle", () => {
-      const centerLngLat = [-134.49923, 58.45039];
-      const [utmE, utmN] = proj4(WGS84, UTM8N, centerLngLat);
-
-      addGlacierModel(
-        map,
-        `${process.env.PUBLIC_URL}/models/sb_813.glb`,
-        utmE,
-        utmN
-      );
+    const map = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/mapbox/satellite-streets-v12",
+      center,
+      zoom: 13.5,
+      pitch: 60,
+      bearing: 0,
+      antialias: true,
     });
 
-    // Cleanup on unmount
-    return () => map.remove();
+    map.on("load", () => {
+      // === TERRAIN & FOG ===
+      map.addSource("mapbox-dem", {
+        type: "raster-dem",
+        url: "mapbox://mapbox.mapbox-terrain-dem-v1",
+        tileSize: 512,
+        maxzoom: 12,
+      });
+      map.setTerrain({ source: "mapbox-dem", exaggeration: 0.9 });
+
+      map.setFog({
+        color: "rgb(186, 210, 235)",
+        "high-color": "rgb(36, 92, 223)",
+        "horizon-blend": 0.3,
+        range: [0.5, 15],
+        "space-color": "rgb(11, 11, 25)",
+        "star-intensity": 0.15,
+      });
+
+      map.setLight({
+        anchor: "map",
+        color: "white",
+        intensity: 0.8,
+        position: [1.5, 90, 80],
+      });
+
+      // === THREE.JS + GLTF MODEL ===
+      const modelOrigin = center;
+      const modelAltitude = 0;
+      const mercatorCoord = mapboxgl.MercatorCoordinate.fromLngLat(
+        modelOrigin,
+        modelAltitude
+      );
+
+      const customLayer = {
+        id: "3d-model",
+        type: "custom",
+        renderingMode: "3d",
+        onAdd: function (map, gl) {
+          this.camera = new THREE.Camera();
+          this.scene = new THREE.Scene();
+
+          // Lighting
+          const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+          directionalLight.position.set(0, 100, 100).normalize();
+          this.scene.add(directionalLight);
+
+          const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+          this.scene.add(ambientLight);
+
+          // Debug helper: shows XYZ orientation and confirms model position
+          const axesHelper = new THREE.AxesHelper(200);
+          this.scene.add(axesHelper);
+
+          // Load model
+          const loader = new GLTFLoader();
+          loader.load(
+            `${process.env.PUBLIC_URL}/models/sb_cleaned.glb`,
+            (gltf) => {
+              console.log("✅ Model loaded successfully", gltf);
+              this.model = gltf.scene;
+
+              // Reset baked transforms from GLB
+              this.model.position.set(0, 0, 0);
+              this.model.rotation.set(0, 0, 0);
+
+              // Calculate bounding box and scale model automatically
+              const box = new THREE.Box3().setFromObject(this.model);
+              const size = new THREE.Vector3();
+              box.getSize(size);
+
+              const maxDim = Math.max(size.x, size.y, size.z);
+              const targetSize = 500; // Target footprint ~500 meters
+              const scale = targetSize / maxDim;
+
+              this.model.scale.set(scale, scale, scale);
+
+              // Place model at the correct Mercator anchor point, slightly above terrain
+              this.model.position.set(
+                mercatorCoord.x,
+                mercatorCoord.y,
+                mercatorCoord.z + 10 // Lift 10 meters above DEM to avoid clipping
+              );
+
+              this.scene.add(this.model);
+            },
+            undefined,
+            (error) => {
+              console.error("❌ Error loading GLB:", error);
+            }
+          );
+
+          this.renderer = new THREE.WebGLRenderer({
+            canvas: map.getCanvas(),
+            context: gl,
+          });
+          this.renderer.autoClear = false;
+        },
+        render: function (gl, matrix) {
+          const m = new THREE.Matrix4().fromArray(matrix);
+          this.camera.projectionMatrix = m;
+          this.renderer.resetState();
+          this.renderer.render(this.scene, this.camera);
+        },
+      };
+
+      map.addLayer(customLayer);
+
+      // === CINEMATIC CAMERA ORBIT ===
+      const rotateCamera = (timestamp) => {
+        map.setBearing((timestamp / 100) % 360);
+        map.setPitch(60);
+        animationRef.current = requestAnimationFrame(rotateCamera);
+      };
+      rotateCamera(0);
+    });
+
+    return () => {
+      cancelAnimationFrame(animationRef.current);
+      map.remove();
+    };
   }, []);
 
-  return (
-    <div style={{ position: "relative" }}>
-      <div ref={mapContainer} className="map-container" />
-
-      {/* ✅ Tooltip for lat/lon/elevation */}
-      <div
-        id="loc-readout"
-        style={{
-          position: "absolute",
-          top: "12px",
-          left: "12px",
-          background: "rgba(0,0,0,0.6)",
-          color: "#fff",
-          padding: "8px",
-          borderRadius: "6px",
-          fontSize: "13px",
-          pointerEvents: "none",
-        }}
-      >
-        Move cursor to see details
-      </div>
-
-      {/* ✅ Existing Loc3D overlay */}
-
-    </div>
-  );
+  return <div ref={mapContainer} className="map-container" />;
 }
