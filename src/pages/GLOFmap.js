@@ -6,6 +6,8 @@ import Papa from 'papaparse';
 import './GLOFmap.css';
 import MapLegend from './MapLegend';
 import Citation from './citation';
+import PitchControl from "./PitchControl";
+
 
 // NEW: glacier layer hook + toggle button
 import { useGlacierLayer} from './glaciers';
@@ -52,14 +54,16 @@ useEffect(() => {
   return () => window.removeEventListener('hashchange', scrollToTop);
 }, []);
 
-  useEffect(() => {
-    mapboxgl.accessToken = 'pk.eyJ1IjoibWFwZmVhbiIsImEiOiJjbTNuOGVvN3cxMGxsMmpzNThzc2s3cTJzIn0.1uhX17BCYd65SeQsW1yibA';
-    const map = new mapboxgl.Map({
-      container: mapContainerRef.current,
-      style: 'mapbox://styles/mapbox/satellite-streets-v12',
-      center: [-144.5, 59.9],
-      zoom: 4,
-    });
+useEffect(() => {
+  mapboxgl.accessToken = 'pk.eyJ1IjoibWFwZmVhbiIsImEiOiJjbTNuOGVvN3cxMGxsMmpzNThzc2s3cTJzIn0.1uhX17BCYd65SeQsW1yibA';
+
+  const map = new mapboxgl.Map({
+    container: mapContainerRef.current,
+    style: 'mapbox://styles/mapbox/satellite-streets-v12',
+    center: [-144.5, 59.9],
+    zoom: 4,
+    antialias: true, // Improves 3D rendering quality
+  });
     mapRef.current = map;
 
     const handleKeydown = (e) => {
@@ -411,6 +415,7 @@ useGlacierLayer({
           <div>Move cursor over map…</div>
         )}
       </div>
+      <PitchControl mapRef={mapRef} defaultPitch={20} />
 
       <MapLegend />
     </>
