@@ -15,12 +15,12 @@
 
 /* Remove the inner popup content box */
 .glacier-popup .mapboxgl-popup-content {
-  background: none !important;
-  box-shadow: none !important;
-  border: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  backdrop-filter: none !important; /* <— THIS kills the blur */
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(3px);
+  color: white;
+  padding: 5px;
   -webkit-backdrop-filter: none !important; /* Safari-specific */
 }
 
@@ -32,8 +32,8 @@
 /* Make the label look clean and text-only */
 .glacier-label {
   font-size: 13px;
-  font-weight: 700;
-  color: rgb(0, 32, 96); /* faint dark blue */
+  font-weight: 600;
+  color: rgb(255, 255, 255); /* faint dark blue */
   font-family: 'Helvetica Neue', Arial, sans-serif;
   background: none !important;
   box-shadow: none !important;

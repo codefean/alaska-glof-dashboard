@@ -33,7 +33,7 @@ export function useGlacierLayer({ mapRef }) {
           'source-layer': sourceLayer,
           paint: {
             'fill-color': '#2ba0ff',
-            'fill-opacity': 0.01,
+            'fill-opacity': 0.05,
           },
         });
       }
