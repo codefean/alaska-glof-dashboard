@@ -44,10 +44,6 @@ const AlaskaMap = () => {
 }, []);
 
 
-  const applyPitch = (p) => {
-  setPitch(p);
-  mapRef.current?.setPitch(p);
-};
 
   // live cursor info (lng/lat/elevation in meters)
   const [cursorInfo, setCursorInfo] = useState({ lng: null, lat: null, elevM: null });

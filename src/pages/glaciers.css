@@ -17,11 +17,12 @@
 .glacier-popup .mapboxgl-popup-content {
   overflow: hidden;
   border-radius: 4px;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.594);
   backdrop-filter: blur(3px);
   color: white;
   padding: 5px;
   -webkit-backdrop-filter: none !important; /* Safari-specific */
+  z-index: 6;
 }
 
 /* Remove the little arrow pointer under the popup */
@@ -31,12 +32,32 @@
 
 /* Make the label look clean and text-only */
 .glacier-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgb(255, 255, 255); /* faint dark blue */
+  font-size: 12.5px;
+  font-weight: 520;
+  color: rgba(255, 255, 255, 0.894); /* faint dark blue */
   font-family: 'Helvetica Neue', Arial, sans-serif;
-  background: none !important;
-  box-shadow: none !important;
-  border: none !important;
-  padding: 0 !important;
 }
+
+/* 1) Glacier label should never grab the mouse — let events fall through */
+.glacier-popup,
+.glacier-popup * {
+  pointer-events: none !important;
+}
+
+/* 2) Other popups SHOULD grab the mouse so the canvas underneath won’t get mousemove */
+.mapboxgl-popup:not(.glacier-popup),
+.mapboxgl-popup:not(.glacier-popup) * {
+  pointer-events: auto !important;
+  z-index: 1000; /* keep them above the canvas */
+}
+
+/* 3) While hovering ANY non-glacier popup, temporarily disable map interactions.
+   This stops Mapbox from getting mousemove and prevents the glacier hover popup from appearing. */
+.mapboxgl-map:has(.mapboxgl-popup:not(.glacier-popup):hover) .mapboxgl-canvas,
+.mapboxgl-map:has(.mapboxgl-popup:not(.glacier-popup):hover) .mapboxgl-canvas-container {
+  pointer-events: none !important;
+}
+
+/* If your “other” popup uses a custom class instead of .mapboxgl-popup, mirror the rules:
+   .mapboxgl-map:has(.your-other-popup:hover) .mapboxgl-canvas { pointer-events: none !important; } */
+.glacier-popup, .glacier-popup * { pointer-events: none !important; }
