@@ -1,12 +1,11 @@
 import React from "react";
 import "./PitchControl.css";
 
-const PitchControl = ({ mapRef, defaultPitch = 20 }) => {
+const PitchControl = ({ mapRef, value, onChange, min = 10, max = 70, step = 1 }) => {
   const handlePitchChange = (e) => {
     const newPitch = parseInt(e.target.value, 10);
-    if (mapRef.current) {
-      mapRef.current.setPitch(newPitch);
-    }
+    if (mapRef.current) mapRef.current.setPitch(newPitch);
+    if (onChange) onChange(newPitch); // tell parent to update its pitch state
   };
 
   return (
@@ -15,10 +14,10 @@ const PitchControl = ({ mapRef, defaultPitch = 20 }) => {
       <input
         id="pitch-slider"
         type="range"
-        min="10"
-        max="70"
-        step="1"
-        defaultValue={defaultPitch}
+        min={min}
+        max={max}
+        step={step}
+        value={Math.round(Number(value) || 0)}  // CONTROLLED value
         onChange={handlePitchChange}
       />
     </div>

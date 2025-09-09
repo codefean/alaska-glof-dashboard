@@ -26,6 +26,28 @@ const AlaskaMap = () => {
   const markersRef = useRef([]);
   const activePopupRef = useRef(null);
   const isPopupLocked = useRef(false);
+  const DEFAULT_PITCH = 20;
+  const [pitch, setPitch] = useState(DEFAULT_PITCH);
+
+  useEffect(() => {
+  const map = mapRef.current;
+  if (!map) return;
+
+  const sync = () => setPitch(map.getPitch());
+  map.on('pitch', sync);
+  map.on('pitchend', sync);
+
+  return () => {
+    map.off('pitch', sync);
+    map.off('pitchend', sync);
+  };
+}, []);
+
+
+  const applyPitch = (p) => {
+  setPitch(p);
+  mapRef.current?.setPitch(p);
+};
 
   // live cursor info (lng/lat/elevation in meters)
   const [cursorInfo, setCursorInfo] = useState({ lng: null, lat: null, elevM: null });
@@ -66,11 +88,17 @@ useEffect(() => {
   });
     mapRef.current = map;
 
-    const handleKeydown = (e) => {
-      if (e.key.toLowerCase() === 'r') {
-        map.flyTo({ center: [-144.5, 59.5], zoom: 4, speed: 2.2, pitch: 20 });
-      }
-    };
+const handleKeydown = (e) => {
+  if (e.key.toLowerCase() === 'r') {
+    const map = mapRef.current;
+    if (!map) return;
+    map.flyTo({ center: [-144.5, 59.5], zoom: 4, speed: 2.2, pitch: DEFAULT_PITCH });
+    // keep the UI slider in sync immediately:
+    setPitch(DEFAULT_PITCH);
+  }
+};
+
+
     window.addEventListener('keydown', handleKeydown);
 
     // DEM + terrain for elevation
@@ -96,6 +124,7 @@ useEffect(() => {
     }
   });
 });
+
 
     // Fetch lake data (unchanged)
     const fetchLakeData = async () => {
@@ -444,8 +473,7 @@ useGlacierLayer({
           <div>Move cursor over map…</div>
         )}
       </div>
-      <PitchControl mapRef={mapRef} defaultPitch={20} />
-
+      <PitchControl mapRef={mapRef} value={pitch} onChange={(p) => setPitch(p)} />
       <MapLegend />
     </>
   );
