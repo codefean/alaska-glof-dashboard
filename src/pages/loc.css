@@ -59,6 +59,7 @@
     left: 17px;
     right: auto;
     width: fit-content;
+    z-index: 0;
   }
 }
 
