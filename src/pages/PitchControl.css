@@ -64,29 +64,27 @@
   transition: background 0.2s ease;
 }
 
-/* 🚀 New behavior for mobile (<915px) */
-@media screen and (max-width: 1366px) {
+@media screen and (max-width: 1180px) {
   .pitch-control {
     position: fixed;
-    top: calc(var(--header-height, 60px) + 10%);
+    top: calc(var(--header-height, 60px) + 15.8%)!important;
     bottom: auto;
     left: 12px;
     right: auto;
-    padding: 8px 10px;
-    min-width: 172px;
+    padding: 8px 5px;
+    min-width: 80px !important;
   }
 }
-
 
 @media screen and (max-width: 915px) {
   .pitch-control {
     position: fixed;
-    top: calc(var(--header-height, 60px) + 6%);
+    top: calc(var(--header-height, 60px) + 15.8%)!important;
     bottom: auto;
     left: 12px;
     right: auto;
-    padding: 8px 10px;
-    min-width: 172px;
+    padding: 8px 5px;
+    min-width: 80px !important;
   }
 }
 
@@ -94,23 +92,29 @@
 @media screen and (max-width: 844px) {
   .pitch-control {
     position: fixed;
-    top: calc(var(--header-height, 60px) + 7%);
-    bottom: auto;
-    left: 12px;
-    right: auto;
-    padding: 8px 10px;
-    min-width: 172px;
-  }
-}
+    top: calc(var(--header-height, 60px) + 50%) !important;
+    right: 0; /* Stick to the right edge */
+    left: auto;
+    padding: 8px 5px;
+    min-width: 200px !important;
 
-@media screen and (max-width: 667px) {
-  .pitch-control {
-    position: fixed;
-    top: calc(var(--header-height, 60px) + 9%);
-    bottom: auto;
-    left: 17px;
-    right: auto;
-    padding: 8px 10px;
-    min-width: 172px;
+    /* Rotation */
+    transform: rotate(90deg) translateY(20%);
+    transform-origin: top right;
+
+    /* Make sure it adapts well */
+    max-width: 100%;
+    box-sizing: border-box;
   }
+
+  .pitch-control input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 200px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
 }

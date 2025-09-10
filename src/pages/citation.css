@@ -27,7 +27,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media screen and (max-width: 1180px) {
+@media screen and (max-width: 1253px) {
   .citation-readout {
     display: none;
   }
