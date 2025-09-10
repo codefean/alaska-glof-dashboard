@@ -200,6 +200,12 @@ html, body {
   padding: 2px 6px;
 }
 
+@media screen and(max-width: 1180px) {
+  .hotkey-table {
+  min-width: 195px; /* ensures responsiveness */
+  }
+}
+
 /* Hide on small screens */
 @media (max-width: 800px) {
   .hotkey-table {
@@ -249,7 +255,7 @@ html, body {
   border: 0.9px solid white;
   padding: 4px;
   min-width: 300px !important;
-  z-index: 9999;
+  z-index: 5;
 }
 
 .search-bar-container input {
@@ -294,10 +300,37 @@ a:focus {
     left: 18px;
     max-width: 260px;
   }
+
   .search-bar-container {
-    display: none;
+    top: 90px;
   }
 }
+
+/* Mobile positioning adjustment */
+@media (max-width: 580px) {
+
+  .search-bar-container {
+    top: 75px;
+  }
+}
+
+/* Mobile positioning adjustment */
+@media (max-width: 375px) {
+
+  .search-bar-container {
+    top: 100px;
+  }
+}
+
+/* Mobile positioning adjustment */
+@media (max-width: 667px) {
+
+  .search-bar-container {
+    top: 75px;
+  }
+}
+
+
 .dropdown-suggestions {
   position: absolute;
   top: 32.2px;
@@ -327,16 +360,3 @@ a:focus {
   background: rgba(255, 255, 255, 0.15);
 }
 
-.cursor-readout {
-  position: absolute;
-  left: 12px;
-  bottom: 12px;
-  padding: 8px 10px;
-  background: rgba(0,0,0,0.55);
-  color: #fff;
-  border-radius: 8px;
-  font-size: 12px;
-  line-height: 1.2;
-  pointer-events: none;
-  z-index: 2;
-}

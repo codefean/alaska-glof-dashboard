@@ -1,15 +1,66 @@
-/* loc.css */
-.loc-readout {
+.cursor-readout {
   position: absolute;
+  left: 12px;
+  bottom: 12px;
   padding: 8px 10px;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0, 0, 0, 0.55);
   color: #fff;
   border-radius: 8px;
-  font-size: 14px !important;
+  font-size: 12px;
   line-height: 1.2;
-  pointer-events: none; /* don't block map interaction */
+  pointer-events: none;
   z-index: 2;
-  backdrop-filter: blur(2px);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  max-width: 220px; /* prevent stretching */
+  width: fit-content; /* shrink-wrap content */
 }
+
+/* For mid screens */
+@media screen and (max-width: 1366px) {
+  .cursor-readout {
+    position: fixed;
+    top: calc(var(--header-height, 60px) + 13.5%);
+    bottom: auto;
+    left: 12px;
+    right: auto;
+    width: fit-content;
+  }
+}
+
+/* For mobile */
+@media screen and (max-width: 915px) {
+  .cursor-readout {
+    position: fixed;
+    top: calc(var(--header-height, 60px) + 11%);
+    bottom: auto;
+    left: 12px;
+    right: auto;
+    width: fit-content;
+  }
+}
+
+/* For mobile */
+@media screen and (max-width: 844px) {
+  .cursor-readout {
+    position: fixed;
+    top: calc(var(--header-height, 60px) + 14.5%);
+    bottom: auto;
+    left: 17px;
+    right: auto;
+    width: fit-content;
+  }
+}
+
+/* For mobile */
+@media screen and (max-width: 667px) {
+  .cursor-readout {
+    position: fixed;
+    top: calc(var(--header-height, 60px) + 16%);
+    bottom: auto;
+    left: 17px;
+    right: auto;
+    width: fit-content;
+  }
+}
+
+
+

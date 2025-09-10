@@ -7,9 +7,12 @@ import './GLOFmap.css';
 import MapLegend from './MapLegend';
 import Citation from './citation';
 import PitchControl from "./PitchControl";
+import { useCursorLocation } from "./loc";
 
 // NEW: glacier layer hook + toggle button
 import { useGlacierLayer } from './glaciers';
+
+
 
 const AlaskaMap = () => {
   const mapContainerRef = useRef(null);
@@ -436,16 +439,7 @@ const AlaskaMap = () => {
         className="cursor-readout"
         style={{
           position: 'absolute',
-          left: 12,
-          bottom: 12,
-          padding: '8px 10px',
-          background: 'rgba(0,0,0,0.55)',
-          color: '#fff',
-          borderRadius: 8,
-          fontSize: 12,
-          lineHeight: 1.2,
-          pointerEvents: 'none',
-          zIndex: 2
+
         }}
       >
         {cursorInfo.lat !== null && cursorInfo.lng !== null ? (

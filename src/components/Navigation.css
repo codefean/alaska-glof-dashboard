@@ -62,7 +62,7 @@
 
 
 /* Responsive Styles */
-@media (max-width: 938px) {
+@media (max-width: 1057px) {
   .navigation .menu-toggle {
     display: block;
     height: 30px;
@@ -94,4 +94,29 @@
   .navigation ul li b {
     font-size: 1em; /* Adjust font size for smaller screens */
   }
+  .navigation ul li a.secondary {
+  font-size: 1em;
+  }
+  
+}
+
+@media (max-width: 1057px) {
+  .navigation .menu-toggle {
+    display: block;
+    height: 35px;
+    margin-top: -10px;
+    margin-bottom: -1px;
+  }
+
+    .navigation ul li a {
+    font-size: .9em; /* Adjust font size for smaller screens */
+  }
+
+    .navigation ul li b {
+    font-size: .9em; /* Adjust font size for smaller screens */
+  }
+
+  .navigation ul li a.secondary {
+  font-size: .9em;
+}
 }

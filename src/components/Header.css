@@ -82,7 +82,15 @@
   margin: 3px;
 }
         /* default (<= 949px) */
-@media (max-width: 937px) {
+@media (max-width: 1057px) {
   .header-image { display: none; }
-  .logo { display: none; }        /* only > 950px */
+  .logo { display: none; } 
+  .header { padding: 5px 8px;}
+}
+
+
+@media (max-width: 580px) {
+  .header-title h1, .header-title h2, .header-title h3 { font-size: 1.1rem; }
+  .header { padding: 5px 8px;}
+  
 }

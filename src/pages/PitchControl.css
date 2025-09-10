@@ -63,6 +63,54 @@
   cursor: grab;
   transition: background 0.2s ease;
 }
-.pitch-control input[type="range"]::-moz-range-thumb:hover {
-  background: #ffcc00;
+
+/* 🚀 New behavior for mobile (<915px) */
+@media screen and (max-width: 1366px) {
+  .pitch-control {
+    position: fixed;
+    top: calc(var(--header-height, 60px) + 10%);
+    bottom: auto;
+    left: 12px;
+    right: auto;
+    padding: 8px 10px;
+    min-width: 172px;
+  }
+}
+
+
+@media screen and (max-width: 915px) {
+  .pitch-control {
+    position: fixed;
+    top: calc(var(--header-height, 60px) + 6%);
+    bottom: auto;
+    left: 12px;
+    right: auto;
+    padding: 8px 10px;
+    min-width: 172px;
+  }
+}
+
+
+@media screen and (max-width: 844px) {
+  .pitch-control {
+    position: fixed;
+    top: calc(var(--header-height, 60px) + 7%);
+    bottom: auto;
+    left: 12px;
+    right: auto;
+    padding: 8px 10px;
+    min-width: 172px;
+  }
+}
+
+@media screen and (max-width: 667px) {
+  .pitch-control {
+    position: fixed;
+    top: calc(var(--header-height, 60px) + 8.5%);
+    bottom: auto;
+    left: 17px;
+    right: auto;
+    padding: 8px 10px;
+    min-width: 172px;
+  }
 }

@@ -124,7 +124,7 @@
 /* ===========================
    RESPONSIVE ADJUSTMENTS
 =========================== */
-@media (max-width: 600px) {
+@media (max-width: 677px) {
   .map-legend {
     left: 10px;
     right: 10px;
@@ -132,7 +132,7 @@
     transform: none;
     flex-wrap: wrap;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     gap: 12px;
     padding: 8px;
     max-width: calc(100% - 40px) !important;
@@ -148,7 +148,12 @@
   }
 
   .legend-description {
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     margin-left: 0;
   }
+
+  .map-legend-label strong {
+  font-weight: 750 !important;
+  font-size: .7rem;
+}
 }
