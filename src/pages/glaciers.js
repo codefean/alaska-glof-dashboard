@@ -54,7 +54,7 @@ export function useGlacierLayer({ mapRef }) {
           type: 'fill',
           source: sourceId,
           'source-layer': sourceLayer,
-          paint: { 'fill-color': '#2ba0ff', 'fill-opacity': 0.05 },
+          paint: { 'fill-color': '#2ba0ff', 'fill-opacity': 0.0005 },
         });
       }
       if (!map.getLayer(lineLayerId)) {
@@ -67,7 +67,7 @@ export function useGlacierLayer({ mapRef }) {
         });
       }
       map.setLayoutProperty(fillLayerId, 'visibility', 'visible');
-      map.setLayoutProperty(lineLayerId, 'visibility', 'visible');
+      map.setLayoutProperty(lineLayerId, 'visibility', 'none');
     };
 
     const onLoad = () => {
