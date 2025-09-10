@@ -1,7 +1,7 @@
 .navigation {
   background-color: #0f3754; /* Teal background */
-  padding: 4px 15px;
   position: relative;
+  max-height: 35px;
 }
 
 .navigation .menu-toggle {
@@ -18,13 +18,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0;
   flex-wrap: wrap;
   z-index: 1000;
+  margin-top: 3px;
 }
 
 .navigation ul li {
-  margin: 0 20px; /* Space between menu items */
+  margin-inline: 20px; /* Space between menu items */
   text-align: center; /* Center-align text within each item */
 }
 
