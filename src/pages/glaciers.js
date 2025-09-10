@@ -63,7 +63,7 @@ export function useGlacierLayer({ mapRef }) {
           type: 'line',
           source: sourceId,
           'source-layer': sourceLayer,
-          paint: { 'line-color': '#000000ff', 'line-width': 20 },
+          paint: { 'line-color': '#fff', 'line-width': .000000000001 },
         });
       }
       map.setLayoutProperty(fillLayerId, 'visibility', 'visible');
