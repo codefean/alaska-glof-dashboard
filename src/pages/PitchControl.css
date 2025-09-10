@@ -7,7 +7,7 @@
   color: #fff;
   border-radius: 8px;
   font-size: 14px !important;
-  line-height: 1.2;
+  line-height: 1.1;
   pointer-events: auto; /* allow slider interaction */
   z-index: 2;
   backdrop-filter: blur(2px);
@@ -92,11 +92,11 @@
 @media screen and (max-width: 844px) {
   .pitch-control {
     position: fixed;
-    top: calc(var(--header-height, 60px) + 50%) !important;
+    top: calc(var(--header-height, 110px) + 50%) !important;
     right: 0; /* Stick to the right edge */
     left: auto;
     padding: 8px 5px;
-    min-width: 200px !important;
+    min-width: 250px !important;
 
     /* Rotation */
     transform: rotate(90deg) translateY(20%);
@@ -110,11 +110,65 @@
   .pitch-control input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
-  width: 200px;
+  width: 250px;
   height: 4px;
   background: rgba(255, 255, 255, 0.35);
   border-radius: 4px;
   outline: none;
   cursor: pointer;
+}
+
+
+.pitch-control label {
+  font-size: .000000005px;
+  font-weight: 1;
+  color: #fff;
+}
+
+.pitch-control {
+  line-height: .00001;
+  gap: .00001px;
+}
+
+}
+
+
+@media screen and (max-width: 844px) {
+  .pitch-control {
+    position: fixed;
+    right: 0; /* Stick to the right edge */
+    left: auto;
+    padding: 6px 5px;
+    min-width: 250px !important;
+
+    /* Rotation */
+    transform: rotate(90deg) translateY(20%);
+    transform-origin: top right;
+
+    /* Make sure it adapts well */
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .pitch-control input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 250px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.pitch-control label {
+  font-size: .000000005px;
+  font-weight: 1;
+  color: #fff;
+}
+
+.pitch-control {
+  line-height: .00001;
+  gap: .00001px;
 }
 }
