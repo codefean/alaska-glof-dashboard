@@ -106,7 +106,7 @@
 @media screen and (max-width: 667px) {
   .pitch-control {
     position: fixed;
-    top: calc(var(--header-height, 60px) + 8.5%);
+    top: calc(var(--header-height, 60px) + 9%);
     bottom: auto;
     left: 17px;
     right: auto;
