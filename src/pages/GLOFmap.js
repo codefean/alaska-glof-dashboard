@@ -100,6 +100,21 @@ const AlaskaMap = () => {
 
     window.addEventListener('keydown', handleKeydown);
 
+    const handleReset = () => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    map.flyTo({
+      center: [-144.5, 59.5],  // Default center
+      zoom: 4,                 // Default zoom level
+      speed: 2.2,
+      pitch: DEFAULT_PITCH     // Reset pitch to 20
+    });
+
+    setPitch(DEFAULT_PITCH);
+  };
+
+
     // DEM + terrain for elevation
     map.on('load', () => {
       if (!map.getSource('mapbox-dem')) {
@@ -112,7 +127,6 @@ const AlaskaMap = () => {
       }
       map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.0 });
 
-      // 🚫 Hide Mapbox's glacier labels to avoid conflicts
       map.getStyle().layers.forEach((layer) => {
         if (
           layer.type === 'symbol' &&
@@ -203,12 +217,10 @@ const AlaskaMap = () => {
     };
   }, []);
 
-  // Add only LAKE markers (glaciers handled by vector layer in glaciers.js)
   useEffect(() => {
     const map = mapRef.current;
     if (!map || lakeData.length === 0) return;
 
-    // clear existing lake markers
     markersRef.current.forEach(marker => marker.remove());
     markersRef.current = [];
 
@@ -433,6 +445,7 @@ const AlaskaMap = () => {
           </tbody>
         </table>
       </div>
+      
 
       {/* Cursor readout */}
       <div
