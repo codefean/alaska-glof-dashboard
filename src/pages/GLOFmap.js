@@ -494,7 +494,8 @@ useEffect(() => {
       border: 'none',
       borderRadius: '8px',
       cursor: 'pointer',
-      zIndex: 5
+      zIndex: 5,
+      fontWeight: 'bold',
     }}
   >
     R
