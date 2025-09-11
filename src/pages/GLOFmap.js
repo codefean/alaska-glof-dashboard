@@ -486,7 +486,7 @@ useEffect(() => {
     onClick={resetZoom}
     style={{
       position: 'absolute',
-      bottom: `${pitchBottom / 1.15}px`, 
+      bottom: `${pitchBottom / 1.26}px`, 
       right: '12px',
       padding: '8px 12px',
       background: 'rgba(0,0,0,0.6)',
