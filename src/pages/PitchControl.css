@@ -43,8 +43,8 @@
 .pitch-control input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   background: #fff;
   border-radius: 50%;
   cursor: grab;
@@ -56,8 +56,8 @@
 
 /* Firefox slider thumb */
 .pitch-control input[type="range"]::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   background: #fff;
   border-radius: 50%;
   cursor: grab;
@@ -93,9 +93,9 @@
   .pitch-control {
     position: fixed;
     top: calc(var(--header-height, 110px) + 50%) !important;
-    right: 0; /* Stick to the right edge */
+    right: 10px; /* Stick to the right edge */
     left: auto;
-    padding: 8px 5px;
+    padding: 9px 5px;
     min-width: 250px !important;
 
     /* Rotation */
@@ -132,43 +132,3 @@
 
 }
 
-
-@media screen and (max-width: 844px) {
-  .pitch-control {
-    position: fixed;
-    right: 0; /* Stick to the right edge */
-    left: auto;
-    padding: 6px 5px;
-    min-width: 250px !important;
-
-    /* Rotation */
-    transform: rotate(90deg) translateY(20%);
-    transform-origin: top right;
-
-    /* Make sure it adapts well */
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-
-  .pitch-control input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 250px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.35);
-  border-radius: 4px;
-  outline: none;
-  cursor: pointer;
-}
-
-.pitch-control label {
-  font-size: .000000005px;
-  font-weight: 1;
-  color: #fff;
-}
-
-.pitch-control {
-  line-height: .00001;
-  gap: .00001px;
-}
-}
