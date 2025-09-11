@@ -160,50 +160,52 @@
   line-height: 1.4;
 }
 
-
-/* ✅ Mobile adjustments */
-@media (max-width: 768px) {
-  .research-team-container {
-    padding: 1.5rem;
-  }
-
-  .team-title {
-    font-size: 1.6rem;
+@media (max-width: 915px) {
+  .team-cards-container {
+    grid-template-columns: 1fr; /* ✅ Stack cards in a single column */
   }
 
   .team-card {
-    padding: 1.2rem;
+    width: 100%; /* ✅ Make cards take full width of the container */
+    max-width: 500px; /* (Optional) Prevent cards from getting too wide */
   }
 
-  .team-card-image {
-    width: 130px;
-    height: 130px;
+    .team-title {
+    text-align: center !important;
+    margin: -14px 0 -10px;
+    font-size: 2rem;
+    color: #154f89;
   }
 
-  .team-card-info h3 {
-    font-size: 1.1rem;
+  /* Match .flood-events-subheading */
+  .research-subheading {
+    text-align: center;
+    font-size: 1rem;
+    color: #0e2b4a;
+    margin: 0 0 5px;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 10px;
+    margin-top: 5px;
   }
 
-  .team-bio {
-    font-size: 0.85rem;
-  }
+
+  .about-research-card h3{
+  background: rgb(240, 241, 243); /* Same light neutral background */
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 1120px;
+  margin: -15px auto;
+  font-family: 'Open Sans', sans-serif;
+  margin-bottom: -15px;
+  font-size: 98%;
 }
 
-@media (max-width: 480px) {
-  .team-title {
-    font-size: 1.4rem;
-  }
+.about-research-card p {
+  margin: 0.5rem 0 0.25rem;
+  font-size: .9rem !important;
+  color: #000;
+}
 
-  .team-card-image {
-    width: 110px;
-    height: 110px;
-  }
-
-  .team-card-info h3 {
-    font-size: 1rem;
-  }
-
-  .team-bio {
-    font-size: 0.8rem;
-  }
 }
