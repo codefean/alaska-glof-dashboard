@@ -162,12 +162,12 @@
 
 @media (max-width: 915px) {
   .team-cards-container {
-    grid-template-columns: 1fr; /* ✅ Stack cards in a single column */
+    grid-template-columns: 1fr; 
   }
 
   .team-card {
-    width: 100%; /* ✅ Make cards take full width of the container */
-    max-width: 500px; /* (Optional) Prevent cards from getting too wide */
+    width: 100%; 
+    max-width: 500px; 
   }
 
     .team-title {
