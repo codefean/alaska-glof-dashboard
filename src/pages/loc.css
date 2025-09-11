@@ -13,31 +13,12 @@
   width: fit-content; /* shrink-wrap content */
 }
 
-
-@media screen and (max-width: 1180px) {
+@media screen and (max-width: 915px) {
   .cursor-readout {
-    position: fixed;
-    top: calc(var(--header-height, 60px) + 15.5%)!important;
-    bottom: auto;
-    left: 12px;
-    right: auto;
-    padding: 8px 10px;
-    min-width: 172px;
+    display: none;
   }
 }
 
-/* For mobile */
-@media screen and (max-width: 1183px) {
-  .cursor-readout {
-    position: fixed;
-    top: calc(var(--header-height, 60px) + 16%);
-    bottom: auto;
-    left: 12px;
-    right: auto;
-    width: fit-content;
-    visibility: collapse;
-  }
-}
 
 
 

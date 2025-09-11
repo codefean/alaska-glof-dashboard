@@ -67,24 +67,24 @@
 @media screen and (max-width: 1180px) {
   .pitch-control {
     position: fixed;
-    top: calc(var(--header-height, 60px) + 15.8%)!important;
+    top: calc(var(--header-height, 45px) + 10.8%)!important;
     bottom: auto;
     left: 12px;
     right: auto;
     padding: 8px 5px;
-    min-width: 80px !important;
+    min-width: 135px;
   }
 }
 
 @media screen and (max-width: 915px) {
   .pitch-control {
     position: fixed;
-    top: calc(var(--header-height, 60px) + 15.8%)!important;
+    top: calc(var(--header-height, 65px) + 10.8%)!important;
     bottom: auto;
     left: 12px;
     right: auto;
     padding: 8px 5px;
-    min-width: 80px !important;
+    min-width: 135px;
   }
 }
 

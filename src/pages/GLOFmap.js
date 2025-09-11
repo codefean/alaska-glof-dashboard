@@ -75,7 +75,7 @@ const AlaskaMap = () => {
 
     // Detect mobile
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 915);
+    const checkMobile = () => setIsMobile(window.innerWidth <= 900);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
