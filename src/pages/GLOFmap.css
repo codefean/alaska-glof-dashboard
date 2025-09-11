@@ -162,8 +162,8 @@ html, body {
 }
 
 .marker.square {
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   background: red;
   border: 1.5px solid white;
   z-index: 4;
@@ -215,8 +215,8 @@ html, body {
 
 
 .marker.circle {
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   border: 1.5px solid white;
   background-color: rgba(0, 0, 255, 0.654);

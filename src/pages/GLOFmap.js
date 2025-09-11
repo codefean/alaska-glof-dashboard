@@ -17,6 +17,7 @@ import { useGlacierLayer } from './glaciers';
 const AlaskaMap = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const [lakeData, setLakeData] = useState([]);
   const [showGlaciers] = useState(false);
@@ -24,8 +25,17 @@ const AlaskaMap = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const pitchRef = useRef(null);
+  const [pitchBottom, setPitchBottom] = useState(100);
 
   const markersRef = useRef([]);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 915);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // POPUPS:
   const hoverPopupRef = useRef(null);   // ephemeral, for hover previews
@@ -38,14 +48,45 @@ const AlaskaMap = () => {
   // live cursor info (lng/lat/elevation in meters)
   const [cursorInfo, setCursorInfo] = useState({ lng: null, lat: null, elevM: null });
 
-  useEffect(() => {
+  const resetZoom = () => {
     const map = mapRef.current;
     if (!map) return;
+    map.flyTo({
+      center: [-144.5, 59.5],
+      zoom: 4,
+      speed: 2.2,
+      pitch: DEFAULT_PITCH
+    });
+    setPitch(DEFAULT_PITCH);
+  };
 
+  useEffect(() => {
+  const updatePos = () => {
+    if (pitchRef.current) {
+      const rect = pitchRef.current.getBoundingClientRect();
+      // distance from bottom of viewport, plus some padding
+      setPitchBottom(window.innerHeight - rect.bottom + 12);
+    }
+  };
+  updatePos();
+  window.addEventListener('resize', updatePos);
+  return () => window.removeEventListener('resize', updatePos);
+}, []);
+
+    // Detect mobile
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 915);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
     const sync = () => setPitch(map.getPitch());
     map.on('pitch', sync);
     map.on('pitchend', sync);
-
     return () => {
       map.off('pitch', sync);
       map.off('pitchend', sync);
@@ -97,23 +138,6 @@ const AlaskaMap = () => {
         setPitch(DEFAULT_PITCH);
       }
     };
-
-    window.addEventListener('keydown', handleKeydown);
-
-    const handleReset = () => {
-    const map = mapRef.current;
-    if (!map) return;
-
-    map.flyTo({
-      center: [-144.5, 59.5],  // Default center
-      zoom: 4,                 // Default zoom level
-      speed: 2.2,
-      pitch: DEFAULT_PITCH     // Reset pitch to 20
-    });
-
-    setPitch(DEFAULT_PITCH);
-  };
-
 
     // DEM + terrain for elevation
     map.on('load', () => {
@@ -199,6 +223,19 @@ const AlaskaMap = () => {
     fetchLakeData();
     fetchGlacierData();
 
+      const resetZoom = () => {
+      const map = mapRef.current;
+      if (!map) return;
+      map.flyTo({
+        center: [-144.5, 59.5],  // Default center
+        zoom: 4,                 // Default zoom
+        speed: 2.2,
+        pitch: DEFAULT_PITCH     // Reset pitch
+      });
+      setPitch(DEFAULT_PITCH);
+    };
+
+
     // Global map click: unlock and clear any locked popup
     const clearLock = () => {
       isPopupLocked.current = false;
@@ -215,6 +252,14 @@ const AlaskaMap = () => {
       lockedPopupRef.current?.remove();
       map.remove();
     };
+  }, []);
+
+    useEffect(() => {
+    const handleKeydown = (e) => {
+      if (e.key.toLowerCase() === 'r') resetZoom();
+    };
+    window.addEventListener('keydown', handleKeydown);
+    return () => window.removeEventListener('keydown', handleKeydown);
   }, []);
 
   useEffect(() => {
@@ -436,16 +481,49 @@ const AlaskaMap = () => {
         <button onClick={handleSearch}>Search</button>
       </div>
 
+{isMobile && (
+  <button
+    onClick={resetZoom}
+    style={{
+      position: 'absolute',
+      bottom: `${pitchBottom / 1.15}px`, 
+      right: '12px',
+      padding: '8px 12px',
+      background: 'rgba(0,0,0,0.6)',
+      color: 'white',
+      border: 'none',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      zIndex: 5
+    }}
+  >
+    R
+  </button>
+)}
+
+
+      {/* ✅ Your hotkey table uses resetZoom too */}
       <div className="hotkey-table">
         <table>
           <tbody>
-            <tr><td><strong>R</strong></td><td>Reset Zoom</td></tr>
+            <tr>
+              <td><strong>R</strong></td>
+              <td>
+                <button
+                  onClick={resetZoom}
+                  style={{ cursor: 'pointer', background: 'none', border: 'none', color: 'white' }}
+                >
+                  Reset Zoom
+                </button>
+              </td>
+            </tr>
             <tr><td><strong>+</strong></td><td>Zoom in</td></tr>
             <tr><td><strong>-</strong></td><td>Zoom out</td></tr>
           </tbody>
         </table>
       </div>
-      
+
+
 
       {/* Cursor readout */}
       <div
@@ -472,9 +550,15 @@ const AlaskaMap = () => {
           <div>Move cursor over map…</div>
         )}
       </div>
-      <PitchControl mapRef={mapRef} value={pitch} onChange={(p) => setPitch(p)} />
+      <PitchControl
+        ref={pitchRef}
+        mapRef={mapRef}
+        value={pitch}
+        onChange={(p) => setPitch(p)}
+      />
       <MapLegend />
     </>
+    
   );
 };
 
