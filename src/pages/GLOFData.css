@@ -95,6 +95,7 @@ body {
   padding: 1rem;
   background-color: rgb(221, 233, 249);
   text-align: center;
+  margin-bottom: -5px;
 }
 
 .data-sources h3 {
