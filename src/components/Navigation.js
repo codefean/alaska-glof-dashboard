@@ -67,16 +67,6 @@ const Navigation = () => {
           Story Map
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            to="/submit-data"
-            className={({ isActive }) =>
-              isActive ? "secondary active-link" : "secondary"
-            }
-          >
-            Submit Data
-          </NavLink>
-        </li>
       </ul>
     </nav>
   );
