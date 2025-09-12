@@ -1,68 +1,23 @@
-// src/pages/FloodDataTable.js
+// src/pages/DataTable.js
 import React, { useState, useEffect } from "react";
 import Papa from "papaparse";
 import "./FloodTable.css";
 
-const COLUMN_NAME_MAPPING = {
-  lakeid: "Lake ID",
-  lakename: "Lake Name",
-  km2: "Lake Area (km²)",
-  lat: "Latitude",
-  lon: "Longitude",
-  ishazard: "Current Hazard",
-  futurehazard: "Future Hazard",
-  futurehazardeta: "Time to Future Hazard",
-  hazardurl: "Hazard Info",
-  summary: "Summary",
-  moreinfo: "More Info",
-  waterflow: "Water Flow",
-  downstream: "Downstream",
-  glaciername: "Glacier Name",
-  frequency: "Frequency",
-};
-
-// ✅ Config per table type
-const TABLE_CONFIG = {
-  current: {
-    excluded: [
-      "Lake Area (km²)",
-      "Latitude",
-      "Longitude",
-      "Future Hazard",
-      "Time to Future Hazard", // excluded only in current
-      "Current Hazard",
-      "More Info",
-    ],
-    title: "Current Alaska Glacier Lakes Flood Table",
-    filterFn: (row) => row["Current Hazard"]?.toLowerCase() === "true",
-  },
-  future: {
-    excluded: [
-      "Lake Area (km²)",
-      "Latitude",
-      "Longitude",
-      "Current Hazard", // keep Future Hazard + Time to Future Hazard
-      "Frequency",
-      "Future Hazard",
-      "Hazard Info",
-    ],
-    title: "Future Alaska Glacier Lakes Flood Table",
-    filterFn: (row) => row["Future Hazard"]?.toLowerCase() === "true",
-  },
-};
-
-const FloodDataTable = ({
-  csvUrl = process.env.PUBLIC_URL + "/AK_GL.csv",
-  type = "current", // "current" or "future"
-  subtitle = "",
+const DataTable = ({
+  csvUrl,
+  columnNameMapping = {},
+  excludedColumns = [],
+  title = "Data Table",
+  subtitle = "Select Columns to Explore",
+  filterFn, // optional custom filter
+  extraColumns = [], // e.g. "View on Map"
+  expandableColumns = [], // e.g. "Summary"
 }) => {
   const [headers, setHeaders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [,setData] = useState([]);
   const [sortedData, setSortedData] = useState([]);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [expandedRows, setExpandedRows] = useState([]);
-
-  const { excluded, title, filterFn } = TABLE_CONFIG[type] || TABLE_CONFIG.current;
 
   useEffect(() => {
     fetch(csvUrl)
@@ -74,42 +29,36 @@ const FloodDataTable = ({
           complete: (result) => {
             const rawData = result.data;
 
-            // Normalize keys
-            const processedData = rawData.map((row) => {
-              const newRow = {};
+            let processedData = rawData.map((row, idx) => {
+              const newRow = { Index: idx + 1 };
               Object.keys(row).forEach((key) => {
-                const normalizedKey = Object.keys(COLUMN_NAME_MAPPING).find(
-                  (mappedKey) => mappedKey.toLowerCase() === key.toLowerCase()
-                );
-                const newKey = normalizedKey
-                  ? COLUMN_NAME_MAPPING[normalizedKey]
-                  : key;
-                newRow[newKey] = row[key];
+                if (!excludedColumns.includes(key)) {
+                  const normalizedKey = Object.keys(columnNameMapping).find(
+                    (mappedKey) => mappedKey.toLowerCase() === key.toLowerCase()
+                  );
+                  const newKey = normalizedKey
+                    ? columnNameMapping[normalizedKey]
+                    : key;
+                  newRow[newKey] = row[key];
+                }
               });
               return newRow;
             });
 
-            // Apply filter based on type
-            const filteredData = processedData.filter(filterFn);
+            if (filterFn) {
+              processedData = processedData.filter(filterFn);
+            }
 
-            // Exclude columns
-            const allHeaders = Object.keys(filteredData[0] || {});
-            const filteredHeaders = allHeaders.filter(
-              (h) => !excluded.includes(h)
-            );
-
-            // Ensure Lake Name first
-            const orderedHeaders = [
-              "Lake Name",
-              ...filteredHeaders.filter((h) => h !== "Lake Name"),
+            const newHeaders = [
+              "Index",
+              ...Object.keys(processedData[0] || {}).filter(
+                (h) => h !== "Index"
+              ),
+              ...extraColumns,
             ];
 
-            // Always add View on Map
-            const finalHeaders = [...orderedHeaders, "View on Map"];
-
-            setData(filteredData);
-            setSortedData(filteredData);
-            setHeaders(finalHeaders);
+            setSortedData(processedData);
+            setHeaders(newHeaders);
             setLoading(false);
           },
         });
@@ -118,8 +67,25 @@ const FloodDataTable = ({
         console.error("Error loading CSV:", error);
         setLoading(false);
       });
-  }, [csvUrl, type, excluded, filterFn]);
+  }, [csvUrl, columnNameMapping, excludedColumns, filterFn, extraColumns]);
 
+  const handleSort = (column) => {
+    const direction =
+      sortConfig.key === column && sortConfig.direction === "asc"
+        ? "desc"
+        : "asc";
+
+    const sorted = [...sortedData].sort((a, b) => {
+      const aVal = a[column] || "";
+      const bVal = b[column] || "";
+      return direction === "asc"
+        ? String(aVal).localeCompare(String(bVal))
+        : String(bVal).localeCompare(String(aVal));
+    });
+
+    setSortedData(sorted);
+    setSortConfig({ key: column, direction });
+  };
 
   const toggleRow = (index) => {
     if (window.innerWidth <= 915) return; // disable expand on mobile
@@ -131,25 +97,29 @@ const FloodDataTable = ({
   };
 
   return (
-    <div className={`glacier-table-container`}>
+    <div className="glacier-table-container">
       {loading ? (
         <p>Loading data...</p>
       ) : (
         <>
-          <div className="glacier-table-header">
-            <h3 className="glacier-table-title">{title}</h3>
-            <h4 className="glacier-table-subtitle">{subtitle}</h4>
-
-            
-          </div>
+          <h3 className="glacier-table-title">{title}</h3>
+          <h4 className="glacier-table-subtitle">{subtitle}</h4>
 
           <table className="glacier-table">
             <thead>
               <tr>
                 {headers.map((header, index) => (
                   <th
+                    key={index}
+                    onClick={() => handleSort(header)}
+                    className="sortable"
                   >
                     {header}{" "}
+                    {sortConfig.key === header
+                      ? sortConfig.direction === "asc"
+                        ? "▲"
+                        : "▼"
+                      : ""}
                   </th>
                 ))}
               </tr>
@@ -166,9 +136,9 @@ const FloodDataTable = ({
                     {headers.map((header, colIndex) => {
                       let content = row[header] || "—";
 
-                      // Truncate long expandable fields
+                      // truncate if configured
                       if (
-                        ["Summary", "More Info"].includes(header) &&
+                        expandableColumns.includes(header) &&
                         !isExpanded &&
                         typeof content === "string" &&
                         content.length > 120
@@ -176,7 +146,7 @@ const FloodDataTable = ({
                         content = content.substring(0, 100) + "...";
                       }
 
-                      // Map button
+                      // map button
                       if (header === "View on Map") {
                         return (
                           <td key={colIndex}>
@@ -194,7 +164,7 @@ const FloodDataTable = ({
                         );
                       }
 
-                      // Hazard link
+                      // hazard link
                       if (
                         header === "Hazard Info" &&
                         typeof row[header] === "string"
@@ -223,7 +193,7 @@ const FloodDataTable = ({
                         <td
                           key={colIndex}
                           className={
-                            ["Summary", "More Info"].includes(header)
+                            expandableColumns.includes(header)
                               ? "summary-cell scrollable-summary"
                               : ""
                           }
@@ -243,4 +213,4 @@ const FloodDataTable = ({
   );
 };
 
-export default FloodDataTable;
+export default DataTable;

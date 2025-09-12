@@ -1,31 +1,31 @@
-/* Modern Table Container */
-.flood-table-container {
+/* Glacier Table Container */
+.glacier-table-container {
   width: 100%;
-  max-width: 1350px;
+  max-width: 1800px;
   margin: 40px auto;
   padding: 0 20px;
   overflow-x: auto;
+  background: #ffffff;
 }
 
-/* Modern Table */
-.flood-table {
+/* Table Base */
+.glacier-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
   border-radius: 12px;
   overflow: hidden;
   background: white;
 }
 
-/* Headers */
-.flood-table th {
+/* Table Header */
+.glacier-table th {
   background: #f9fafb;
   text-align: left;
-  padding: 16px 20px;
+  padding: 14px 18px;
   font-size: 15px;
   font-weight: 600;
-  color: #050608;
+  color: #111827;
   position: sticky;
   top: 0;
   cursor: pointer;
@@ -33,193 +33,149 @@
   transition: background 0.3s;
 }
 
-.flood-table th:hover {
+.glacier-table th:hover {
   background: #f3f4f6;
 }
 
-/* Body cells */
-.flood-table td {
-  padding: 14px 20px;
+/* Table Body Cells */
+.glacier-table td {
+  padding: 14px 18px;
   font-size: 14px;
-  color: #000000;
+  color: #111;
   border-top: 1px solid #e5e7eb;
   transition: background 0.3s;
+  vertical-align: top;
 }
 
 /* Zebra striping */
-.flood-table tbody tr:nth-child(even) {
-  background: #f9fafb;
+.glacier-table tbody tr:nth-child(even) {
+  background: #fafbfc;
 }
 
 /* Hover row effect */
-.flood-table tbody tr:hover {
+.glacier-table tbody tr:hover {
   background: #eef2f7;
-}
-
-.flood-table-title {
-  font-size: 1.2rem;    
-  font-weight: 600;                        
-  color: #000000;            
-  letter-spacing: 0.5px; 
-  margin-bottom: 10px; 
-  margin-top: 1px;   
-}
-
-.flood-table-subtitle {
-  font-size: 1rem;
-  font-weight: 600 !important;   
-  color: #34495e;
-}
-
-/* Expand button */
-.expand-button {
-  margin: 20px auto;
-  display: block;
-  padding: 10px 18px;
-  font-size: 15px;
-  background: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: background 0.3s, transform 0.2s;
-  font-weight: 600;
-}
-
-.expand-button:hover {
-  background: #1d4ed8;
-  transform: translateY(-2px);
-}
-
-/* Responsive tweaks */
-@media (max-width: 768px) {
-  .flood-table th,
-  .flood-table td {
-    padding: 12px 14px;
-    font-size: 13px;
-  }
-}
-
-.summary-row td {
-  background: #f1f5f9;
-  padding: 16px 20px;
-  font-size: 14px;
-  color: #0f1319;
-  border-top: 1px solid #d1d5db;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.summary-content {
-  max-width: 1000px;
-  line-height: 1.6;
-  margin: 10px 0;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.flood-table tbody tr:hover {
-  background: #d7e6f7bd;
   cursor: pointer;
 }
 
-
-.flood-table tbody tr.expandable-row {
+/* Expandable Row Highlight */
+.glacier-table tbody tr.expandable-row {
   position: relative;
-  cursor: pointer;
 }
 
-.flood-table tbody tr.expandable-row:hover td:first-child::after {
+.glacier-table tbody tr.expandable-row:hover td:first-child::after {
   content: "";
   position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 16px;
   font-size: 12px;
-  color: #6593f0;
-  font-style: italic;
+  color: #2563eb;
 }
 
+/* Highlighted Row (on hash link) */
 .highlighted-row {
-  background-color: rgba(0, 110, 255, 0.5);
+  background-color: rgba(0, 110, 255, 0.15) !important;
+  transition: background 0.4s ease-in-out;
 }
 
-.button {
+/* Buttons (Map / Link) */
+.glacier-button {
   display: inline-block;
-  background-color: #00509e;
-  color: white;
-  font-size: 12px;
+  background-color: #2563eb;
+  color: #fff;
+  font-size: 13px;
   font-weight: bold;
-  padding: 10px 10px;
+  padding: 6px 12px;
   border: none;
   border-radius: 5px;
   text-align: center;
   cursor: pointer;
-  width: 50px;
-  transition: background-color 0.3s ease-in-out, transform 0.2s;
+  transition: background 0.3s, transform 0.2s;
   text-decoration: none;
-  align-items: center;
 }
 
-.button:hover {
-  background-color: #9d0303;
-  transform: scale(1.05);
+.glacier-button:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
 }
 
-/* Font size options */
-.font-default .flood-table th,
-.font-default .flood-table td {
+/* Font size toggles */
+.glacier-font-default .glacier-table th,
+.glacier-font-default .glacier-table td {
   font-size: 14px;
 }
 
-.font-medium .flood-table th,
-.font-medium .flood-table td {
+.glacier-font-medium .glacier-table th,
+.glacier-font-medium .glacier-table td {
   font-size: 15px;
 }
 
-.font-large .flood-table th,
-.font-large .flood-table td {
+.glacier-font-large .glacier-table th,
+.glacier-font-large .glacier-table td {
   font-size: 16px;
 }
 
-.flood-table-header {
+.glacier-table-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .font-size-buttons button {
   background: none;
   border: none;
-  font-size: 14px;
-  font-weight: bold;
-  margin-left: 8px;
-  margin-right: 4px;
   cursor: pointer;
-  padding: 4px 8px;
+  margin: 0 4px;
+  font-weight: bold;
   border-radius: 4px;
+  padding: 4px 8px;
   transition: background 0.2s;
 }
 
-.font-size-buttons button:nth-child(2) {
-  font-size: 16px;
+.font-size-buttons button.active,
+.font-size-buttons button:hover {
+  background: #dbeafe;
+  color: #1d4ed8;
 }
 
-.font-size-buttons button:nth-child(3) {
-  font-size: 18px;
+/* Summary cells */
+.summary-cell {
+  max-width: 600px;
+  line-height: 1.5;
 }
 
-.font-size-buttons button:hover,
-.font-size-buttons .active {
-  background-color: #d1e3ff;
+.scrollable-summary {
+  max-height: 120px;
+  overflow-y: auto;
+  padding-right: 6px;
 }
+
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+  .glacier-table th,
+  .glacier-table td {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .glacier-button {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .glacier-table-container {
+    padding: 0 10px;
+  }
+
+  .glacier-table th,
+  .glacier-table td {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
+
+
+
