@@ -18,6 +18,13 @@
   background: white;
 }
 
+.glacier-table-title {
+  font-size: 1.2rem;          /* larger text */
+  font-weight: 700;         /* bold */
+  color: #030303;           /* deep blue */
+  line-height: .4;
+}
+
 /* Table Header */
 .glacier-table th {
   background: #f9fafb;
@@ -98,22 +105,6 @@
   transform: translateY(-1px);
 }
 
-/* Font size toggles */
-.glacier-font-default .glacier-table th,
-.glacier-font-default .glacier-table td {
-  font-size: 14px;
-}
-
-.glacier-font-medium .glacier-table th,
-.glacier-font-medium .glacier-table td {
-  font-size: 15px;
-}
-
-.glacier-font-large .glacier-table th,
-.glacier-font-large .glacier-table td {
-  font-size: 16px;
-}
-
 .glacier-table-header {
   display: flex;
   justify-content: space-between;
@@ -132,11 +123,6 @@
   transition: background 0.2s;
 }
 
-.font-size-buttons button.active,
-.font-size-buttons button:hover {
-  background: #dbeafe;
-  color: #1d4ed8;
-}
 
 /* Summary cells */
 .summary-cell {
@@ -162,6 +148,23 @@
   .glacier-button {
     font-size: 12px;
     padding: 5px 10px;
+  }
+
+  .glacier-table-title {
+  font-size: 1rem;   
+  font-weight: 600;  
+  color: #030303;      
+  line-height: .4;
+}
+
+  .summary-cell {
+    max-width: 100%;     /* let it span full width */
+    min-width: 250px;    /* ensure it doesn’t collapse too much */
+  }
+
+  .scrollable-summary {
+    max-height: none;    /* allow full height instead of tiny scroll box */
+    overflow-y: visible; /* avoid double scrollbars */
   }
 }
 

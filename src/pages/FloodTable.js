@@ -122,7 +122,6 @@ const FloodDataTable = ({
 
 
   const toggleRow = (index) => {
-    if (window.innerWidth <= 915) return; // disable expand on mobile
     setExpandedRows((prev) =>
       prev.includes(index)
         ? prev.filter((i) => i !== index)

@@ -72,6 +72,7 @@ body {
   max-width: 885px;
   margin: 20px auto;
   font-family: 'Open Sans', sans-serif;
+  margin-bottom: -10px;
 }
 
 /* About Card Heading */
@@ -83,43 +84,12 @@ body {
 
 /* About Card Paragraph */
 .about-floods-card p {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: #000000;
 }
 
 
-/* Hover Effect for Better User Interaction */
-.floodcard:hover {
-  transform: scale(1.02);
-}
 
-/* Last GLOF - Light Blue */
-.last-glof {
-  background: rgb(235, 241, 249);
-}
-
-/* Largest GLOF - Light Purple */
-.largest-glof {
-  background: rgba(232, 200, 255, 0.334);
-  border-left: 5px solid #b323f6d6;
-  border-right: 5px solid #ae00ff;
-}
-
-/* Card Headings */
-.floodcard h2 {
-  font-size: 1.3rem;
-  color: #000000;
-  margin-bottom: 5px;
-  font-family: 'Open Sans', sans-serif;
-}
-
-/* Card Paragraphs */
-.floodcard p {
-  font-size: 1rem;
-  color: #000000;
-  margin-bottom: 5px;
-  font-family: 'Open Sans', sans-serif;
-}
 
 .data-sources {
   padding: 1rem;
@@ -157,23 +127,17 @@ body {
   line-height: 1.4;
 }
 
+/* ✅ Mobile Adjustments (≤915px) */
+@media (max-width: 915px) {
 
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .flood-cards-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .flood-events-title{
+  /* Match researchteam.css mobile formatting */
+  .flood-events-title {
     text-align: center !important;
     margin: -14px 0 -10px;
-    font-size: 2rem;
+    font-size: 1.7rem;
     color: #154f89;
   }
-  
-  /* Subheading Below Page Title */
+
   .flood-events-subheading {
     text-align: center;
     font-size: 1rem;
@@ -184,69 +148,21 @@ body {
     margin-bottom: 10px;
     margin-top: 5px;
   }
-  
 
-  .floodcard {
-    width: 100%;
-    max-width: 95%;
-    padding: 15px;
+  .about-floods-card h2 {
+    background: rgb(240, 241, 243); /* Same light neutral background */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 1120px;
+    margin: -15px auto;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 98%;
   }
 
-  .flood-events h2 {
-    font-size: 2rem;
-  }
-
-  .flood-subheading {
-    font-size: 1.6rem;
-  }
-
-  
-}
-
-/* Mobile-Specific Adjustments */
-@media (max-width: 500px) {
-  .flood-events-container {
-    padding: 10px;
-  }
-
-  .flood-events h2 {
-    font-size: 1.8rem;
-  }
-
-  .flood-subheading {
-    font-size: 1.2rem;
-  }
-
-  .floodcard {
-    padding: 12px;
-    width: 100%;
-    max-width: 95%;
-    font-size: 0.95rem;
-  }
-
-  .floodcard h2 {
-    font-size: 1.2rem;
-  }
-
-  .floodcard p {
-    font-size: 0.9rem;
+  .about-floods-card p {
+    margin: 0.5rem 0 0.25rem;
+    font-size: .9rem !important;
+    color: #000;
   }
 }
-
-@media (max-width: 768px) {
-  .last-glof,
-  .largest-glof {
-    width: 100%;
-    max-width: 90%;
-  }
-}
-
-@media (max-width: 500px) {
-  .last-glof,
-  .largest-glof {
-    width: 100%;
-    max-width: 90%;
-    padding: 15px;
-  }
-}
-
