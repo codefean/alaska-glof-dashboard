@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -9,6 +9,8 @@ mapboxgl.accessToken =
 
 export default function Topographic3DTerrainMap() {
   const mapContainer = useRef(null);
+  const animationRef = useRef(null);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     const modelOrigin = [-134.4199, 58.29999]; // Suicide Basin
@@ -74,7 +76,6 @@ export default function Topographic3DTerrainMap() {
           this.camera = new THREE.Camera();
           this.scene = new THREE.Scene();
 
-          // Lights
           const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
           directionalLight.position.set(0, 100, 100).normalize();
           this.scene.add(directionalLight);
@@ -82,35 +83,27 @@ export default function Topographic3DTerrainMap() {
           const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
           this.scene.add(ambientLight);
 
-          // Load model
           const loader = new GLTFLoader();
           loader.load(
-            "/models/suicide_basin.glb", // ensure file is in /public/models/
+            "/models/suicide_basin.glb",
             (gltf) => {
-              console.log("✅ Model loaded:", gltf);
-
               this.model = gltf.scene;
-              this.model.rotation.set(0, 0, Math.PI / 8); // slight Z rotation
+              this.model.rotation.set(0, 0, Math.PI / 8);
 
-              // Auto-scale
               const box = new THREE.Box3().setFromObject(this.model);
               const size = new THREE.Vector3();
               box.getSize(size);
-              console.log("📦 Bounding box size:", size);
 
               const maxDim = Math.max(size.x, size.y, size.z);
-              const targetSize = 2000; // ~2000 meters footprint
+              const targetSize = 2000;
               const scale = targetSize / maxDim;
-              console.log("🔍 Scaling factor:", scale);
 
               this.model.scale.set(scale, scale, scale);
 
               this.scene.add(this.model);
             },
             undefined,
-            (error) => {
-              console.error("❌ Error loading GLB:", error);
-            }
+            (error) => console.error("❌ Error loading GLB:", error)
           );
 
           this.renderer = new THREE.WebGLRenderer({
@@ -130,7 +123,7 @@ export default function Topographic3DTerrainMap() {
             .scale(
               new THREE.Vector3(
                 modelTransform.scale,
-                -modelTransform.scale, // flip Y
+                -modelTransform.scale,
                 modelTransform.scale
               )
             );
@@ -143,30 +136,32 @@ export default function Topographic3DTerrainMap() {
 
       map.addLayer(customLayer);
 
-      // === CAMERA ORBIT AROUND DOWNTOWN ===
+      // === CAMERA ORBIT ===
       const orbitCenter = [-134.4197, 58.3019]; // downtown Juneau
       let angle = 0;
-      const speedFactor = 9000; // adjust for orbit speed
+      const speedFactor = 9000;
 
       function animateCamera(timestamp) {
-        angle = timestamp / speedFactor;
-        const radius = 0.01; // orbit radius in degrees (~1 km)
-        const lng = orbitCenter[0] + radius * Math.cos(angle);
-        const lat = orbitCenter[1] + radius * Math.sin(angle);
+        if (!paused) {
+          angle = timestamp / speedFactor;
+          const radius = 0.01;
+          const lng = orbitCenter[0] + radius * Math.cos(angle);
+          const lat = orbitCenter[1] + radius * Math.sin(angle);
 
-        map.setCenter([lng, lat]);
-        map.setBearing((angle * 180) / Math.PI); // rotate view
-        map.setZoom(13.5); // adjust zoom here
-
-        requestAnimationFrame(animateCamera);
+          map.setCenter([lng, lat]);
+          map.setBearing((angle * 180) / Math.PI);
+          map.setZoom(13.5);
+        }
+        animationRef.current = requestAnimationFrame(animateCamera);
       }
       animateCamera(0);
     });
 
     return () => {
+      cancelAnimationFrame(animationRef.current);
       map.remove();
     };
-  }, []);
+  }, [paused]);
 
   return (
     <div className="map-wrapper">
@@ -183,6 +178,14 @@ export default function Topographic3DTerrainMap() {
           <em>largest flood event</em> on record.
         </p>
       </div>
+
+      {/* === Pause Button === */}
+      <button
+        className="pause-btn"
+        onClick={() => setPaused((p) => !p)}
+      >
+        {paused ? "▶ Resume Orbit" : "⏸ Pause Orbit"}
+      </button>
     </div>
   );
 }
