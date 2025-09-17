@@ -18,7 +18,7 @@ export default function Topographic3DTerrainMap() {
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/satellite-streets-v12",
       center: modelOrigin,
-      zoom: 13.5,
+      zoom: 13,
       pitch: 60,
       bearing: 0,
       antialias: true,
@@ -30,7 +30,7 @@ export default function Topographic3DTerrainMap() {
         type: "raster-dem",
         url: "mapbox://mapbox.mapbox-terrain-dem-v1",
         tileSize: 512,
-        maxzoom: 14,
+        maxzoom: 12,
       });
       map.setTerrain({ source: "mapbox-dem", exaggeration: 0.9 });
 
@@ -146,15 +146,17 @@ export default function Topographic3DTerrainMap() {
       // === CAMERA ORBIT AROUND DOWNTOWN ===
       const orbitCenter = [-134.4197, 58.3019]; // downtown Juneau
       let angle = 0;
+      const speedFactor = 9000; // adjust for orbit speed
 
       function animateCamera(timestamp) {
-        angle = timestamp / 9500; // speed (bigger divisor = slower)
+        angle = timestamp / speedFactor;
         const radius = 0.01; // orbit radius in degrees (~1 km)
         const lng = orbitCenter[0] + radius * Math.cos(angle);
         const lat = orbitCenter[1] + radius * Math.sin(angle);
 
         map.setCenter([lng, lat]);
-        map.setBearing((angle * 180) / Math.PI); // keep facing orbit tangent
+        map.setBearing((angle * 180) / Math.PI); // rotate view
+        map.setZoom(13.5); // adjust zoom here
 
         requestAnimationFrame(animateCamera);
       }
@@ -166,5 +168,21 @@ export default function Topographic3DTerrainMap() {
     };
   }, []);
 
-  return <div ref={mapContainer} className="map-container" />;
+  return (
+    <div className="map-wrapper">
+      <div ref={mapContainer} className="map-container" />
+
+      {/* === Data Box Overlay === */}
+      <div className="data-box">
+        <h4>Suicide Basin</h4>
+        <p>
+          Estimated size: <strong>~</strong>
+        </p>
+        <p>
+          Model shows Suicide Basin on <strong>8/13/2025</strong>: Empty after the{" "}
+          <em>largest flood event</em> on record.
+        </p>
+      </div>
+    </div>
+  );
 }
