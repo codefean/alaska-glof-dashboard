@@ -22,3 +22,7 @@
   border-radius: 5px; /* Optional: Rounded corners for styling */
   border: 1px solid #ccc; /* Optional: Add a border for definition */
 }
+
+.floodlevels-page ~ footer {
+  display: none !important;
+}

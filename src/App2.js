@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import SubmitDataPage from "./pages/feedback";
 import StoryMap from "./pages/StoryMap";
+import SuicideBasin from "./pages/SuicideBasin";
 
 
 const useDocumentTitle = (title) => {
@@ -19,7 +20,6 @@ const useDocumentTitle = (title) => {
   }, [title]);
 };
 
-// Wrapper components to set the title for each route
 const GLOFMapPage = () => {
   useDocumentTitle("Glacial Lake Map");
   return <GLOFmap />;
@@ -55,6 +55,11 @@ const StoryMapPage = () => {
   return <StoryMap />;
 };
 
+const SuicideBasinPage = () => {
+  useDocumentTitle("Suicide Basin");
+  return <SuicideBasin />;
+};
+
 
 const App2 = () => {
   React.useEffect(() => {
@@ -75,6 +80,7 @@ const App2 = () => {
             <Route path="/home" element={<HomePage />} />
             <Route path="/submit-data" element={<SubmitDataWrapper />} />
             <Route path="/story-map" element={<StoryMapPage />} />
+            <Route path="/suicide-basin" element={<SuicideBasinPage />} />
           </Routes>
         </div>
         <Footer />

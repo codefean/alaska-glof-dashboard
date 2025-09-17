@@ -9,15 +9,15 @@ mapboxgl.accessToken =
 
 export default function Topographic3DTerrainMap() {
   const mapContainer = useRef(null);
-  const animationRef = useRef(null);
 
   useEffect(() => {
-    const center = [-134.4199, 58.29999]; // Juneau, Alaska
+    const modelOrigin = [-134.4199, 58.29999]; // Suicide Basin
+    const modelAltitude = 20;
 
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/satellite-streets-v12",
-      center,
+      center: modelOrigin,
       zoom: 13.5,
       pitch: 60,
       bearing: 0,
@@ -30,7 +30,7 @@ export default function Topographic3DTerrainMap() {
         type: "raster-dem",
         url: "mapbox://mapbox.mapbox-terrain-dem-v1",
         tileSize: 512,
-        maxzoom: 12,
+        maxzoom: 14,
       });
       map.setTerrain({ source: "mapbox-dem", exaggeration: 0.9 });
 
@@ -43,21 +43,29 @@ export default function Topographic3DTerrainMap() {
         "star-intensity": 0.15,
       });
 
-      map.setLight({
-        anchor: "map",
-        color: "white",
-        intensity: 0.8,
-        position: [1.5, 90, 80],
-      });
+      map.setLights([
+        {
+          id: "sunlight",
+          type: "directional",
+          color: "white",
+          intensity: 0.8,
+          position: [1.5, 90, 80],
+        },
+      ]);
 
-      // === THREE.JS + GLTF MODEL ===
-      const modelOrigin = center;
-      const modelAltitude = 0;
+      // === MODEL TRANSFORM ===
       const mercatorCoord = mapboxgl.MercatorCoordinate.fromLngLat(
         modelOrigin,
         modelAltitude
       );
+      const modelTransform = {
+        translateX: mercatorCoord.x,
+        translateY: mercatorCoord.y,
+        translateZ: mercatorCoord.z,
+        scale: mercatorCoord.meterInMercatorCoordinateUnits(),
+      };
 
+      // === CUSTOM LAYER ===
       const customLayer = {
         id: "3d-model",
         type: "custom",
@@ -66,7 +74,7 @@ export default function Topographic3DTerrainMap() {
           this.camera = new THREE.Camera();
           this.scene = new THREE.Scene();
 
-          // Lighting
+          // Lights
           const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
           directionalLight.position.set(0, 100, 100).normalize();
           this.scene.add(directionalLight);
@@ -74,39 +82,28 @@ export default function Topographic3DTerrainMap() {
           const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
           this.scene.add(ambientLight);
 
-          // Debug helper: shows XYZ orientation and confirms model position
-          const axesHelper = new THREE.AxesHelper(200);
-          this.scene.add(axesHelper);
-
           // Load model
           const loader = new GLTFLoader();
           loader.load(
-            `${process.env.PUBLIC_URL}/models/sb_cleaned.glb`,
+            "/models/suicide_basin.glb", // ensure file is in /public/models/
             (gltf) => {
-              console.log("✅ Model loaded successfully", gltf);
+              console.log("✅ Model loaded:", gltf);
+
               this.model = gltf.scene;
+              this.model.rotation.set(0, 0, Math.PI / 8); // slight Z rotation
 
-              // Reset baked transforms from GLB
-              this.model.position.set(0, 0, 0);
-              this.model.rotation.set(0, 0, 0);
-
-              // Calculate bounding box and scale model automatically
+              // Auto-scale
               const box = new THREE.Box3().setFromObject(this.model);
               const size = new THREE.Vector3();
               box.getSize(size);
+              console.log("📦 Bounding box size:", size);
 
               const maxDim = Math.max(size.x, size.y, size.z);
-              const targetSize = 500; // Target footprint ~500 meters
+              const targetSize = 2000; // ~2000 meters footprint
               const scale = targetSize / maxDim;
+              console.log("🔍 Scaling factor:", scale);
 
               this.model.scale.set(scale, scale, scale);
-
-              // Place model at the correct Mercator anchor point, slightly above terrain
-              this.model.position.set(
-                mercatorCoord.x,
-                mercatorCoord.y,
-                mercatorCoord.z + 10 // Lift 10 meters above DEM to avoid clipping
-              );
 
               this.scene.add(this.model);
             },
@@ -124,7 +121,21 @@ export default function Topographic3DTerrainMap() {
         },
         render: function (gl, matrix) {
           const m = new THREE.Matrix4().fromArray(matrix);
-          this.camera.projectionMatrix = m;
+          const l = new THREE.Matrix4()
+            .makeTranslation(
+              modelTransform.translateX,
+              modelTransform.translateY,
+              modelTransform.translateZ
+            )
+            .scale(
+              new THREE.Vector3(
+                modelTransform.scale,
+                -modelTransform.scale, // flip Y
+                modelTransform.scale
+              )
+            );
+
+          this.camera.projectionMatrix = m.multiply(l);
           this.renderer.resetState();
           this.renderer.render(this.scene, this.camera);
         },
@@ -132,17 +143,25 @@ export default function Topographic3DTerrainMap() {
 
       map.addLayer(customLayer);
 
-      // === CINEMATIC CAMERA ORBIT ===
-      const rotateCamera = (timestamp) => {
-        map.setBearing((timestamp / 100) % 360);
-        map.setPitch(60);
-        animationRef.current = requestAnimationFrame(rotateCamera);
-      };
-      rotateCamera(0);
+      // === CAMERA ORBIT AROUND DOWNTOWN ===
+      const orbitCenter = [-134.4197, 58.3019]; // downtown Juneau
+      let angle = 0;
+
+      function animateCamera(timestamp) {
+        angle = timestamp / 9500; // speed (bigger divisor = slower)
+        const radius = 0.01; // orbit radius in degrees (~1 km)
+        const lng = orbitCenter[0] + radius * Math.cos(angle);
+        const lat = orbitCenter[1] + radius * Math.sin(angle);
+
+        map.setCenter([lng, lat]);
+        map.setBearing((angle * 180) / Math.PI); // keep facing orbit tangent
+
+        requestAnimationFrame(animateCamera);
+      }
+      animateCamera(0);
     });
 
     return () => {
-      cancelAnimationFrame(animationRef.current);
       map.remove();
     };
   }, []);
