@@ -26,7 +26,7 @@ const GLOFMapPage = () => {
 };
 
 const GLOFForecastPage = () => {
-  useDocumentTitle("Glacial Lake Forecasting");
+  useDocumentTitle("About Glacial Lakes");
   return <GLOFForecast />;
 };
 
@@ -74,7 +74,7 @@ const App2 = () => {
           <Routes>
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/GLOF-map" element={<GLOFMapPage />} />
-            <Route path="/GLOF-forecast" element={<GLOFForecastPage />} />
+            <Route path="/about-glacial-lakes" element={<GLOFForecastPage />} />
             <Route path="/GLOF-data" element={<GLOFDataPage />} />
             <Route path="/about-research" element={<ResearchTeamPage />} />
             <Route path="/home" element={<HomePage />} />

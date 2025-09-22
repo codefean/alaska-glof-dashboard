@@ -41,14 +41,7 @@ const Navigation = () => {
             Explore Data
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            to="/GLOF-forecast"
-            className={({ isActive }) => (isActive ? "active-link" : "")}
-          >
-            Lake Forecasting
-          </NavLink>
-        </li>
+
         <li>
           <NavLink
             to="/about-research"

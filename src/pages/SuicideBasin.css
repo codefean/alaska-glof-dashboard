@@ -1,7 +1,11 @@
 .map-wrapper {
   position: relative;
-  width: 100%;
-  height: 90vh; /* full viewport height */
+  width: 85%;
+  height: 600px; /* less tall, fixed height */
+  border-radius: 16px; /* rounded corners */
+  overflow: hidden; /* ensures the map respects the rounded border */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* optional: gives a "card" feel */
+  margin: auto;
 }
 
 .map-container {
@@ -10,8 +14,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-}
-
+  border-radius: 16px; /* match wrapper */
+} 
 /* Floating Data Box */
 .data-box {
   position: absolute;
@@ -43,9 +47,8 @@
 
 .pause-btn {
   position: absolute;
-  bottom: 40px;
-  left: 20px;
-  background: rgba(0, 0, 0, 0.65);
+  bottom: 100px;
+  background: rgba(0, 0, 0, 0.65) !important;
   color: #f9fafb;
   border: none;
   padding: 10px 16px;
@@ -56,8 +59,38 @@
   backdrop-filter: blur(6px);
   transition: background 0.2s ease-in-out;
   z-index: 5;
+  width: 155px;
 }
 
 .pause-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Controls container */
+.controls {
+  position: absolute;
+  top: 190px;
+  left: 20px;
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  gap: 10px;
+  z-index: 5;
+}
+
+/* Generic control buttons */
+.controls button {
+  background: rgba(102, 156, 245, 0.65);
+  color: #f9fafb;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background 0.2s ease-in-out;
+}
+
+.controls button:hover {
   background: rgba(255, 255, 255, 0.2);
 }

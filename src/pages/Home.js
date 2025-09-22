@@ -4,42 +4,7 @@ import './Home.css';
 
 // cd /Users/seanfagan/Desktop/Alaska-GLOF
 
-const resourceLinks = [
 
-  {
-    title: 'National Weather Service',
-    url: 'https://www.weather.gov/safety/flood',
-    color: '#1f77b4',
-  },
-  {
-    title: 'State of Alaska',
-    url: 'https://ready.alaska.gov/Flood',
-    color: '#9467bd',
-  },
-  {
-    title: 'Latest Alaska Weather Alerts',
-    url: 'https://alerts-v2.weather.gov/search?area=AK',
-    color: '#30964b',
-  },
-];
-
-const educationLinks = [
-  {
-    title: 'Story Map: Understand the Mendenhall GLOF',
-    url: 'https://storymaps.arcgis.com/stories/72cef125bbfa4f989356bf9350cd5d63',
-    color: '#1f77b4',
-  },
-  {
-    title: 'Story Map: How Suicide Basin is Monitored',
-    url: 'https://storymaps.arcgis.com/stories/2ad8631c1abb4dfab3ec92b34f27ba8c',
-    color: '#1f77b4',
-  },
-  {
-    title: '-',
-    url: '-',
-    color: '#1f77b4',
-  },
-];
 
 // Card Data
 const cardData = [
@@ -58,11 +23,10 @@ const cardData = [
       'Go deeper into the impacts & data of glacial lake outburst floods.',
   },
   {
-    title: 'Flood Forecasting',
-    link: '/GLOF-forecast',
+    title: 'Glacial Lake Hazards',
     image: process.env.PUBLIC_URL + '/images/flood-forecast.jpg',
     description:
-      'Learn how forecasting of future glacial lakes is conducted.',
+      'Why glacial dammed lakes are a hazard & how they work (Under development)',
   },
   {
     title: 'About Research',
@@ -216,47 +180,9 @@ const Home = () => {
           )}
         </div>
 
-                        <div className="resources-wrapper">
-          <div className="home-about-card">
-            <h3>Flood Safety Resources</h3>
-            <ul className="resource-list">
-              {resourceLinks.map((link, idx) => (
-                <li key={idx}>
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="resource-link"
-                    style={{ borderLeftColor: link.color }}
-                  >
-                    {link.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
 
-          <div className="home-about-card">
-            <h3>Educational Resources</h3>
-            <ul className="resource-list">
-              {educationLinks.map((link, idx) => (
-                <li key={idx}>
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="resource-link"
-                    style={{ borderLeftColor: link.color }}
-                  >
-                    {link.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
 
-        <div className="home-about-card">
+        {/* <div className="home-about-card">
           <h3>Website Analytics</h3>
           <div className="analytics-iframe-wrapper">
             <iframe
@@ -264,7 +190,7 @@ const Home = () => {
               src="https://lookerstudio.google.com/embed/reporting/a1c38b51-bdd9-46ce-a1fb-c635f7e3d3fb/page/lpBOF"
             ></iframe>
           </div>
-        </div>
+        </div> */}
         
         {/* Contact Section */}
         <div className="home-about-card">

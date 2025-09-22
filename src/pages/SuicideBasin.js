@@ -10,18 +10,25 @@ mapboxgl.accessToken =
 export default function Topographic3DTerrainMap() {
   const mapContainer = useRef(null);
   const animationRef = useRef(null);
+
   const [paused, setPaused] = useState(false);
 
+  // state for location
+  const [location, setLocation] = useState({
+    modelOrigin: [-134.4197, 58.3019], // downtown Juneau (default)
+    orbitCenter: [-134.4197, 58.3019],
+  });
+
   useEffect(() => {
-    const modelOrigin = [-134.4199, 58.29999]; // Suicide Basin
-    const modelAltitude = 20;
+    const { modelOrigin, orbitCenter } = location;
+    const modelAltitude = 30;
 
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/satellite-streets-v12",
       center: modelOrigin,
-      zoom: 13,
-      pitch: 60,
+      zoom: 12.7,
+      pitch: 65,
       bearing: 0,
       antialias: true,
     });
@@ -137,9 +144,8 @@ export default function Topographic3DTerrainMap() {
       map.addLayer(customLayer);
 
       // === CAMERA ORBIT ===
-      const orbitCenter = [-134.4197, 58.3019]; // downtown Juneau
       let angle = 0;
-      const speedFactor = 9000;
+      const speedFactor = 9300;
 
       function animateCamera(timestamp) {
         if (!paused) {
@@ -161,7 +167,7 @@ export default function Topographic3DTerrainMap() {
       cancelAnimationFrame(animationRef.current);
       map.remove();
     };
-  }, [paused]);
+  }, [paused, location]);
 
   return (
     <div className="map-wrapper">
@@ -169,23 +175,40 @@ export default function Topographic3DTerrainMap() {
 
       {/* === Data Box Overlay === */}
       <div className="data-box">
-        <h4>Suicide Basin</h4>
-        <p>
-          Estimated size: <strong>~</strong>
-        </p>
+        <h4>Suicide Basin for Scale</h4>
         <p>
           Model shows Suicide Basin on <strong>8/13/2025</strong>: Empty after the{" "}
           <em>largest flood event</em> on record.
         </p>
       </div>
 
-      {/* === Pause Button === */}
-      <button
-        className="pause-btn"
-        onClick={() => setPaused((p) => !p)}
-      >
-        {paused ? "▶ Resume Orbit" : "⏸ Pause Orbit"}
-      </button>
-    </div>
+     <div className="controls">
+  <button className="pause-btn" onClick={() => setPaused((p) => !p)}>
+    {paused ? "▶ Resume Orbit" : "⏸ Pause Orbit"}
+  </button>
+
+  <button
+    onClick={() =>
+      setLocation({
+        modelOrigin: [-134.575402, 58.393573], // Mendenhall Valley
+        orbitCenter: [-134.575402, 58.393573],
+      })
+    }
+  >
+    Mendenhall Valley
+  </button>
+
+  <button
+    onClick={() =>
+      setLocation({
+        modelOrigin: [-134.4197, 58.3019], // Downtown Juneau
+        orbitCenter: [-134.4197, 58.3019],
+      })
+    }
+  >
+    Downtown Juneau
+  </button>
+</div>
+</div>
   );
 }
