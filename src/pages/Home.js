@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Home.css';
+import SBmodel from './SBmodel';
 
 // cd /Users/seanfagan/Desktop/Alaska-GLOF
 
@@ -107,6 +108,8 @@ const Home = () => {
         {/* About Section */}
         <div className="home-about-card">
           <h3>About</h3>
+
+
           <p>
             This dashboard provides an interactive view of the potential
             locations for glacial lake outburst floods in Alaska. Use the cards
@@ -114,6 +117,24 @@ const Home = () => {
             conducted. This website was created by the University of Alaska
             Southeast.
           </p>
+        </div>
+
+              {/* About & FAQ Section */}
+        {/* Ice-Dammed Glacial Section */}
+        <div className="home-about-lake">
+          <h3>Ice-Dammed Glacial Lakes</h3>
+                    <SBmodel />
+          <p>
+            Ice-dammed glacial lakes represent a serious flood hazard in Alaska. These lakes form when glaciers block natural valleys, creating reservoirs that can release suddenly and catastrophically. As glaciers retreat more glacial lakes become exposed.
+          </p>
+          <div className= "button-wrapper">           <a
+              href="https://www.alaskaglacialfloods.org/#/about-glacial-lakes"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="home-button"
+            >
+              More Info
+            </a></div>
         </div>
 
 

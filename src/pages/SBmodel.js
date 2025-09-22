@@ -1,0 +1,122 @@
+import React, { useEffect, useRef, useState } from "react";
+import mapboxgl from "mapbox-gl";
+import "./SBmodel.css";
+
+mapboxgl.accessToken =
+  "pk.eyJ1IjoibWFwZmVhbiIsImEiOiJjbTNuOGVvN3cxMGxsMmpzNThzc2s3cTJzIn0.1uhX17BCYd65SeQsW1yibA";
+
+export default function Topographic3DTerrainMap() {
+  const mapContainer = useRef(null);
+  const animationRef = useRef(null);
+  const wrapperRef = useRef(null);
+
+  const [paused, setPaused] = useState(false);
+
+  // Array of lakes
+  const lakes = [
+    { name: "Lake B50", orbitCenter: [-146.87995, 61.6636] },
+    { name: "Abyss Lake", orbitCenter: [-136.62418, 58.50103] },
+    { name: "Snow Lake", orbitCenter: [-148.93307, 60.48361] },
+    { name: "Suicide Basin", orbitCenter: [-134.49752, 58.45798] },
+  ];
+
+  const [lakeIndex, setLakeIndex] = useState(0);
+  const [location, setLocation] = useState({
+    orbitCenter: lakes[0].orbitCenter,
+  });
+
+  // Auto-cycle lakes every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLakeIndex((prev) => {
+        const nextIndex = (prev + 1) % lakes.length;
+        setLocation({ orbitCenter: lakes[nextIndex].orbitCenter });
+        return nextIndex;
+      });
+    }, 20000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Map setup
+  useEffect(() => {
+    const { orbitCenter } = location;
+
+    const initialZoom = window.innerWidth < 915 ? 12.2 : 12.7;
+
+    const map = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/mapbox/satellite-streets-v12",
+      center: orbitCenter,
+      zoom: initialZoom,
+      pitch: 60,
+      bearing: 0,
+      antialias: true,
+    });
+
+    map.on("load", () => {
+      map.addSource("mapbox-dem", {
+        type: "raster-dem",
+        url: "mapbox://mapbox.mapbox-terrain-dem-v1",
+        tileSize: 512,
+        maxzoom: 12,
+      });
+      map.setTerrain({ source: "mapbox-dem", exaggeration: 0.9 });
+
+      map.setFog({
+        color: "rgb(186, 210, 235)",
+        "high-color": "rgb(36, 92, 223)",
+        "horizon-blend": 0.3,
+        range: [0.5, 15],
+        "space-color": "rgb(11, 11, 25)",
+        "star-intensity": 0.15,
+      });
+
+      map.setLights([
+        {
+          id: "sunlight",
+          type: "directional",
+          color: "white",
+          intensity: 0.8,
+          position: [1.5, 90, 80],
+        },
+      ]);
+
+      let angle = 0;
+      const speedFactor = 9300;
+
+      function animateCamera(timestamp) {
+        if (!paused) {
+          angle = timestamp / speedFactor;
+          const radius = 0.01;
+          const lng = orbitCenter[0] + radius * Math.cos(angle);
+          const lat = orbitCenter[1] + radius * Math.sin(angle);
+
+          map.setCenter([lng, lat]);
+          map.setBearing((angle * 180) / Math.PI);
+          map.setZoom(13);
+        }
+        animationRef.current = requestAnimationFrame(animateCamera);
+      }
+      animateCamera(0);
+    });
+
+    return () => {
+      cancelAnimationFrame(animationRef.current);
+      map.remove();
+    };
+  }, [paused, location]);
+
+  
+
+  return (
+    <div className="map-wrapper-2" ref={wrapperRef}>
+      <div ref={mapContainer} className="map-container-2" />
+
+      {/* Overlay Data Box */}
+      <div className="data-box">
+        <p>{lakes[lakeIndex].name}</p>
+      </div>
+    </div>
+  );
+}
