@@ -31,7 +31,7 @@ body {
 /* Page Title */
 .flood-events-title{
   text-align: center !important;
-  margin: 10px 0 -10px !important;
+  margin: 15px 0 -5px !important;
   font-size: 2.4rem;
   color: #154f89;
 }
@@ -70,7 +70,7 @@ body {
   text-align: center;
   width: 80%;
   max-width: 885px;
-  margin: 20px auto;
+  margin: 17px auto;
   font-family: 'Open Sans', sans-serif;
   margin-bottom: -10px;
 }
