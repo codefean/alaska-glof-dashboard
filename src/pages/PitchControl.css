@@ -64,19 +64,7 @@
   transition: background 0.2s ease;
 }
 
-@media screen and (max-width: 1180px) {
-  .pitch-control {
-    position: fixed;
-    top: calc(var(--header-height, 45px) + 10.8%)!important;
-    bottom: auto;
-    left: 12px;
-    right: auto;
-    padding: 8px 5px;
-    min-width: 135px;
-  }
-}
-
-@media screen and (max-width: 915px) {
+@media screen and (max-width: 1184px) {
   .pitch-control {
     position: fixed;
     top: calc(var(--header-height, 65px) + 10.8%)!important;
@@ -89,7 +77,7 @@
 }
 
 
-@media screen and (max-width: 844px) {
+@media screen and (max-width: 1184px) {
   .pitch-control {
     position: fixed;
     top: calc(var(--header-height, 110px) + 50%) !important;

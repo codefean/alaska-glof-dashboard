@@ -8,8 +8,7 @@ import MapLegend from './MapLegend';
 import Citation from './citation';
 import PitchControl from "./PitchControl";
 import { useCursorLocation } from "./loc";
-
-// NEW: glacier layer hook + toggle button
+import LayersToggle from "./LayersToggle";
 import { useGlacierLayer } from './glaciers';
 
 
@@ -29,6 +28,12 @@ const AlaskaMap = () => {
   const [pitchBottom, setPitchBottom] = useState(100);
 
   const markersRef = useRef([]);
+
+
+  // ✅ Layer toggle states
+  const [showLakes, setShowLakes] = useState(true);
+  const [showImpacts, setShowImpacts] = useState(true);
+  const [showPredicted, setShowPredicted] = useState(true);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 915);
@@ -273,6 +278,11 @@ useEffect(() => {
       const { lat, lon, LakeID, LakeName, GlacierName, isHazard, futureHazard, futureHazardETA } = lake;
       if (isNaN(lat) || isNaN(lon)) return;
 
+            // ✅ Layer filtering
+      if (!showLakes && !isHazard && !futureHazard) return;
+      if (!showImpacts && isHazard) return;
+      if (!showPredicted && futureHazard) return;
+
       const el = document.createElement('div');
       el.className = isHazard ? 'marker square' : futureHazard ? 'marker diamond' : 'marker circle';
 
@@ -356,9 +366,9 @@ const popupContent = `
         window.history.pushState({}, '', `#/GLOF-map?lake=${encodeURIComponent(LakeID)}`);
       });
     });
-  }, [lakeData]);
+}, [lakeData, showLakes, showImpacts, showPredicted]);
 
-  // Auto-zoom to lake from shared URL with full (locked) popup
+
   useEffect(() => {
     if (!window.location.hash.startsWith('#/GLOF-map')) return;
     const params = new URLSearchParams(window.location.hash.split('?')[1]);
@@ -390,13 +400,13 @@ const popupContent = `
       .setHTML(popupContent)
       .addTo(mapRef.current);
 
-    // ✅ Force scroll to top when loading a lake directly
+
     setTimeout(() => {
       window.scrollTo(0, 0);
     }, 50);
   }, [lakeData]);
 
-  // mousemove -> update cursorInfo
+
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
@@ -423,7 +433,7 @@ const popupContent = `
     };
   }, []);
 
-  // Hook: add glacier vector layer + interactions; reacts to showGlaciers
+
   useGlacierLayer({
     mapRef,
     showGlaciers,
@@ -539,6 +549,15 @@ const popupContent = `
           </tbody>
         </table>
       </div>
+
+<LayersToggle
+        showLakes={showLakes}
+        setShowLakes={setShowLakes}
+        showImpacts={showImpacts}
+        setShowImpacts={setShowImpacts}
+        showPredicted={showPredicted}
+        setShowPredicted={setShowPredicted}
+      />
 
 
 
