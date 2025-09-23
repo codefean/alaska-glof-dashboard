@@ -1,6 +1,6 @@
 .layer-toggle-panel {
   position: fixed;
-  top: 200px;   /* just below the hotkey-table */
+  top: 195px;   /* just below the hotkey-table */
   left: 10px;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
