@@ -299,7 +299,7 @@ const popupContent = `
         style="text-decoration: none;"
 
       >
-        More Hazard Info
+        More Info
       </a>` 
     : ''}
   </div>
