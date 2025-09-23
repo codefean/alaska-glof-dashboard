@@ -26,7 +26,7 @@ html, body {
 }
 
 .no-scroll {
-  overflow: hidden;
+  overflow: hidden !important;
   height: 100%;
 }
 
@@ -377,3 +377,31 @@ a:focus {
   }
 }
 
+.glof-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.glof-button {
+  display: block;
+  background-color: #00509e;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 1px;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  min-width: 80%;
+  transition: background-color 0.3s ease-in-out, transform 0.2s;
+  text-decoration: none;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.glof-button:hover {
+  background-color: #9d0303;
+  transform: scale(1.05);
+}

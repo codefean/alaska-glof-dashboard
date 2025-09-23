@@ -281,13 +281,28 @@ useEffect(() => {
         .addTo(map);
       markersRef.current.push(marker);
 
-      const popupContent = `
-        <h4>${LakeName || `Lake ${LakeID}`}</h4>
-        <p><strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
-        ${lake.waterFlow ? `<strong>Flow:</strong> ${lake.waterFlow}<br/>` : ''}
-        ${lake.downstream ? `<strong>Downstream:</strong> ${lake.downstream}<br/>` : ''}
-        ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
-        ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}">See full hazard info</a>` : ''}</p>`;
+const popupContent = `
+  <h4>${LakeName || `Lake ${LakeID}`}</h4>
+  <p>
+    <strong>Glacier:</strong> ${GlacierName || 'Unknown'}<br/>
+    ${lake.waterFlow ? `<strong>Flow:</strong> ${lake.waterFlow}<br/>` : ''}
+    ${lake.downstream ? `<strong>Downstream:</strong> ${lake.downstream}<br/>` : ''}
+    ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
+  </p>
+  <div class="glof-button-wrapper">
+    ${(isHazard || futureHazard) ? `
+      <a 
+        href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}" 
+        target="_blank"
+        rel="noopener noreferrer"
+        class="glof-button"
+        style="text-decoration: none;"
+      >
+        More Hazard Info
+      </a>` 
+    : ''}
+  </div>
+`;
 
       let hoverTimeout;
 
@@ -486,8 +501,8 @@ useEffect(() => {
     onClick={resetZoom}
     style={{
       position: 'absolute',
-      bottom: `${pitchBottom / 1.26}px`, 
-      right: '12px',
+      bottom: `${pitchBottom / 1.48}px`, 
+      right: '6px',
       padding: '8px 12px',
       background: 'rgba(0,0,0,0.6)',
       color: 'white',

@@ -103,8 +103,8 @@
   .navigation .menu-toggle {
     display: block;
     height: 35px;
-    margin-top: -10px;
-    margin-bottom: -1px;
+    margin-top: -3px !important;
+    margin-bottom: -5px !important;
   }
 
     .navigation ul li a {
