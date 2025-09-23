@@ -28,7 +28,7 @@
 
 .team-cards-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* ✅ Up to 3 cards per row */
+  grid-template-columns: repeat(4, 1fr); /* ✅ Up to 3 cards per row */
   gap: 1.5rem;
   max-width: 1300px;
   margin: 0 auto;
