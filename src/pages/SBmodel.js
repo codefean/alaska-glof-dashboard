@@ -18,6 +18,9 @@ export default function Topographic3DTerrainMap() {
     { name: "Abyss Lake", orbitCenter: [-136.62418, 58.50103] },
     { name: "Snow Lake", orbitCenter: [-148.93307, 60.48361] },
     { name: "Suicide Basin", orbitCenter: [-134.49752, 58.45798] },
+    { name: "Summit Lake", orbitCenter: [-130.06834, 56.18620] },
+    { name: "Sklai Lake", orbitCenter: [-141.94131, 61.63694] },
+    { name: "Lake B34", orbitCenter: [-132.55151, 57.10230] },
   ];
 
   const [lakeIndex, setLakeIndex] = useState(0);
