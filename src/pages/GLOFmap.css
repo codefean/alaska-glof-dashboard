@@ -25,6 +25,19 @@ html, body {
   height: 100%;
 }
 
+.search-bar-container,
+.dropdown-suggestions {
+  min-width: unset !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+
+html, body {
+  overflow-x: hidden;
+}
+
+
 .no-scroll {
   overflow: hidden !important;
   height: 100%;
