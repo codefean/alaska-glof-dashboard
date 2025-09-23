@@ -79,9 +79,6 @@ export default function Topographic3DTerrainMap() {
         {
           id: "sunlight",
           type: "directional",
-          color: "white",
-          intensity: 0.8,
-          position: [1.5, 90, 80],
         },
       ]);
 
