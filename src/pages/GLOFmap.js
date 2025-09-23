@@ -297,6 +297,7 @@ const popupContent = `
         rel="noopener noreferrer"
         class="glof-button"
         style="text-decoration: none;"
+
       >
         More Hazard Info
       </a>` 
@@ -501,8 +502,8 @@ const popupContent = `
     onClick={resetZoom}
     style={{
       position: 'absolute',
-      bottom: `${pitchBottom / 1.48}px`, 
-      right: '6px',
+      bottom: `${pitchBottom / 1.26}px`, 
+      right: '12px',
       padding: '8px 12px',
       background: 'rgba(0,0,0,0.6)',
       color: 'white',

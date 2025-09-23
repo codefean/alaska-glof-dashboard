@@ -93,7 +93,7 @@
   .pitch-control {
     position: fixed;
     top: calc(var(--header-height, 110px) + 50%) !important;
-    right: 23px; /* Stick to the right edge */
+    right: 10px; /* Stick to the right edge */
     left: auto;
     padding: 9px 5px;
     min-width: 250px !important;
