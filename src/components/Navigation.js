@@ -44,20 +44,19 @@ const Navigation = () => {
 
         <li>
           <NavLink
+            to="/about-glacial-lakes"
+            className={({ isActive }) => (isActive ? "active-link" : "")}
+          >
+            Glacial Lake Hazards
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
             to="/about-research"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             About Research
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/story-map"
-            className={({ isActive }) =>
-              isActive ? "secondary active-link" : "secondary"
-            }
-          >
-          Story Map
           </NavLink>
         </li>
       </ul>
