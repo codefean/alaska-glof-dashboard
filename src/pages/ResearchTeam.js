@@ -26,7 +26,7 @@ const teamMembers = [
     name: "David Rounce",
     role: "Glaciologist",
     affiliation: "Carnegie Mellon University",
-    bio: "Assistant Professor at Carnegie Mellon University. Leads the CryoTartans research group using computational modeling, remote sensing, and fieldwork to understand glacier, water resource, and hazard responses to climate change. Creator of the open-source PyGEM glacier evolution model and recipient of the IGS Firn Award.",
+    bio: "Assistant Professor of Civil and Environmental Engineering at Carnegie Mellon University, whose research explores glacier projections and glacier outburst floods through the integration of fieldwork, remote sensing, and models.",
     image: `${process.env.PUBLIC_URL}/images/rounce.jpeg`,
     website: "https://davidrounce.weebly.com/",
   },

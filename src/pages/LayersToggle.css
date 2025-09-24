@@ -8,7 +8,7 @@
   padding: 10px 14px;
   color: white;
   font-size: .85rem;
-  z-index: 2;
+  z-index: 900;
   box-sizing: border-box;
   display: flex;     
   align-items: center; 
@@ -64,6 +64,9 @@
 .layer-circle {
   background: blue;
   border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  margin-right: -6px;
 }
 
 .layer-square {
@@ -74,12 +77,75 @@
   background: orange;
   transform: rotate(45deg);
   transition: transform 0.2s, opacity 0.2s; /* smooth scaling */
+  width: 13px;
+  height: 13px;
+  position: relative;
 }
 
 .layer-diamond:hover{
   transform: rotate(45deg) scale(1.1);
 }
 
+
+/* --- TOOLTIP STYLING --- */
+
+.toggle-icon[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% - 50px);
+  left: 50%;
+  transform: translateX(50%) translateY-(4px);
+  background: rgba(0, 0, 0, 0.665);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 10;
+}
+
+.toggle-icon[data-tooltip]::before {
+  content: "";
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-bottom-color: rgba(0, 0, 0, 0.85);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 10;
+}
+
+.toggle-icon .count {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  font-size: 10px;
+  color: white;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+.layer-diamond .count {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+
+/* Reveal on hover or focus */
+.toggle-icon:hover::after,
+.toggle-icon:hover::before,
+.toggle-icon:focus-visible::after,
+.toggle-icon:focus-visible::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
 
 /* Hide on small screens */
 @media (max-width: 844px) {
