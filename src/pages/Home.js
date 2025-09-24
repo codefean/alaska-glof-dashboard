@@ -31,7 +31,7 @@ const cardData = [
   },
   {
     title: 'About Research',
-    link: '/research-team',
+    link: '/about-research',
     image: process.env.PUBLIC_URL + '/images/suicide-basin.jpg',
     description:
       'Meet the team & learn more about organizations supporting the research.',
