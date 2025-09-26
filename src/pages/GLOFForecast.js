@@ -103,8 +103,21 @@ const AboutGlacialLakes = () => {
           Ice-dammed glacial lakes represent a serious flood hazard in Alaska.
           These lakes form when glaciers block natural valleys, creating
           reservoirs that can release suddenly and catastrophically. As glaciers retreat more glacial lakes become exposed.
+          A story map specific to ice-dammed glacial lake hazards is currently under development.
         </p>
       </section>
+
+          <div className="story-map-container">
+      <iframe
+        src="https://storymaps.arcgis.com/stories/72cef125bbfa4f989356bf9350cd5d63"
+        width="100%"
+        height="650px"
+        frameBorder="0"
+        allowFullScreen
+        allow="geolocation"
+        title="StoryMap"
+      ></iframe>
+      </div>
     </div>
   );
 };

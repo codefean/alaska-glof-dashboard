@@ -55,7 +55,7 @@ body {
   border-radius: 8px;
   text-align: center;
   width: 400px;
-  max-width: 90%;
+  max-width: 85%;
   line-height: 1.2;
   margin-bottom: 0;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -128,7 +128,6 @@ body {
   line-height: 1.4;
 }
 
-/* ✅ Mobile Adjustments (≤915px) */
 @media (max-width: 915px) {
 
   /* Match researchteam.css mobile formatting */

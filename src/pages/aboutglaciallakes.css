@@ -29,7 +29,7 @@
   padding: 20px;
   border-radius: 8px;
   text-align: center;
-  width: 90%;
+  width: 85%;
   max-width: 1050px;
   margin: 5px auto 30px;
   font-size: 1.1rem;
@@ -39,51 +39,35 @@
 /* ===== Stats Bar ===== */
 .stats-bar {
   width: 100%;
-  height: 55px;
-  max-width: 100vw;
+  height: clamp(40px, 5vw, 59px); /* shrinks down to 25px on very small screens */
   background: #dde9f9;
   text-align: center;
   box-sizing: border-box;
   margin-bottom: 10px;
-  padding: .3rem;
+  padding: 0.3rem;
 }
 
 .stats-overlay {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: clamp(1px, 1vw, 14px);
 }
 
-
-
 .stat-number {
-  font-size: clamp(1.3rem, 5vw, 1.5rem);
+  font-size: clamp(.8rem, 2vw, 1.5rem);
   font-weight: bold;
   color: #13334f;
+  white-space: nowrap;
 }
 
 .stat-label {
   margin-top: 3px;
-  font-size: 0.9rem;
+  font-size: clamp(.7rem, 1.5vw, 1rem);
   color: #13334f;
+  white-space: nowrap;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-  .about-title {
-    font-size: 1.8rem;
-  }
-
-  .about-lakes-card {
-    font-size: 1rem;
-  }
-
-  .stats-overlay {
-    flex-direction: column;
-  }
-}
 
 .stat {
   position: relative;
@@ -131,8 +115,116 @@
   border-color: rgba(0, 0, 0, 0.6) transparent transparent transparent;
 }
 
+.stat-number,
+.stat-label {
+  white-space: nowrap;
+}
+
+
 @keyframes fadeIn {
   to {
     opacity: 1;
   }
+}
+
+.story-map-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  width: 90%;
+  margin-top: -30px;
+}
+
+.story-map-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #222;
+  text-align: center;
+}
+
+iframe {
+  border: none;
+  max-width: 100%;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.back-link {
+  margin-top: 20px;
+}
+
+.back-link a {
+  text-decoration: none;
+  color: #0078d7;
+  font-weight: bold;
+}
+
+.back-link a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 915px) {
+
+  /* Match researchteam.css mobile formatting */
+  .about-title {
+    text-align: center !important;
+    margin: 3px 0 -10px;
+    font-size: 1.3rem;
+    color: #154f89;
+  }
+
+  .about-subheading {
+    text-align: center;
+    font-size: .9rem;
+    color: #0e2b4a;
+    margin: 0 0 5px;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 10px;
+    margin-top: 9px;
+  }
+
+  .about-lakes-card h2 {
+    background: rgb(240, 241, 243); /* Same light neutral background */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 1120px;
+    margin: -15px auto;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 98%;
+  }
+
+  .about-lakes-card p {
+    margin: 0.5rem 0 0.25rem;
+    font-size: .9rem !important;
+    color: #000;
+  }
+
+  .stats-overlay {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: clamp(1px, 1vw, 14px);
+}
+
+.stat-number {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: bold;
+  color: #13334f;
+  white-space: nowrap;
+}
+
+.stat-label {
+  margin-top: 3px;
+  font-size: clamp(.45rem, 1.5vw, 1rem);
+  color: #13334f;
+  white-space: nowrap;
+}
+
+.stat-tooltip {
+visibility: hidden;
+}
+
 }

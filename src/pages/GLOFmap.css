@@ -306,7 +306,7 @@ a:focus {
 /* Mobile positioning adjustment */
 @media (max-width: 844px) {
   .controls-container {
-    top: 380px;
+    top: 390px;
     left: 18px;
     max-width: 260px;
   }
@@ -320,7 +320,7 @@ a:focus {
 @media (max-width: 580px) {
 
   .search-bar-container {
-    top: 80px !important;
+    top: 90px !important;
   }
 }
 

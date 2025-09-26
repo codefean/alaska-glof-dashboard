@@ -22,24 +22,36 @@ const Header = () => {
   </div>
 
 <div className="header-title">
-  <h1
-    onClick={() =>
-      (window.location.href =
-        "https://www.alaskaglacialfloods.org")
-    }
-    style={{ cursor: "pointer" }}
-  >
-    Alaska{""}
-    <span className="plus">+
-      <span className="plus-tooltip">
-        <div className="plus-tooltip-content">
-          <p>& British Columbia</p>
-        </div>
-      </span>
-    </span>{" "}
-    Glacial Lake Flood Dashboard
-  </h1>
+  {/* Desktop Title */}
+  <div className="desktop-title">
+    <h1
+      onClick={() =>
+        (window.location.href = "https://www.alaskaglacialfloods.org")
+      }
+      style={{ cursor: "pointer" }}
+    >
+      Alaska
+      <span className="plus">
+        +
+        <span className="plus-tooltip">
+          <div className="plus-tooltip-content">
+            <p>Glacial Lakes in Alaska & British Columbia</p>
+          </div>
+        </span>
+      </span>{" "}
+      Glacial Lake Flood Dashboard
+    </h1>
+  </div>
+
+  {/* Mobile Title + Subheading */}
+  <div className="mobile-title">
+    <h1>Alaska Glacial Flood Dashboard</h1>
+    <div className="header-subtitle">
+      Glacial Lakes in Alaska & British Columbia
+    </div>
+  </div>
 </div>
+
 
 
   <div className="header-right">
