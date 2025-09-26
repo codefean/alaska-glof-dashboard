@@ -74,14 +74,8 @@ const AboutGlacialLakes = () => {
             showPlus={true}
           />
           <Stat
-            target={25}
-            label="Glacial Lakes Tracked by NWS"
-            tooltip="Lakes known to produce recurring glacial lake outburst floods."
-            showPlus={true}
-          />
-          <Stat
             target={5}
-            label="Known Glacier Lake Hazards"
+            label="Known Glacial Lakes Causing Hazards"
             tooltip="These lakes include Suicide Basin, Snow Lake, and Bear Lake."
           />
           <Stat

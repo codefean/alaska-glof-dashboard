@@ -25,6 +25,7 @@ const cardData = [
   },
   {
     title: 'Glacial Lake Hazards',
+    link: '/about-glacial-lakes',
     image: process.env.PUBLIC_URL + '/images/glof-hazard.jpg',
     description:
       'Why glacial dammed lakes are a hazard & how they work (Under development)',
