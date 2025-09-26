@@ -138,7 +138,16 @@ const ResearchTeam = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              National Science Foundation Integrative and Collaborative Education and Research Award
+              <strong>National Science Foundation:</strong> Confronting Hazards Impacts and Risk for a Resilient Planet (CHIRRP)
+            </a>
+          </li>
+           <li>
+            <a
+              href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2438778&HistoricalAwards=false"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <strong>Alaska Climate Adaptation Science Center:</strong> Improving Early Warning Forecasting and Mitigation for Glacier Lake Outburst Floods in Alaska 
             </a>
           </li>
 

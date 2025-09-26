@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./aboutglaciallakes.css";
 
 // === Stat Counter Component with Tooltip ===
-const Stat = ({ target, label, tooltip }) => {
+const Stat = ({ target, label, tooltip, showPlus = false }) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -45,7 +45,9 @@ const Stat = ({ target, label, tooltip }) => {
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
     >
-      <span className="stat-number">{count}</span>
+      <span className="stat-number">
+        {count}{showPlus && "+"}
+      </span>
       <p className="stat-label">{label}</p>
 
       {showTooltip && tooltip && (
@@ -66,29 +68,27 @@ const AboutGlacialLakes = () => {
       <div className="stats-bar">
         <div className="stats-overlay">
           <Stat
-            target={125}
+            target={120}
             label="Known Glacial Lakes"
             tooltip="Glacial lakes identified across Alaska and BC."
+            showPlus={true}
           />
           <Stat
             target={25}
-            label="Glacial Lakes that Flood"
+            label="Glacial Lakes Tracked by NWS"
             tooltip="Lakes known to produce recurring glacial lake outburst floods."
+            showPlus={true}
           />
           <Stat
             target={5}
-            label="Glacial Lakes Causing Hazards"
+            label="Known Glacier Lake Hazards"
             tooltip="These lakes include Suicide Basin, Snow Lake, and Bear Lake."
           />
           <Stat
-            target={327}
+            target={320}
             label="Recorded Glacial Flood Events"
             tooltip="Glacial flood events that have been documented by NWS. Few events cause downstream impacts."
-          />
-          <Stat
-            target={100000}
-            label="Glaciers Receding in Alaska"
-            tooltip="Over 100,000 glaciers are actively receding in Alaska."
+            showPlus={true}
           />
         </div>
       </div>

@@ -21,17 +21,26 @@ const Header = () => {
     </a>
   </div>
 
-  <div className="header-title">
-    <h1
-      onClick={() =>
-        (window.location.href =
-          'https://www.alaskaglacialfloods.org')
-      }
-      style={{ cursor: 'pointer' }}
-    >
-      Alaska Glacial Lake Flood Dashboard
-    </h1>
-  </div>
+<div className="header-title">
+  <h1
+    onClick={() =>
+      (window.location.href =
+        "https://www.alaskaglacialfloods.org")
+    }
+    style={{ cursor: "pointer" }}
+  >
+    Alaska{""}
+    <span className="plus">+
+      <span className="plus-tooltip">
+        <div className="plus-tooltip-content">
+          <p>& British Columbia</p>
+        </div>
+      </span>
+    </span>{" "}
+    Glacial Lake Flood Dashboard
+  </h1>
+</div>
+
 
   <div className="header-right">
     <a href="https://nsf.gov/" target="_blank" rel="noopener noreferrer">

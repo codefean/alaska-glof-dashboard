@@ -77,6 +77,17 @@ const Footer = () => {
             className="footer-logo"
           />
         </a>
+        <a
+          href="https://akcasc.gov/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src={`${process.env.PUBLIC_URL}/UAF.png`}
+            alt="University of Alaska Fairbanks Logo"
+            className="footer-logo"
+          />
+        </a>
       </div>
 
       {/* Footer Text */}
