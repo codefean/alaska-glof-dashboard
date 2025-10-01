@@ -5,8 +5,6 @@ import SBmodel from './SBmodel';
 
 // cd /Users/seanfagan/Desktop/Alaska-GLOF
 
-
-
 // Card Data
 const cardData = [
   {
@@ -140,8 +138,17 @@ const Home = () => {
             </a></div>
         </div>
 
+        <div className="home-about-card">
+          <h3>Glacial Lake Forecasting</h3>
+          <p>
+          Over the coming years, researchers at Carnegie Mellon University will work to forecast the potential formation and locations of ice-dammed glacial lakes across Alaska and British Columbia. This project will integrate next-generation climate projections (CMIP7)
+          with advanced machine learning models to simulate glacier retreat and identify where new glacial lakes are likely to emerge. The goal is to equip downstream communities and emergency management agencies with actionable forecasts that can help them anticipate
+            and mitigate the risks of glacial lake outburst floods (GLOFs) associated with ice-dammed lakes.
 
-        {/* FAQ Section */}
+
+          </p>
+        </div>
+
         <div className="home-about-card">
           <h3>Frequently Asked Questions</h3>
           {faqData
