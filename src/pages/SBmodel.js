@@ -11,7 +11,7 @@ export default function Topographic3DTerrainMap() {
   const wrapperRef = useRef(null);
   const mapRef = useRef(null); // store map instance
 
-  const [paused, setPaused] = useState(false);
+  const [paused] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const lakes = [
@@ -39,7 +39,7 @@ export default function Topographic3DTerrainMap() {
       });
     }, 20000);
     return () => clearInterval(interval);
-  }, []);
+  }, );
 
   // Initialize map
   useEffect(() => {
