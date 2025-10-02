@@ -9,18 +9,19 @@ export default function Topographic3DTerrainMap() {
   const mapContainer = useRef(null);
   const animationRef = useRef(null);
   const wrapperRef = useRef(null);
+  const mapRef = useRef(null); // store map instance
 
   const [paused, setPaused] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Array of lakes
   const lakes = [
     { name: "Lake B50", orbitCenter: [-146.87995, 61.6636] },
     { name: "Abyss Lake", orbitCenter: [-136.62418, 58.50103] },
     { name: "Snow Lake", orbitCenter: [-148.93307, 60.48361] },
     { name: "Suicide Basin", orbitCenter: [-134.49752, 58.45798] },
-    { name: "Summit Lake", orbitCenter: [-130.06834, 56.18620] },
+    { name: "Summit Lake", orbitCenter: [-130.06834, 56.1862] },
     { name: "Sklai Lake", orbitCenter: [-141.94131, 61.63694] },
-    { name: "Lake B34", orbitCenter: [-132.55151, 57.10230] },
+    { name: "Lake B34", orbitCenter: [-132.55151, 57.1023] },
   ];
 
   const [lakeIndex, setLakeIndex] = useState(0);
@@ -28,7 +29,7 @@ export default function Topographic3DTerrainMap() {
     orbitCenter: lakes[0].orbitCenter,
   });
 
-  // Auto-cycle lakes every 10 seconds
+  // Cycle lakes every 20s
   useEffect(() => {
     const interval = setInterval(() => {
       setLakeIndex((prev) => {
@@ -37,14 +38,12 @@ export default function Topographic3DTerrainMap() {
         return nextIndex;
       });
     }, 20000);
-
     return () => clearInterval(interval);
   }, []);
 
-  // Map setup
+  // Initialize map
   useEffect(() => {
     const { orbitCenter } = location;
-
     const initialZoom = window.innerWidth < 915 ? 12.2 : 12.7;
 
     const map = new mapboxgl.Map({
@@ -56,6 +55,8 @@ export default function Topographic3DTerrainMap() {
       bearing: 0,
       antialias: true,
     });
+
+    mapRef.current = map; // store map for later resize
 
     map.on("load", () => {
       map.addSource("mapbox-dem", {
@@ -75,12 +76,7 @@ export default function Topographic3DTerrainMap() {
         "star-intensity": 0.15,
       });
 
-      map.setLights([
-        {
-          id: "sunlight",
-          type: "directional",
-        },
-      ]);
+      map.setLights([{ id: "sunlight", type: "directional" }]);
 
       let angle = 0;
       const speedFactor = 9300;
@@ -107,7 +103,37 @@ export default function Topographic3DTerrainMap() {
     };
   }, [paused, location]);
 
-  
+  // Fullscreen toggle function
+  function toggleFullscreen() {
+    const wrapper = wrapperRef.current;
+
+    if (!document.fullscreenElement) {
+      if (wrapper.requestFullscreen) {
+        wrapper.requestFullscreen();
+      } else if (wrapper.webkitRequestFullscreen) {
+        wrapper.webkitRequestFullscreen(); // Safari
+      }
+      setIsFullscreen(true);
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen(); // Safari
+      }
+      setIsFullscreen(false);
+    }
+  }
+
+  // Handle fullscreen resize for mapbox
+  useEffect(() => {
+    const handleResize = () => {
+      setTimeout(() => {
+        mapRef.current?.resize();
+      }, 300);
+    };
+    document.addEventListener("fullscreenchange", handleResize);
+    return () => document.removeEventListener("fullscreenchange", handleResize);
+  }, []);
 
   return (
     <div className="map-wrapper-2" ref={wrapperRef}>
@@ -117,6 +143,11 @@ export default function Topographic3DTerrainMap() {
       <div className="data-box">
         <p>{lakes[lakeIndex].name}</p>
       </div>
+
+      {/* Fullscreen Button */}
+      <button className="fullscreen-btn" onClick={toggleFullscreen}>
+        {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+      </button>
     </div>
   );
 }
