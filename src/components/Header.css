@@ -135,9 +135,8 @@
   font-family: sans-serif;
   z-index: 90;
   position: absolute;
-  top: 120%; /* above the stat */
-  left: 50%;
-  transform: translateX(-50%);
+  top: -20%; /* above the stat */
+  left: 90%;
   opacity: 0;
   animation: fadeIn 0.2s forwards;
 }

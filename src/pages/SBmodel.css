@@ -13,7 +13,7 @@
   top: 0;
   left: 0;
   width: 100% !important;
-  height: 90% !important;
+  height: 100% !important;
   border-radius: 6px; /* match wrapper */
 } 
 /* Floating Data Box */
@@ -100,7 +100,7 @@
   backdrop-filter: blur(6px);
   transition: background 0.2s ease-in-out;
   position: absolute;
-  bottom: 60px !important;
+  bottom: 30px !important;
 }
 
 .controls button:hover,
@@ -210,7 +210,7 @@
 
 .fullscreen-btn {
   position: absolute;
-  bottom: 35px;
+  bottom: 35px; 
   right: 20px;       
   z-index: 10;
 

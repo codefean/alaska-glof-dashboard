@@ -22,6 +22,8 @@ export default function Topographic3DTerrainMap() {
     { name: "Summit Lake", orbitCenter: [-130.06834, 56.1862] },
     { name: "Sklai Lake", orbitCenter: [-141.94131, 61.63694] },
     { name: "Lake B34", orbitCenter: [-132.55151, 57.1023] },
+    { name: "Lake B99", orbitCenter: [-150.87630, 62.78959] },
+    { name: "Lake B23", orbitCenter: [-140.45603, 60.81413] },
   ];
 
   const [lakeIndex, setLakeIndex] = useState(0);

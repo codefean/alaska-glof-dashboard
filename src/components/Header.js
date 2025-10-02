@@ -35,7 +35,7 @@ const Header = () => {
         +
         <span className="plus-tooltip">
           <div className="plus-tooltip-content">
-            <p>Alaska, British Columbia, & Yukon</p>
+            <p>British Columbia & Yukon</p>
           </div>
         </span>
       </span>{" "}
