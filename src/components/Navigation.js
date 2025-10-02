@@ -56,7 +56,7 @@ const Navigation = () => {
             to="/about-research"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            About Research
+            Research Team
           </NavLink>
         </li>
       </ul>
