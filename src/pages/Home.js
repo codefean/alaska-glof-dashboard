@@ -141,7 +141,7 @@ const Home = () => {
         <div className="home-about-card">
           <h3>Glacial Lake Forecasting</h3>
           <p>
-          Over the coming years, our team will work to forecast the potential formation and locations of ice-dammed glacial lakes across Alaska and British Columbia. This project will integrate next-generation climate projections (CMIP7)
+          Over the coming years, our team will work to forecast the potential formation and locations of ice-dammed glacial lakes across Alaska, British Columbia, & Yukon. This project will integrate next-generation climate projections (CMIP7)
           with advanced machine learning models to simulate glacier retreat and identify where new glacial lakes are likely to emerge. The goal is to equip downstream communities and emergency management agencies with actionable forecasts that can help them anticipate
             and mitigate the risks of glacial lake outburst floods (GLOFs) associated with ice-dammed lakes.
 
