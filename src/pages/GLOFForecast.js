@@ -103,7 +103,7 @@ const AboutGlacialLakes = () => {
 
           <div className="story-map-container">
       <iframe
-        src="https://storymaps.arcgis.com/stories/72cef125bbfa4f989356bf9350cd5d63"
+        src="https://storymaps.arcgis.com/stories/f67262b3d214409b9840386c25ec1bea"
         width="100%"
         height="650px"
         frameBorder="0"
