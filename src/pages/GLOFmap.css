@@ -109,6 +109,7 @@ html, body {
   max-width: 250px;
   font-family: sans-serif;
   z-index: 90 !important;
+  height: auto !important;
 }
 
 /* move backdrop-filter INSIDE content box */
@@ -120,6 +121,7 @@ html, body {
   color: white;
   padding: 12px;
   z-index: 4;
+  height: auto !important;
 }
 
 .mapboxgl-popup-content h4 {
@@ -132,6 +134,7 @@ html, body {
   margin: 0;
   font-size: .9rem;
   line-height: 1.1;
+  white-space: normal;
 }
 
 .mapboxgl-popup-tip {
@@ -169,10 +172,6 @@ html, body {
   transform: translateX(-50%) scale(1.05);
 }
 
-
-.mapboxgl-popup-content p {
-  white-space: normal;
-}
 
 .marker.square {
   width: 16px;

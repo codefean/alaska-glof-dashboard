@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo  } from "react";
 import mapboxgl from "mapbox-gl";
 import "./SBmodel.css";
 
@@ -9,12 +9,13 @@ export default function Topographic3DTerrainMap() {
   const mapContainer = useRef(null);
   const animationRef = useRef(null);
   const wrapperRef = useRef(null);
-  const mapRef = useRef(null); // store map instance
+  const mapRef = useRef(null); // Store map instance
 
   const [paused] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const lakes = [
+const lakes = useMemo(
+  () => [
     { name: "Lake B50", orbitCenter: [-146.87995, 61.6636] },
     { name: "Abyss Lake", orbitCenter: [-136.62418, 58.50103] },
     { name: "Snow Lake", orbitCenter: [-148.93307, 60.48361] },
@@ -22,28 +23,36 @@ export default function Topographic3DTerrainMap() {
     { name: "Summit Lake", orbitCenter: [-130.06834, 56.1862] },
     { name: "Sklai Lake", orbitCenter: [-141.94131, 61.63694] },
     { name: "Lake B34", orbitCenter: [-132.55151, 57.1023] },
-    { name: "Lake B99", orbitCenter: [-150.87630, 62.78959] },
+    { name: "Lake B99", orbitCenter: [-150.8763, 62.78959] },
     { name: "Lake B23", orbitCenter: [-140.45603, 60.81413] },
-  ];
+    { name: "Bear Lake", orbitCenter: [-149.6312, 60.0683] },
+    { name: "B123", orbitCenter: [-152.49741, 60.71121] },
+    { name: "B94", orbitCenter: [-150.69629, 62.85899] },
+  ],
+  []
+);
 
   const [lakeIndex, setLakeIndex] = useState(0);
+  const [intervalMs] = useState(20000);
   const [location, setLocation] = useState({
     orbitCenter: lakes[0].orbitCenter,
   });
 
-  // Cycle lakes every 20s
   useEffect(() => {
     const interval = setInterval(() => {
       setLakeIndex((prev) => {
-        const nextIndex = (prev + 1) % lakes.length;
+        let nextIndex = prev;
+        while (nextIndex === prev) {
+          nextIndex = Math.floor(Math.random() * lakes.length);
+        }
         setLocation({ orbitCenter: lakes[nextIndex].orbitCenter });
         return nextIndex;
       });
-    }, 20000);
-    return () => clearInterval(interval);
-  }, );
+    }, intervalMs);
 
-  // Initialize map
+    return () => clearInterval(interval);
+  }, [lakes, intervalMs]);
+
   useEffect(() => {
     const { orbitCenter } = location;
     const initialZoom = window.innerWidth < 915 ? 12.2 : 12.7;
@@ -58,7 +67,7 @@ export default function Topographic3DTerrainMap() {
       antialias: true,
     });
 
-    mapRef.current = map; // store map for later resize
+    mapRef.current = map;
 
     map.on("load", () => {
       map.addSource("mapbox-dem", {
@@ -67,7 +76,15 @@ export default function Topographic3DTerrainMap() {
         tileSize: 512,
         maxzoom: 12,
       });
+
       map.setTerrain({ source: "mapbox-dem", exaggeration: 0.9 });
+
+      // ✅ Fixed invalid method: setLights → setLight
+      map.setLight({
+        anchor: "map",
+        color: "white",
+        intensity: 0.4,
+      });
 
       map.setFog({
         color: "rgb(186, 210, 235)",
@@ -77,8 +94,6 @@ export default function Topographic3DTerrainMap() {
         "space-color": "rgb(11, 11, 25)",
         "star-intensity": 0.15,
       });
-
-      map.setLights([{ id: "sunlight", type: "directional" }]);
 
       let angle = 0;
       const speedFactor = 9300;
@@ -96,18 +111,21 @@ export default function Topographic3DTerrainMap() {
         }
         animationRef.current = requestAnimationFrame(animateCamera);
       }
-      animateCamera(0);
+
+      animationRef.current = requestAnimationFrame(animateCamera);
     });
 
+    // ✅ Cleanup
     return () => {
-      cancelAnimationFrame(animationRef.current);
-      map.remove();
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      if (map) map.remove();
     };
   }, [paused, location]);
 
-  // Fullscreen toggle function
+  // ✅ Fullscreen toggle
   function toggleFullscreen() {
     const wrapper = wrapperRef.current;
+    if (!wrapper) return;
 
     if (!document.fullscreenElement) {
       if (wrapper.requestFullscreen) {
@@ -126,7 +144,7 @@ export default function Topographic3DTerrainMap() {
     }
   }
 
-  // Handle fullscreen resize for mapbox
+  // ✅ Handle fullscreen resizing
   useEffect(() => {
     const handleResize = () => {
       setTimeout(() => {
@@ -134,7 +152,8 @@ export default function Topographic3DTerrainMap() {
       }, 300);
     };
     document.addEventListener("fullscreenchange", handleResize);
-    return () => document.removeEventListener("fullscreenchange", handleResize);
+    return () =>
+      document.removeEventListener("fullscreenchange", handleResize);
   }, []);
 
   return (
