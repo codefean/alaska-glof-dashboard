@@ -7,7 +7,7 @@ const GLOFData = () => {
     <div className="glof-data-container">
       <h2 className="flood-events-title">Glacier Lakes Dataset</h2>
       <h2 className="flood-events-subheading">
-        Explore Lakes with Current Floods & Potential Future Floods
+        Explore Lakes Impacts
       </h2>
       <div className="about-floods-card">
         <p>

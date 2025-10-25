@@ -107,15 +107,17 @@
 
 
 .about-research-card {
-  background: rgb(240, 241, 243); /* Same light neutral background */
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
   width: 90% !important;
   max-width: 1320px;
   margin: 20px auto;
   font-family: 'Open Sans', sans-serif;
   margin-bottom: 40px;
+  background-color: #f9fbfc !important;
+  border: 1px solid #dce7ef;
+  border-radius: 16px;
+  padding: 2px 28px;
+  text-align: center;
+  line-height: 1.7;
 }
 
 .about-research-card h2 {
@@ -192,22 +194,31 @@
   }
 
 
-  .about-research-card h3{
-  background: rgb(240, 241, 243); /* Same light neutral background */
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  max-width: 1120px;
-  margin: -15px auto;
+.about-research-card {
+  width: 80% !important;
+  max-width: 1320px;
+  margin: 20px auto;
   font-family: 'Open Sans', sans-serif;
-  margin-bottom: -15px;
-  font-size: 98%;
+  margin-bottom: 40px;
+  background-color: #f9fbfc !important;
+  border: 1px solid #dce7ef;
+  border-radius: 16px;
+  padding: 2px 28px;
+  text-align: center;
+  line-height: 1.7;
 }
 
 .about-research-card p {
   margin: 0.5rem 0 0.25rem;
-  font-size: .9rem !important;
+  font-size: .85rem !important;
   color: #000;
+}
+.research-subheading {
+  text-align: center;
+  font-size: .9rem;
+  color: #0e2b4a;
+  font-weight: bold;
+  margin-top: 8px;
 }
 
 }

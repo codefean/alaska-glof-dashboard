@@ -78,10 +78,6 @@ const ResearchTeam = () => {
         <h3 className="research-subheading">Funded by National Science Foundation</h3>
 
         <div className="about-research-card">
-          <h3>
-            Confronting glacier outburst flood hazards to improve glacial flood
-            forecasts across northwest North America
-          </h3>
           <p>
             Our research focuses on understanding and predicting glacier outburst
             floods—sudden, powerful floods that occur when water trapped by

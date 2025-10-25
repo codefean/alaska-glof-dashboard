@@ -25,14 +25,16 @@
 
 /* ===== Content Section ===== */
 .about-lakes-card {
-  background: #f0f1f3;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
   width: 85%;
   max-width: 1050px;
-  margin: 5px auto 30px;
-  font-size: 1.1rem;
+  background-color: #f9fbfc;
+  border: 1px solid #dce7ef;
+  border-radius: 16px;
+  padding: 2px 28px;
+  text-align: center;
+  line-height: 1.7;
+  margin: 20px;
+  margin-top: 5px;
   font-family: 'Open Sans', sans-serif;
 }
 
@@ -185,6 +187,10 @@ iframe {
     margin-top: 9px;
   }
 
+    .about-lakes-card{
+width: 80%;
+  }
+
   .about-lakes-card h2 {
     background: rgb(240, 241, 243); /* Same light neutral background */
     padding: 20px;
@@ -198,7 +204,7 @@ iframe {
 
   .about-lakes-card p {
     margin: 0.5rem 0 0.25rem;
-    font-size: .9rem !important;
+    font-size: .85rem !important;
     color: #000;
   }
 
