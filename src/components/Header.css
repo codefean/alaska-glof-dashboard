@@ -28,7 +28,7 @@
 .header-title h3,
 .header-title p,
 .header-title div {
-  font-size: clamp(1rem, 5vw, 1.9rem); /* Scales between 1rem and 2rem */
+  font-size: clamp(1.2rem, 5vw, 1.9rem); /* Scales between 1rem and 2rem */
   margin: 0;
   word-break: break-word;
 }
@@ -98,8 +98,7 @@
   width: auto;
   margin: 3px;
 }
-        /* default (<= 949px) */
-@media (max-width: 1057px) {
+@media (max-width: 975px) {
   .header-image { display: none; }
   .logo { display: none; } 
   .header { padding: 5px 8px;}
@@ -179,16 +178,13 @@
 }
 
 /* Show on smaller screens */
-@media (max-width: 500px) {
+@media (max-width: 580px) {
   .header-subtitle {
     display: block;
   }
-  .plus {
-visibility: hidden;
-}
 }
 
-@media (max-width: 970px) {
+@media (max-width: 975px) {
   .header-title .desktop-title {
     display: none;
   }
