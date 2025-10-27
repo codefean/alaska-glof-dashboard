@@ -33,7 +33,7 @@ const TABLE_CONFIG = {
       "Current Hazard",
       "More Info",
     ],
-    title: "Current Alaska Glacier Lakes Flood Table",
+    title: "Current Alaska Glacier Lakes",
     filterFn: (row) => row["Current Hazard"]?.toLowerCase() === "true",
   },
   future: {
@@ -46,7 +46,7 @@ const TABLE_CONFIG = {
       "Future Hazard",
       "Hazard Info",
     ],
-    title: "Future Alaska Glacier Lakes Flood Table (Coming in 2026)",
+    title: "Future Alaska Glacier Lakes (2026)",
     filterFn: (row) => row["Future Hazard"]?.toLowerCase() === "true",
   },
 };
