@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import "./PitchControl.css";
 
 const PitchControl = forwardRef(
-  ({ mapRef, value, onChange, min = 10, max = 70, step = 1 }, ref) => {
+  ({ mapRef, value, onChange, min = 5, max = 75, step = 1 }, ref) => {
     const handlePitchChange = (e) => {
       const newPitch = parseInt(e.target.value, 10);
       if (mapRef.current) mapRef.current.setPitch(newPitch);

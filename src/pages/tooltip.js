@@ -1,22 +1,29 @@
-// src/tooltip.js
-export const setupTooltip = (map) => {
-  const tooltip = document.getElementById("loc-readout");
+import { useState } from "react";
+import "./loc.css";
 
-  if (!tooltip) {
-    console.warn("Tooltip element #loc-readout not found in DOM.");
-    return;
-  }
+const Tooltip = () => {
+  const [showTip, setShowTip] = useState(false);
 
-  map.on("mousemove", (e) => {
-    const { lng, lat } = e.lngLat;
-    const elevation =
-      map.queryTerrainElevation([lng, lat], { exaggerated: false }) || 0;
-    const elevationFeet = (elevation * 3.28084).toFixed(1);
+  return (
+    <div
+      className="tooltip-wrapper"
+      onMouseEnter={() => setShowTip(true)}
+      onMouseLeave={() => setShowTip(false)}
+    >
+      <span className="tooltip-icon">?????</span>
 
-    tooltip.innerHTML = `
-      <strong>Lat:</strong> ${lat.toFixed(5)}<br/>
-      <strong>Lon:</strong> ${lng.toFixed(5)}<br/>
-      <strong>Elevation:</strong> ${elevation.toFixed(1)} m (${elevationFeet} ft)
-    `;
-  });
+      {showTip && (
+        <div className="tooltip-readout">
+          This map displays glacier lake outburst flood (GLOF) data for
+          ice-dammed glacial lakes in Alaska and western Canada. An ice-dammed
+          glacial lake forms when meltwater collects behind a glacier, creating
+          a temporary natural dam made of ice. If you find an ice-dammed glacial
+          lake that is not listed, please email us at 
+            UAS-GLOF-info@alaska.edu.
+        </div>
+      )}
+    </div>
+  );
 };
+
+export default Tooltip;

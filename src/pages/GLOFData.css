@@ -141,7 +141,7 @@ body {
 
   .flood-events-subheading {
     text-align: center;
-    font-size: .9rem;
+    font-size: 1rem;
     color: #0e2b4a;
     margin: 0 0 5px;
     font-weight: bold;
@@ -156,6 +156,6 @@ width: 80%;
 }
 
   .about-floods-card p {
-font-size: .95rem;
+font-size: .85rem;
 }
 }

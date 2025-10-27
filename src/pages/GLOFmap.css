@@ -167,7 +167,6 @@ html, body {
 .corner-toggle:hover {
   background: rgba(102, 105, 166, 0.6);
   border: 2px solid rgba(255, 255, 255, 0.5);
-  transform: translateX(-50%) scale(1.05);
 }
 
 
@@ -397,5 +396,4 @@ a:focus {
 
 .glof-button:hover {
   background-color: #9d0303;
-  transform: scale(1.05);
 }

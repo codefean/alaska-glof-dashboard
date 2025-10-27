@@ -10,7 +10,7 @@
 
 /* Table Base */
 .glacier-table {
-  width: 100%;
+  width: 97%;
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 12px;
@@ -101,8 +101,7 @@
 }
 
 .glacier-button:hover {
-  background-color: #1d4ed8;
-  transform: translateY(-1px);
+  background-color: #153dab;
 }
 
 .glacier-table-header {

@@ -51,9 +51,9 @@ const faqData = [
   },
   {
     question:
-      'What if my property is downstream from an ice-dammed glacial lake?',
+      'What if I find an ice-dammed glacial lake that is not listed?',
     answer:
-      '-',
+      'Please email us the coordinates or additonal information at UAS-GLOF-info@alaska.edu.',
   },
 ];
 

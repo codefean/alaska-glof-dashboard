@@ -6,6 +6,7 @@ import Papa from 'papaparse';
 import './GLOFmap.css';
 import MapLegend from './MapLegend';
 import Citation from './citation';
+import Tooltip from './tooltip';
 import PitchControl from "./PitchControl";
 import { useCursorLocation } from "./loc";
 import LayersToggle from "./LayersToggle";
@@ -278,7 +279,7 @@ useEffect(() => {
       const { lat, lon, LakeID, LakeName, GlacierName, isHazard, futureHazard, futureHazardETA } = lake;
       if (isNaN(lat) || isNaN(lon)) return;
 
-            // ✅ Layer filtering
+
       if (!showLakes && !isHazard && !futureHazard) return;
       if (!showImpacts && isHazard) return;
       if (!showPredicted && futureHazard) return;
@@ -333,7 +334,7 @@ const popupContent = `
             hoverPopupRef.current.remove();
             hoverPopupRef.current = null;
           }
-        }, 2500);
+        }, 5000);
       });
 
       // LEAVE — hide only the hover popup
@@ -362,7 +363,7 @@ const popupContent = `
           .setHTML(popupContent)
           .addTo(map);
 
-        map.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
+        map.flyTo({ center: [lon, lat], zoom: 13.5, speed: 2 });
         window.history.pushState({}, '', `#/GLOF-map?lake=${encodeURIComponent(LakeID)}`);
       });
     });
@@ -391,7 +392,7 @@ const popupContent = `
       ${futureHazard ? `<em>Potential future hazard${futureHazardETA ? ` (ETA: ${futureHazardETA})` : ''}</em><br/>` : ''}
       ${(isHazard || futureHazard) ? `<a href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}">See full hazard info</a>` : ''}</p>`;
 
-    mapRef.current.flyTo({ center: [lon, lat], zoom: 12, speed: 2 });
+    mapRef.current.flyTo({ center: [lon, lat], zoom: 13.5, speed: 2 });
 
     isPopupLocked.current = true;
     lockedPopupRef.current?.remove();
@@ -469,6 +470,7 @@ const popupContent = `
         }}
       />
       <Citation className="citation-readout" stylePos={{ position: 'absolute', right: 12, bottom: 12, zIndex: 2 }} />
+      <Tooltip/>
 
       <div className="search-bar-container" style={{ position: 'absolute' }}>
         <div style={{ position: 'relative', width: '100%' }}>

@@ -80,8 +80,7 @@ const ResearchTeam = () => {
         <div className="about-research-card">
           <p>
             Our research focuses on understanding and predicting glacier outburst
-            floods—sudden, powerful floods that occur when water trapped by
-            glaciers is rapidly released. We combine field observations, satellite
+            floods. We combine field observations, satellite
             data, and advanced computer models to study how glaciers store and
             release water. This work helps us assess current and future flood
             hazards as glaciers retreat, identify locations most prone to glacial

@@ -1,5 +1,5 @@
 /* loc.css */
-.citation-readout {
+.tooltip-readout {
   position: absolute;
   padding: 8px 10px;
   background: rgba(0, 0, 0, 0.394);
@@ -7,13 +7,13 @@
   border-radius: 8px;
   font-size: 10px !important;
   line-height: 1.2;
-  z-index: 2;
+  z-index: 10;
   backdrop-filter: blur(2px);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.citation-readout:hover {
+.tooltip-readout:hover {
   position: absolute;
   padding: 8px 10px;
   background: rgba(0,0,0,0.55);
@@ -28,7 +28,36 @@
 }
 
 @media screen and (max-width: 1253px) {
-  .citation-readout {
+  .tooltip-readout {
     display: none;
   }
+}
+
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  user-select: none;
+}
+
+.tooltip-icon:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.tooltip-wrapper:hover .tooltip-readout {
+  opacity: 1;
 }

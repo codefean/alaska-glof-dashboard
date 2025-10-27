@@ -21,7 +21,7 @@ const COLUMN_NAME_MAPPING = {
   frequency: "Frequency",
 };
 
-// ✅ Config per table type
+
 const TABLE_CONFIG = {
   current: {
     excluded: [
@@ -29,7 +29,7 @@ const TABLE_CONFIG = {
       "Latitude",
       "Longitude",
       "Future Hazard",
-      "Time to Future Hazard", // excluded only in current
+      "Time to Future Hazard", 
       "Current Hazard",
       "More Info",
     ],
@@ -41,19 +41,19 @@ const TABLE_CONFIG = {
       "Lake Area (km²)",
       "Latitude",
       "Longitude",
-      "Current Hazard", // keep Future Hazard + Time to Future Hazard
+      "Current Hazard", 
       "Frequency",
       "Future Hazard",
       "Hazard Info",
     ],
-    title: "Future Alaska Glacier Lakes Flood Table",
+    title: "Future Alaska Glacier Lakes Flood Table (Coming in 2026)",
     filterFn: (row) => row["Future Hazard"]?.toLowerCase() === "true",
   },
 };
 
 const FloodDataTable = ({
   csvUrl = process.env.PUBLIC_URL + "/AK_GL.csv",
-  type = "current", // "current" or "future"
+  type = "current",
   subtitle = "",
 }) => {
   const [headers, setHeaders] = useState([]);
@@ -165,7 +165,7 @@ const FloodDataTable = ({
                     {headers.map((header, colIndex) => {
                       let content = row[header] || "—";
 
-                      // Truncate long expandable fields
+                      
                       if (
                         ["Summary", "More Info"].includes(header) &&
                         !isExpanded &&
@@ -175,7 +175,7 @@ const FloodDataTable = ({
                         content = content.substring(0, 100) + "...";
                       }
 
-                      // Map button
+                      
                       if (header === "View on Map") {
                         return (
                           <td key={colIndex}>
@@ -193,7 +193,7 @@ const FloodDataTable = ({
                         );
                       }
 
-                      // Hazard link
+                      
                       if (
                         header === "Hazard Info" &&
                         typeof row[header] === "string"
