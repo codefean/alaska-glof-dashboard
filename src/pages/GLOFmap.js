@@ -585,7 +585,7 @@ const popupContent = `
             </div>
           </>
         ) : (
-          <div>Move cursor over map…</div>
+          <div></div>
         )}
       </div>
       <PitchControl

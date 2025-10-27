@@ -26,7 +26,6 @@ html, body {
 }
 
 .search-bar-container {
-  min-width: unset !important;
   box-sizing: border-box;
 }
 
@@ -316,6 +315,13 @@ a:focus {
 
   .search-bar-container {
     top: 95px !important;
+  }
+}
+
+@media (max-width: 344px) {
+
+  .search-bar-container {
+    display: none;
   }
 }
 

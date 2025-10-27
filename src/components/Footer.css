@@ -10,6 +10,7 @@
   justify-content: center;
   word-wrap: break-word;
   padding: 1rem;
+  margin-top: 0px !important;
 }
 
 .footer a {
