@@ -8,7 +8,7 @@ import MapLegend from './MapLegend';
 import Citation from './citation';
 import Tooltip from './tooltip';
 import PitchControl from "./PitchControl";
-import { useCursorLocation } from "./loc";
+import "./loc";
 import LayersToggle from "./LayersToggle";
 import { useGlacierLayer } from './glaciers';
 
@@ -31,7 +31,7 @@ const AlaskaMap = () => {
   const markersRef = useRef([]);
 
 
-  // ✅ Layer toggle states
+
   const [showLakes, setShowLakes] = useState(true);
   const [showImpacts, setShowImpacts] = useState(true);
   const [showPredicted, setShowPredicted] = useState(true);
@@ -70,7 +70,7 @@ const AlaskaMap = () => {
   const updatePos = () => {
     if (pitchRef.current) {
       const rect = pitchRef.current.getBoundingClientRect();
-      // distance from bottom of viewport, plus some padding
+
       setPitchBottom(window.innerHeight - rect.bottom + 12);
     }
   };
@@ -131,7 +131,7 @@ useEffect(() => {
       style: 'mapbox://styles/mapbox/satellite-streets-v12',
       center: [-144.5, 59.9],
       zoom: 4,
-      antialias: true, // Improves 3D rendering quality
+      antialias: true,
     });
     mapRef.current = map;
 
@@ -140,7 +140,6 @@ useEffect(() => {
         const map = mapRef.current;
         if (!map) return;
         map.flyTo({ center: [-144.5, 59.5], zoom: 4, speed: 2.2, pitch: DEFAULT_PITCH });
-        // keep the UI slider in sync immediately:
         setPitch(DEFAULT_PITCH);
       }
     };
@@ -229,17 +228,6 @@ useEffect(() => {
     fetchLakeData();
     fetchGlacierData();
 
-      const resetZoom = () => {
-      const map = mapRef.current;
-      if (!map) return;
-      map.flyTo({
-        center: [-144.5, 59.5],  // Default center
-        zoom: 4,                 // Default zoom
-        speed: 2.2,
-        pitch: DEFAULT_PITCH     // Reset pitch
-      });
-      setPitch(DEFAULT_PITCH);
-    };
 
 
     // Global map click: unlock and clear any locked popup
@@ -531,21 +519,12 @@ const popupContent = `
 )}
 
 
-      {/* ✅ Your hotkey table uses resetZoom too */}
       <div className="hotkey-table">
         <table>
           <tbody>
             <tr>
-              <td><strong>R</strong></td>
-              <td>
-                <button
-                  onClick={resetZoom}
-                  style={{ cursor: 'pointer', background: 'none', border: 'none', color: 'white' }}
-                >
-                  Reset Zoom
-                </button>
-              </td>
             </tr>
+            <tr><td><strong>R</strong></td><td>Reset Zoom</td></tr>
             <tr><td><strong>+</strong></td><td>Zoom in</td></tr>
             <tr><td><strong>-</strong></td><td>Zoom out</td></tr>
           </tbody>

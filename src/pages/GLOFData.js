@@ -20,7 +20,6 @@ const GLOFData = () => {
       </div>
 
       <FloodTable type="current" />
-      <FloodTable type="future" />
 
       {/* Data Sources Section */}
       <div className="data-sources">

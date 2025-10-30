@@ -5,7 +5,7 @@
   margin: 40px auto;
   padding: 0 20px;
   overflow-x: auto;
-  background: #ffffff;
+  background: #ffffff00;
 }
 
 /* Table Base */
@@ -15,19 +15,20 @@
   border-spacing: 0;
   border-radius: 12px;
   overflow: hidden;
-  background: white;
+  background: rgb(242, 243, 248);
 }
 
 .glacier-table-title {
-  font-size: 1.2rem;          /* larger text */
-  font-weight: 700;         /* bold */
-  color: #030303;           /* deep blue */
-  line-height: .4;
+  font-size: 1.2rem;         
+  font-weight: 700;         
+  color: #030303;           
+  line-height: .1;
+  margin-bottom: -1px;
 }
 
 /* Table Header */
 .glacier-table th {
-  background: #f9fafb;
+  background: rgb(221, 233, 249);
   text-align: left;
   padding: 14px 18px;
   font-size: 15px;
@@ -41,7 +42,7 @@
 }
 
 .glacier-table th:hover {
-  background: #f3f4f6;
+  background: #c6d9ff;
 }
 
 /* Table Body Cells */
@@ -56,13 +57,7 @@
 
 /* Zebra striping */
 .glacier-table tbody tr:nth-child(even) {
-  background: #fafbfc;
-}
-
-/* Hover row effect */
-.glacier-table tbody tr:hover {
-  background: #eef2f7;
-  cursor: pointer;
+  background: #ffffff;
 }
 
 /* Expandable Row Highlight */
