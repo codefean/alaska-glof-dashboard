@@ -1,9 +1,9 @@
 .map-wrapper-2 {
   position: relative;
   width: 100% !important;
-  height: 370px; /* less tall, fixed height */
-  border-radius: 6px; /* rounded corners */
-  overflow: hidden; /* ensures the map respects the rounded border */
+  height: 370px; 
+  border-radius: 6px; 
+  overflow: hidden; 
   margin: auto;
   margin-top: -10px;
 }
@@ -14,9 +14,9 @@
   left: 0;
   width: 100% !important;
   height: 100% !important;
-  border-radius: 6px; /* match wrapper */
+  border-radius: 6px; 
 } 
-/* Floating Data Box */
+
 .map-wrapper-2 .data-box {
   position: absolute;
   top: 10px !important;
@@ -58,18 +58,17 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Controls container */
 .controls {
   position: absolute;
   top: 130px !important;
   left: 20px;
   display: flex;
-  flex-direction: column; /* stack vertically */
+  flex-direction: column; 
   gap: 10px;
   z-index: 5;
 }
 
-/* Generic control buttons */
+
 .controls button {
   background: rgba(102, 156, 245, 0.65);
   color: #f9fafb;
@@ -87,7 +86,7 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Shared button styles */
+
 .fullscreen-btn {
   background: rgba(0, 0, 0, 0.65);
   color: #f9fafb;
@@ -112,7 +111,7 @@
 .map-wrapper {
   position: relative;
   width: 84%;
-  height: 600px; /* desktop default */
+  height: 600px; 
   border-radius: 6px;
   overflow: hidden;
   margin: auto;
@@ -131,13 +130,13 @@
 /* Floating Data Box */
 .data-box {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 14px !important;
+  left: 8px !important;
   background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   color: #f9fafb;
-  padding: 14px 18px;
+  padding: 8px 12px !important;
   border-radius: 10px;
   font-family: "Open Sans", sans-serif;
   max-width: 320px;
@@ -206,14 +205,15 @@
 
 .controls button:hover {
   background: rgba(255, 255, 255, 0.2);
+  
 }
 
 .fullscreen-btn {
   position: absolute;
-  bottom: 35px; 
-  right: 20px;       
+  bottom: 25px !important; 
+  right: 8px;       
   z-index: 10;
-
+  font-weight: 600;
   background: rgba(0, 0, 0, 0.65);
   color: #f9fafb;
   border: none;
@@ -231,7 +231,7 @@
 
 .controls button:hover,
 .fullscreen-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(91, 75, 75, 0.357);
 }
 
 /* ---------------------------

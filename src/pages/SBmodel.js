@@ -79,7 +79,6 @@ const lakes = useMemo(
 
       map.setTerrain({ source: "mapbox-dem", exaggeration: 0.9 });
 
-      // ✅ Fixed invalid method: setLights → setLight
       map.setLight({
         anchor: "map",
         color: "white",
@@ -96,7 +95,7 @@ const lakes = useMemo(
       });
 
       let angle = 0;
-      const speedFactor = 9300;
+      const speedFactor = 10000;
 
       function animateCamera(timestamp) {
         if (!paused) {
@@ -115,14 +114,14 @@ const lakes = useMemo(
       animationRef.current = requestAnimationFrame(animateCamera);
     });
 
-    // ✅ Cleanup
+
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
       if (map) map.remove();
     };
   }, [paused, location]);
 
-  // ✅ Fullscreen toggle
+
   function toggleFullscreen() {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
@@ -138,13 +137,13 @@ const lakes = useMemo(
       if (document.exitFullscreen) {
         document.exitFullscreen();
       } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen(); // Safari
+        document.webkitExitFullscreen(); 
       }
       setIsFullscreen(false);
     }
   }
 
-  // ✅ Handle fullscreen resizing
+
   useEffect(() => {
     const handleResize = () => {
       setTimeout(() => {
@@ -160,12 +159,12 @@ const lakes = useMemo(
     <div className="map-wrapper-2" ref={wrapperRef}>
       <div ref={mapContainer} className="map-container-2" />
 
-      {/* Overlay Data Box */}
+
       <div className="data-box">
         <p>{lakes[lakeIndex].name}</p>
       </div>
 
-      {/* Fullscreen Button */}
+
       <button className="fullscreen-btn" onClick={toggleFullscreen}>
         {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
       </button>

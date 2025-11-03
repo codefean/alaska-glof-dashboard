@@ -84,7 +84,7 @@ const lakes = useMemo(
       });
 
       let angle = 0;
-      const speedFactor = 8000;
+      const speedFactor = 10000;
 
       function animateCamera(timestamp) {
         if (!paused) {
