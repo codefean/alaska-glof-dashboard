@@ -6,7 +6,7 @@ import Papa from 'papaparse';
 import './GLOFmap.css';
 import MapLegend from './MapLegend';
 import Citation from './citation';
-import Tooltip from './tooltip';
+import AboutMap from './AboutMap';
 import PitchControl from "./PitchControl";
 import "./loc";
 import LayersToggle from "./LayersToggle";
@@ -458,7 +458,7 @@ const popupContent = `
         }}
       />
       <Citation className="citation-readout" stylePos={{ position: 'absolute', right: 12, bottom: 12, zIndex: 2 }} />
-      <Tooltip/>
+      <AboutMap/>
 
       <div className="search-bar-container" style={{ position: 'absolute' }}>
         <div style={{ position: 'relative', width: '100%' }}>

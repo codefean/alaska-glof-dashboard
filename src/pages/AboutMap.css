@@ -1,0 +1,115 @@
+.flood-records-container {
+  position: absolute;
+  top: 100px;
+  right: 10px;
+  padding: 8px 8px;
+  background: rgba(0, 0, 0, 0.394);
+  color: #ffffff;
+  border-radius: 8px;
+  line-height: .7;
+  z-index: 2;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 12px;
+  width: 12px;
+  z-index: 20;
+  height: 12px;
+  border: 1px solid white;
+
+}
+
+@media screen and (max-width: 1185px) {
+  .flood-records-container {
+    display: none;
+  }
+}
+
+/* Center the button when container expands */
+.flood-records-container.expanded {
+  width: 290px;
+  height: 550px;
+  border: none;
+  
+}
+
+@media (max-width: 768px) {
+  .flood-records-container {
+    right: 10px;
+    top: 90px;
+    width: 50px;
+  }
+
+  .flood-records-container.expanded {
+    width: 150px;
+  }
+
+
+}
+
+
+@media (max-width: 850px) { /* Only show for desktop users */
+  .flood-records-container {
+    display: none;
+  }
+}
+
+  .tooltip-icon {
+    font: center;
+    font-size: 19px;
+    font-weight: bold;
+    color: #ffffffe7;
+  }
+
+    .tooltip-text {
+    font: center;
+    font-size: 15.5px;
+    color: #ffffff;
+    line-height: 1.3;
+  }
+
+      .tooltip-bottom-text {
+    font: center;
+    font-size: 15.5px;
+    color: #ffffff;
+    line-height: 1.3;
+    margin-top: -57px;
+  }
+
+    .tooltip-title h2 {
+    font: center;
+    font-size: 20px;
+    color: #ffffff;
+    line-height: 1;
+    font-weight: bolder;
+    margin-bottom: 8px;
+    margin-top: 8px;
+
+  }
+
+  .glof-button-wrapper2 {
+  display: flex;
+  justify-content: center !important;
+}
+
+.glof-button3 {
+  display: block;
+  background-color: #00509e;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 1px;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  max-width: 35%;
+  transition: background-color 0.3s ease-in-out, transform 0.2s;
+  text-decoration: none;
+  align-items: center;
+  margin-top: 5px;
+  margin-left: 35%;
+}
+
+.glof-button3:hover {
+  background-color: #9d0303;
+}

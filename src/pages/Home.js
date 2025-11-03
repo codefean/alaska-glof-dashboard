@@ -118,7 +118,6 @@ const Home = () => {
           </p>
         </div>
 
-              {/* About & FAQ Section */}
         {/* Ice-Dammed Glacial Section */}
         <div className="home-about-lake">
           <h3>Ice-Dammed Glacial Lakes</h3>
