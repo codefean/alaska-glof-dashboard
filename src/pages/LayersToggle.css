@@ -1,6 +1,6 @@
 .layer-toggle-panel {
   position: fixed;
-  top: 195px;  
+  top: 185px;  
   left: 10px;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
@@ -13,7 +13,7 @@
   display: flex;     
   align-items: center; 
   gap: 8px; 
-  width: 147px;
+  width: 137px;
 }
 
 .layer-toggle-panel {

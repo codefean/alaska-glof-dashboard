@@ -1,6 +1,6 @@
 .cursor-readout {
   left: 12px;
-  bottom: 12px;
+  bottom: 10px;
   padding: 8px 10px;
   background: rgba(0, 0, 0, 0.55);
   color: #fff;
@@ -13,7 +13,7 @@
   width: fit-content; /* shrink-wrap content */
 }
 
-@media screen and (max-width: 915px) {
+@media screen and (max-width: 1035px) {
   .cursor-readout {
     display: none;
   }

@@ -457,7 +457,7 @@ const popupContent = `
           zIndex: 1
         }}
       />
-      <Citation className="citation-readout" stylePos={{ position: 'absolute', right: 12, bottom: 12, zIndex: 2 }} />
+      <Citation className="citation-readout" stylePos={{ position: 'absolute', right: 12, bottom: 10, zIndex: 2 }} />
       <AboutMap/>
 
       <div className="search-bar-container" style={{ position: 'absolute' }}>
@@ -542,7 +542,6 @@ const popupContent = `
 
 
 
-      {/* Cursor readout */}
       <div
         className="cursor-readout"
         style={{
