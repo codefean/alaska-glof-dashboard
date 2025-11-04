@@ -4,7 +4,7 @@ import './Home.css';
 import SBmodel from './SBmodel';
 
 // cd /Users/seanfagan/Desktop/Alaska-GLOF
-
+//
 // Card Data
 const cardData = [
   {
