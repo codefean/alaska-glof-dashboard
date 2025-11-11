@@ -62,7 +62,7 @@
 
 /* Responsive Styles */
 @media (max-width: 1057px) {
-  .navigation .menu-toggle {
+    .navigation .menu-toggle {
     display: block;
     height: 30px;
   }

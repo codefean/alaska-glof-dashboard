@@ -8,10 +8,10 @@
   justify-content: center;
   font-family: 'Open Sans', Arial, sans-serif;
   position: relative;
-  flex-wrap: wrap; /* Allow wrapping for mobile */
+  flex-wrap: wrap; 
 }
 
-/* Title stays centered and adapts to screen size */
+
 .header-title {
   flex-grow: 1;
   display: flex;
@@ -19,16 +19,16 @@
   align-items: center;
   text-align: center;
   padding: 0 10px;
-    flex-wrap: wrap; /* Allow wrapping for mobile */
+    flex-wrap: wrap; 
 }
 
-/* Responsive text inside header */
+
 .header-title h1,
 .header-title h2,
 .header-title h3,
 .header-title p,
 .header-title div {
-  font-size: clamp(1.2rem, 5vw, 1.9rem); /* Scales between 1rem and 2rem */
+  font-size: clamp(1.2rem, 5vw, 1.9rem); 
   margin: 0;
   word-break: break-word;
 }

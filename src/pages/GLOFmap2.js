@@ -224,17 +224,6 @@ useEffect(() => {
     fetchLakeData();
     fetchGlacierData();
 
-      const resetZoom = () => {
-      const map = mapRef.current;
-      if (!map) return;
-      map.flyTo({
-        center: [-144.5, 59.5],  // Default center
-        zoom: 4,                 // Default zoom
-        speed: 2.2,
-        pitch: DEFAULT_PITCH     // Reset pitch
-      });
-      setPitch(DEFAULT_PITCH);
-    };
 
 
     // Global map click: unlock and clear any locked popup
@@ -475,28 +464,6 @@ const popupContent = `
     R
   </button>
 )}
-
-
-      {/* ✅ Your hotkey table uses resetZoom too */}
-      <div className="hotkey-table">
-        <table>
-          <tbody>
-            <tr>
-              <td><strong>R</strong></td>
-              <td>
-                <button
-                  onClick={resetZoom}
-                  style={{ cursor: 'pointer', background: 'none', border: 'none', color: 'white' }}
-                >
-                  Reset Zoom
-                </button>
-              </td>
-            </tr>
-            <tr><td><strong>+</strong></td><td>Zoom in</td></tr>
-            <tr><td><strong>-</strong></td><td>Zoom out</td></tr>
-          </tbody>
-        </table>
-      </div>
 
 
 
