@@ -110,11 +110,9 @@ const Home = () => {
 
 
           <p>
-            This dashboard provides an interactive view of the potential
-            locations for glacial lake outburst floods in Alaska. Use the cards
-            above to explore predicted locations of GLOFs and how forecasting is
-            conducted. This website was created by the University of Alaska
-            Southeast.
+This dashboard provides an interactive view of the locations of known glacier-dammed lakes in Alaska. Glacier-dammed lakes can impound large volumes of water, creating the potential for downstream glacier lake outburst floods (GLOFs). In Alaska, GLOFs pose a documented threat to infrastructure in communities ranging from the Kenai Peninsula to Valdez and Juneau. Use the cards above to explore the distribution of glacier-dammed lakes in Alaska and the Yukon and understand how these lakes can lead to the formation of GLOFs.
+This website was created by the University of Alaska Southeast in cooperation with the Alaska Climate Adaptation Science Center. Funding for the project was provided by the National Science Foundation.
+
           </p>
         </div>
 
