@@ -1,0 +1,236 @@
+/* ===== Base Layout ===== */
+.about-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== Headings ===== */
+.about-title {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: bold;
+  color: #154f89;
+  margin: 10px 0 -20px;
+}
+
+.about-subheading {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #0e2b4a;
+  font-family: 'Open Sans', sans-serif;
+  margin-bottom: 10px;
+}
+
+/* ===== Content Section ===== */
+.about-lakes-card {
+  width: 85%;
+  max-width: 1050px;
+  background-color: #f9fbfc;
+  border: 1px solid #dce7ef;
+  border-radius: 16px;
+  padding: 2px 28px;
+  text-align: center;
+  line-height: 1.7;
+  margin: 20px;
+  margin-top: 5px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* ===== Stats Bar ===== */
+.stats-bar {
+  width: 100%;
+  height: clamp(40px, 5vw, 59px); /* shrinks down to 25px on very small screens */
+  background: #dde9f9;
+  text-align: center;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  padding: 0.3rem;
+}
+
+.stats-overlay {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: clamp(1px, 1vw, 14px);
+}
+
+.stat-number {
+  font-size: clamp(.8rem, 2vw, 1.5rem);
+  font-weight: bold;
+  color: #13334f;
+  white-space: nowrap;
+}
+
+.stat-label {
+  margin-top: 3px;
+  font-size: clamp(.7rem, 1.5vw, 1rem);
+  color: #13334f;
+  white-space: nowrap;
+}
+
+
+.stat {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+.stat-tooltip {
+  width: 250px;
+  font-family: sans-serif;
+  z-index: 90;
+  position: absolute;
+  top: 98%; 
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  animation: fadeIn 0.2s forwards;
+}
+
+.stat-tooltip-content {
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.817);
+  backdrop-filter: blur(3px);
+  color: white;
+  padding: 12px;
+  z-index: 4;
+  text-align: left;
+}
+
+.stat-tooltip-content p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.stat-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  border-width: 6px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.6) transparent transparent transparent;
+}
+
+.stat-number,
+.stat-label {
+  white-space: nowrap;
+}
+
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.story-map-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  width: 90%;
+  margin-top: -30px;
+}
+
+.story-map-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #222;
+  text-align: center;
+}
+
+iframe {
+  border: none;
+  max-width: 100%;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.back-link {
+  margin-top: 20px;
+}
+
+.back-link a {
+  text-decoration: none;
+  color: #0078d7;
+  font-weight: bold;
+}
+
+.back-link a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 915px) {
+
+  /* Match researchteam.css mobile formatting */
+  .about-title {
+    text-align: center !important;
+    margin: 3px 0 -10px;
+    font-size: 1.3rem;
+    color: #154f89;
+  }
+
+  .about-subheading {
+    text-align: center;
+    font-size: .9rem;
+    color: #0e2b4a;
+    margin: 0 0 5px;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 10px;
+    margin-top: 9px;
+  }
+
+    .about-lakes-card{
+width: 80%;
+  }
+
+  .about-lakes-card h2 {
+    background: rgb(240, 241, 243); /* Same light neutral background */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 1120px;
+    margin: -15px auto;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 98%;
+  }
+
+  .about-lakes-card p {
+    margin: 0.5rem 0 0.25rem;
+    font-size: .85rem !important;
+    color: #000;
+  }
+
+  .stats-overlay {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: clamp(1px, 1vw, 14px);
+}
+
+.stat-number {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: bold;
+  color: #13334f;
+  white-space: nowrap;
+}
+
+.stat-label {
+  margin-top: 3px;
+  font-size: clamp(.45rem, 1.5vw, 1rem);
+  color: #13334f;
+  white-space: nowrap;
+}
+
+.stat-tooltip {
+visibility: hidden;
+}
+
+}

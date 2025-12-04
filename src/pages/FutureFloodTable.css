@@ -1,0 +1,134 @@
+/* Modern Table Container */
+.flood-table-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  overflow-x: auto;
+}
+
+/* Modern Table */
+.flood-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+}
+
+/* Headers */
+.flood-table th {
+  background: #f9fafb;
+  text-align: left;
+  padding: 16px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+  position: sticky;
+  top: 0;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.3s;
+}
+
+.flood-table th:hover {
+  background: #f3f4f6;
+}
+
+/* Body cells */
+.flood-table td {
+  padding: 14px 20px;
+  font-size: 14px;
+  color: #4b5563;
+  border-top: 1px solid #e5e7eb;
+  transition: background 0.3s;
+}
+
+/* Zebra striping */
+.flood-table tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+/* Hover row effect */
+.flood-table tbody tr:hover {
+  background: #eef2f7;
+}
+
+/* Expand button */
+.expand-button {
+  margin: 20px auto;
+  display: block;
+  padding: 10px 18px;
+  font-size: 15px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: background 0.3s, transform 0.2s;
+  font-weight: 600;
+}
+
+.expand-button:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .flood-table th,
+  .flood-table td {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+}
+
+.summary-row td {
+  background: #f1f5f9;
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #1f2937;
+  border-top: 1px solid #d1d5db;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.summary-content {
+  max-width: 1000px;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.flood-table tbody tr:hover {
+  background: #eef2f7;
+  cursor: pointer;
+}
+
+.flood-table tbody tr.expandable-row td {
+  position: relative;
+}
+
+.flood-table tbody tr.expandable-row:hover td::after {
+  content: "▼";
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #6593f0;
+  font-style: italic;
+}
+

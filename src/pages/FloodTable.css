@@ -1,0 +1,178 @@
+/* Glacier Table Container */
+.glacier-table-container {
+  width: 100%;
+  max-width: 1800px;
+  margin: 40px auto;
+  padding: 0 20px;
+  overflow-x: auto;
+  background: #ffffff00;
+}
+
+/* Table Base */
+.glacier-table {
+  width: 97%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgb(242, 243, 248);
+}
+
+.glacier-table-title {
+  font-size: 1.2rem;         
+  font-weight: 700;         
+  color: #030303;           
+  line-height: .1;
+  margin-bottom: -1px;
+}
+
+/* Table Header */
+.glacier-table th {
+  background: rgb(221, 233, 249);
+  text-align: left;
+  padding: 14px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  position: sticky;
+  top: 0;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.3s;
+}
+
+.glacier-table th:hover {
+  background: #c6d9ff;
+}
+
+/* Table Body Cells */
+.glacier-table td {
+  padding: 14px 18px;
+  font-size: 14px;
+  color: #111;
+  border-top: 1px solid #e5e7eb;
+  transition: background 0.3s;
+  vertical-align: top;
+}
+
+/* Zebra striping */
+.glacier-table tbody tr:nth-child(even) {
+  background: #ffffff;
+}
+
+/* Expandable Row Highlight */
+.glacier-table tbody tr.expandable-row {
+  position: relative;
+}
+
+.glacier-table tbody tr.expandable-row:hover td:first-child::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  font-size: 12px;
+  color: #2563eb;
+}
+
+/* Highlighted Row (on hash link) */
+.highlighted-row {
+  background-color: rgba(0, 110, 255, 0.15) !important;
+  transition: background 0.4s ease-in-out;
+}
+
+/* Buttons (Map / Link) */
+.glacier-button {
+  display: inline-block;
+  background-color: #2563eb;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  text-decoration: none;
+}
+
+.glacier-button:hover {
+  background-color: #153dab;
+}
+
+.glacier-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.font-size-buttons button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin: 0 4px;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 4px 8px;
+  transition: background 0.2s;
+}
+
+
+/* Summary cells */
+.summary-cell {
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.scrollable-summary {
+  max-height: 120px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+  .glacier-table th,
+  .glacier-table td {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .glacier-button {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .glacier-table-title {
+  font-size: 1rem;   
+  font-weight: 600;  
+  color: #030303;      
+  line-height: .4;
+}
+
+  .summary-cell {
+    max-width: 100%;     /* let it span full width */
+    min-width: 250px;    /* ensure it doesn’t collapse too much */
+  }
+
+  .scrollable-summary {
+    max-height: none;    /* allow full height instead of tiny scroll box */
+    overflow-y: visible; /* avoid double scrollbars */
+  }
+}
+
+@media (max-width: 600px) {
+  .glacier-table-container {
+    padding: 0 10px;
+  }
+
+  .glacier-table th,
+  .glacier-table td {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
+
+
+

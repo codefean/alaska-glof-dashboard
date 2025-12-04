@@ -1,0 +1,152 @@
+
+
+
+/* Flood Events Container */
+.flood-events-container {
+  padding: 20px;
+  padding-left: max(10px, 2vw); /* Make padding dynamic */
+  padding-right: max(10px, 2vw);
+  max-width: 100vw; /* Ensure it does not go beyond viewport */
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.flood-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.flood-events-title{
+  text-align: center !important;
+  margin: 15px 0 -5px !important;
+  font-size: 2.4rem;
+  color: #154f89;
+}
+
+.flood-events-subheading {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #0e2b4a;
+  margin: 0 0 5px;
+  font-weight: bold;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.floodcard {
+  background: rgb(221, 233, 249);
+  border-left: 5px solid #00509e;
+  border-right: 5px solid #00509e;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 400px;
+  max-width: 85%;
+  line-height: 1.2;
+  margin-bottom: 0;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.about-floods-card {
+  background-color: #f9fbfc;
+  border: 1px solid #dce7ef;
+  border-radius: 16px;
+  padding: 2px 28px;
+  text-align: center;
+  line-height: 1.7;
+  margin: 0 auto;
+  width: 950px;
+  margin: 20px auto;
+  font-family: 'Open Sans', sans-serif;
+  margin-bottom: -10px;
+}
+
+.about-floods-card h3 {
+  font-size: 1.2rem;
+  color: #154f89;
+  margin-bottom: 10px;
+}
+
+.about-floods-card p {
+  font-size: 1.05rem;
+  color: #000000;
+}
+
+.data-sources {
+  padding: 1rem;
+  background-color: rgb(221, 233, 249);
+  text-align: center;
+  margin-bottom: -5px;
+}
+
+.data-sources h3 {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: -5px;
+}
+
+.data-sources ul {
+  list-style: none; 
+  padding-left: 0; 
+  margin: 0;
+}
+
+.data-sources a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.data-sources a:hover {
+  color: #004999;
+  text-decoration: underline;
+}
+
+.data-sources li {
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #000000;
+  line-height: 1.4;
+}
+
+@media (max-width: 915px) {
+
+
+  .flood-events-title {
+    text-align: center !important;
+    margin: -14px 0 -10px;
+    font-size: 1.7rem;
+    color: #154f89;
+  }
+
+  .flood-events-subheading {
+    text-align: center;
+    font-size: 1rem;
+    color: #0e2b4a;
+    margin: 0 0 5px;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 10px;
+    margin-top: 5px;
+  }
+
+  .about-floods-card {
+width: 80%;
+
+}
+
+  .about-floods-card p {
+font-size: .85rem;
+}
+}

@@ -1,0 +1,28 @@
+.app-container {
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-container {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+}
+
+.map-controls {
+  position: absolute;
+  top: 10px; /* Adjust the top value to move the controls further down */
+  left: 10px;
+  z-index: 1;
+  color:white;
+  background-color: rgba(255, 255, 255, 0.8); /* Optional: Add a background for better visibility */
+  padding: 10px; /* Optional: Add padding for spacing */
+  border-radius: 5px; /* Optional: Rounded corners for styling */
+  border: 1px solid #ccc; /* Optional: Add a border for definition */
+}
+
+.floodlevels-page ~ footer {
+  display: none !important;
+}

@@ -1,0 +1,96 @@
+.map-wrapper {
+  position: relative;
+  width: 85%;
+  height: 600px; /* less tall, fixed height */
+  border-radius: 16px; /* rounded corners */
+  overflow: hidden; /* ensures the map respects the rounded border */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* optional: gives a "card" feel */
+  margin: auto;
+}
+
+.map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px; /* match wrapper */
+} 
+/* Floating Data Box */
+.data-box {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #f9fafb;
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-family: "Open Sans", sans-serif;
+  max-width: 320px;
+  line-height: 1.4;
+  z-index: 2;
+}
+
+.data-box h4 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.data-box p {
+  margin: 6px 0;
+  font-size: 0.9rem;
+}
+
+.pause-btn {
+  position: absolute;
+  bottom: 100px;
+  background: rgba(0, 0, 0, 0.65) !important;
+  color: #f9fafb;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background 0.2s ease-in-out;
+  z-index: 5;
+  width: 155px;
+}
+
+.pause-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Controls container */
+.controls {
+  position: absolute;
+  top: 190px;
+  left: 20px;
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  gap: 10px;
+  z-index: 5;
+}
+
+/* Generic control buttons */
+.controls button {
+  background: rgba(102, 156, 245, 0.65);
+  color: #f9fafb;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background 0.2s ease-in-out;
+}
+
+.controls button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
