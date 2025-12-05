@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState, useMemo  } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import mapboxgl from "mapbox-gl";
 import "./SBmodel.css";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoibWFwZmVhbiIsImEiOiJjbTNuOGVvN3cxMGxsMmpzNThzc2s3cTJzIn0.1uhX17BCYd65SeQsW1yibA";
+import { MAPBOX_TOKEN } from "./constants";
+
+mapboxgl.accessToken = MAPBOX_TOKEN;
 
 export default function Topographic3DTerrainMap() {
   const mapContainer = useRef(null);
@@ -14,23 +15,23 @@ export default function Topographic3DTerrainMap() {
   const [paused] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-const lakes = useMemo(
-  () => [
-    { name: "Lake B50", orbitCenter: [-146.87995, 61.6636] },
-    { name: "Abyss Lake", orbitCenter: [-136.62418, 58.50103] },
-    { name: "Snow Lake", orbitCenter: [-148.93307, 60.48361] },
-    { name: "Suicide Basin", orbitCenter: [-134.49752, 58.45798] },
-    { name: "Summit Lake", orbitCenter: [-130.06834, 56.1862] },
-    { name: "Sklai Lake", orbitCenter: [-141.94131, 61.63694] },
-    { name: "Lake B34", orbitCenter: [-132.55151, 57.1023] },
-    { name: "Lake B99", orbitCenter: [-150.8763, 62.78959] },
-    { name: "Lake B23", orbitCenter: [-140.45603, 60.81413] },
-    { name: "Bear Lake", orbitCenter: [-149.6312, 60.0683] },
-    { name: "B123", orbitCenter: [-152.49741, 60.71121] },
-    { name: "B94", orbitCenter: [-150.69629, 62.85899] },
-  ],
-  []
-);
+  const lakes = useMemo(
+    () => [
+      { name: "Lake B50", orbitCenter: [-146.87995, 61.6636] },
+      { name: "Abyss Lake", orbitCenter: [-136.62418, 58.50103] },
+      { name: "Snow Lake", orbitCenter: [-148.93307, 60.48361] },
+      { name: "Suicide Basin", orbitCenter: [-134.49752, 58.45798] },
+      { name: "Summit Lake", orbitCenter: [-130.06834, 56.1862] },
+      { name: "Sklai Lake", orbitCenter: [-141.94131, 61.63694] },
+      { name: "Lake B34", orbitCenter: [-132.55151, 57.1023] },
+      { name: "Lake B99", orbitCenter: [-150.8763, 62.78959] },
+      { name: "Lake B23", orbitCenter: [-140.45603, 60.81413] },
+      { name: "Bear Lake", orbitCenter: [-149.6312, 60.0683] },
+      { name: "B123", orbitCenter: [-152.49741, 60.71121] },
+      { name: "B94", orbitCenter: [-150.69629, 62.85899] },
+    ],
+    [],
+  );
 
   const [lakeIndex, setLakeIndex] = useState(0);
   const [intervalMs] = useState(20000);
@@ -114,13 +115,11 @@ const lakes = useMemo(
       animationRef.current = requestAnimationFrame(animateCamera);
     });
 
-
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
       if (map) map.remove();
     };
   }, [paused, location]);
-
 
   function toggleFullscreen() {
     const wrapper = wrapperRef.current;
@@ -137,12 +136,11 @@ const lakes = useMemo(
       if (document.exitFullscreen) {
         document.exitFullscreen();
       } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen(); 
+        document.webkitExitFullscreen();
       }
       setIsFullscreen(false);
     }
   }
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -151,19 +149,16 @@ const lakes = useMemo(
       }, 300);
     };
     document.addEventListener("fullscreenchange", handleResize);
-    return () =>
-      document.removeEventListener("fullscreenchange", handleResize);
+    return () => document.removeEventListener("fullscreenchange", handleResize);
   }, []);
 
   return (
     <div className="map-wrapper-2" ref={wrapperRef}>
       <div ref={mapContainer} className="map-container-2" />
 
-
       <div className="data-box">
         <p>{lakes[lakeIndex].name}</p>
       </div>
-
 
       <button className="fullscreen-btn" onClick={toggleFullscreen}>
         {isFullscreen ? "Exit Fullscreen" : "Fullscreen"}

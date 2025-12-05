@@ -4,8 +4,9 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import "./SuicideBasin.css";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoibWFwZmVhbiIsImEiOiJjbTNuOGVvN3cxMGxsMmpzNThzc2s3cTJzIn0.1uhX17BCYd65SeQsW1yibA";
+import { MAPBOX_TOKEN } from "./constants";
+
+mapboxgl.accessToken = MAPBOX_TOKEN;
 
 export default function Topographic3DTerrainMap() {
   const mapContainer = useRef(null);
@@ -65,7 +66,7 @@ export default function Topographic3DTerrainMap() {
       // === MODEL TRANSFORM ===
       const mercatorCoord = mapboxgl.MercatorCoordinate.fromLngLat(
         modelOrigin,
-        modelAltitude
+        modelAltitude,
       );
       const modelTransform = {
         translateX: mercatorCoord.x,
@@ -110,7 +111,7 @@ export default function Topographic3DTerrainMap() {
               this.scene.add(this.model);
             },
             undefined,
-            (error) => console.error("❌ Error loading GLB:", error)
+            (error) => console.error("❌ Error loading GLB:", error),
           );
 
           this.renderer = new THREE.WebGLRenderer({
@@ -125,14 +126,14 @@ export default function Topographic3DTerrainMap() {
             .makeTranslation(
               modelTransform.translateX,
               modelTransform.translateY,
-              modelTransform.translateZ
+              modelTransform.translateZ,
             )
             .scale(
               new THREE.Vector3(
                 modelTransform.scale,
                 -modelTransform.scale,
-                modelTransform.scale
-              )
+                modelTransform.scale,
+              ),
             );
 
           this.camera.projectionMatrix = m.multiply(l);
@@ -177,38 +178,38 @@ export default function Topographic3DTerrainMap() {
       <div className="data-box">
         <h4>Suicide Basin for Scale</h4>
         <p>
-          Model shows Suicide Basin on <strong>8/13/2025</strong>: Empty after the{" "}
-          <em>largest flood event</em> on record.
+          Model shows Suicide Basin on <strong>8/13/2025</strong>: Empty after
+          the <em>largest flood event</em> on record.
         </p>
       </div>
 
-     <div className="controls">
-  <button className="pause-btn" onClick={() => setPaused((p) => !p)}>
-    {paused ? "▶ Resume Orbit" : "⏸ Pause Orbit"}
-  </button>
+      <div className="controls">
+        <button className="pause-btn" onClick={() => setPaused((p) => !p)}>
+          {paused ? "▶ Resume Orbit" : "⏸ Pause Orbit"}
+        </button>
 
-  <button
-    onClick={() =>
-      setLocation({
-        modelOrigin: [-134.575402, 58.393573], // Mendenhall Valley
-        orbitCenter: [-134.575402, 58.393573],
-      })
-    }
-  >
-    Mendenhall Valley
-  </button>
+        <button
+          onClick={() =>
+            setLocation({
+              modelOrigin: [-134.575402, 58.393573], // Mendenhall Valley
+              orbitCenter: [-134.575402, 58.393573],
+            })
+          }
+        >
+          Mendenhall Valley
+        </button>
 
-  <button
-    onClick={() =>
-      setLocation({
-        modelOrigin: [-134.4197, 58.3019], // Downtown Juneau
-        orbitCenter: [-134.4197, 58.3019],
-      })
-    }
-  >
-    Downtown Juneau
-  </button>
-</div>
-</div>
+        <button
+          onClick={() =>
+            setLocation({
+              modelOrigin: [-134.4197, 58.3019], // Downtown Juneau
+              orbitCenter: [-134.4197, 58.3019],
+            })
+          }
+        >
+          Downtown Juneau
+        </button>
+      </div>
+    </div>
   );
 }
