@@ -1,25 +1,24 @@
-import React, { useEffect, useRef, useState, useMemo  } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import mapboxgl from "mapbox-gl";
 import "./Model.css";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoibWFwZmVhbiIsImEiOiJjbTNuOGVvN3cxMGxsMmpzNThzc2s3cTJzIn0.1uhX17BCYd65SeQsW1yibA";
+import { MAPBOX_TOKEN } from "./constants";
+
+mapboxgl.accessToken = MAPBOX_TOKEN;
 
 export default function Topographic3DTerrainMap() {
   const mapContainer = useRef(null);
   const animationRef = useRef(null);
   const wrapperRef = useRef(null);
-  const mapRef = useRef(null); 
+  const mapRef = useRef(null);
 
   const [paused] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-const lakes = useMemo(
-  () => [
-    { name: "Snow Lake", orbitCenter: [-148.93307, 60.48361] }
-  ],
-  []
-);
+  const lakes = useMemo(
+    () => [{ name: "Snow Lake", orbitCenter: [-148.93307, 60.48361] }],
+    [],
+  );
 
   const [lakeIndex, setLakeIndex] = useState(0);
   const [intervalMs] = useState(200000);
@@ -109,7 +108,6 @@ const lakes = useMemo(
     };
   }, [paused, location]);
 
-
   return (
     <div className="map-wrapper-3" ref={wrapperRef}>
       <div ref={mapContainer} className="map-container-3" />
@@ -117,7 +115,6 @@ const lakes = useMemo(
       <div className="data-box2">
         <p>{lakes[lakeIndex].name}</p>
       </div>
-
     </div>
   );
 }
