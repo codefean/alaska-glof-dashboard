@@ -3,7 +3,7 @@ import mapboxgl from "mapbox-gl";
 import "./SBmodel.css";
 
 
-mapboxgl.accessToken = "pk.eyJ1IjoibWFwZmVhbjIiLCJhIjoiY21pcnRhMXBoMDNydDNmb212czFoN253ZyJ9.ieih9K8SJl2FbzPqamwGjA";
+mapboxgl.accessToken = "pk.eyJ1IjoibWFwZmVhbjIiLCJhIjoiY21rMWtiN2RhMDdhbjNxczcxc3N0d3ozbCJ9.YKzuzjqomFbaFuPf847OZg";
 
 export default function Topographic3DTerrainMap() {
   const mapContainer = useRef(null);

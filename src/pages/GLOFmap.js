@@ -120,7 +120,7 @@ const AlaskaMap = () => {
   };
 
   useEffect(() => {
-    mapboxgl.accessToken = "pk.eyJ1IjoibWFwZmVhbjIiLCJhIjoiY21pcnRhMXBoMDNydDNmb212czFoN253ZyJ9.ieih9K8SJl2FbzPqamwGjA";
+    mapboxgl.accessToken = "pk.eyJ1IjoibWFwZmVhbjIiLCJhIjoiY21rMWtiN2RhMDdhbjNxczcxc3N0d3ozbCJ9.YKzuzjqomFbaFuPf847OZg";
 
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
