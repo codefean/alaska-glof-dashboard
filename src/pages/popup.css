@@ -1,0 +1,104 @@
+@import "mapbox-gl/dist/mapbox-gl.css";
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+
+/* Scoped popup container */
+.glof-mapbox-popup.mapboxgl-popup {
+  max-width: 250px;
+  z-index: 90 !important;
+  height: auto !important;
+  top: -15px !important;
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+}
+
+/* Popup content */
+.glof-mapbox-popup .mapboxgl-popup-content {
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  color: white;
+  padding: 12px;
+  z-index: 4;
+  height: auto !important;
+}
+
+/* Title */
+.glof-mapbox-popup .mapboxgl-popup-content h4 {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Body text */
+.glof-mapbox-popup .mapboxgl-popup-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.1;
+  white-space: normal;
+}
+
+/* Popup tip */
+.glof-mapbox-popup .mapboxgl-popup-tip {
+  border-top-color: rgba(0, 0, 0, 0.6) !important;
+  margin-top: -1px !important;
+}
+
+/* Close button */
+.glof-mapbox-popup .mapboxgl-popup-close-button {
+  color: white;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.glof-mapbox-popup .mapboxgl-popup-close-button:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+/* Links */
+.glof-mapbox-popup .mapboxgl-popup-content a {
+  color: white;
+  text-decoration: underline;
+}
+
+.glof-mapbox-popup .mapboxgl-popup-content a:hover {
+  color: #ddd;
+}
+
+/* Button */
+.glof-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.glof-button {
+  display: block;
+  background-color: #00509e;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 8px 1px;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  min-width: 65%;
+  transition: background-color 0.3s ease-in-out, transform 0.2s;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+.glof-button:hover {
+  background-color: #9d0303;
+}
+
+/* Mobile behavior */
+@media (max-width: 800px) {
+  .glof-mapbox-popup.mapboxgl-popup {
+    pointer-events: auto;
+  }
+}

@@ -1,0 +1,154 @@
+// popups.js
+import mapboxgl from "mapbox-gl";
+import "./popup.css";
+
+/**
+ * Build popup HTML for a lake
+ */
+export function buildLakePopupHTML(lake) {
+  const {
+    LakeID,
+    LakeName,
+    GlacierName,
+    waterFlow,
+    downstream,
+    numberEvents,
+    isHazard,
+    futureHazard,
+    futureHazardETA,
+  } = lake;
+
+  return `
+    <h4>${LakeName || `Lake ${LakeID}`}</h4>
+    <p>
+      <strong>Glacier:</strong> ${GlacierName || "Unknown"}<br/>
+      ${waterFlow ? `<strong>Flow:</strong> ${waterFlow}<br/>` : ""}
+      ${downstream ? `<strong>Downstream:</strong> ${downstream}<br/>` : ""}
+      ${numberEvents ? `<strong>Drainage Events:</strong> ${numberEvents}<br/>` : ""}
+      ${
+        futureHazard
+          ? `<em>Potential future hazard${
+              futureHazardETA ? ` (ETA: ${futureHazardETA})` : ""
+            }</em><br/>`
+          : ""
+      }
+    </p>
+
+    ${
+      isHazard || futureHazard
+        ? `
+          <div class="glof-button-wrapper">
+            <a
+              href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glof-button"
+            >
+              More Info
+            </a>
+          </div>
+        `
+        : ""
+    }
+  `;
+}
+
+/**
+ * Centralized popup controller
+ * - Hover popups disabled while locked popup exists
+ * - No double popup overlay possible
+ */
+export function createPopupController({
+  map,
+  hoverPopupRef,
+  lockedPopupRef,
+  isPopupLockedRef,
+  hoverAutoCloseMs = 20000,
+}) {
+  let hoverTimeout = null;
+
+  const clearHover = () => {
+    if (hoverTimeout) clearTimeout(hoverTimeout);
+    hoverTimeout = null;
+    hoverPopupRef.current?.remove();
+    hoverPopupRef.current = null;
+  };
+
+  const clearLocked = () => {
+    isPopupLockedRef.current = false;
+    lockedPopupRef.current?.remove();
+    lockedPopupRef.current = null;
+  };
+
+  const showHover = ({ lngLat, html }) => {
+    // 🔒 Disable hover if popup is locked
+    if (isPopupLockedRef.current) return;
+
+    clearHover();
+
+    hoverPopupRef.current = new mapboxgl.Popup({
+      closeOnClick: false,
+      closeButton: false,
+      className: "glof-mapbox-popup",
+    })
+      .setLngLat(lngLat)
+      .setHTML(html)
+      .addTo(map);
+
+    hoverTimeout = setTimeout(clearHover, hoverAutoCloseMs);
+  };
+
+  const showLocked = ({ lngLat, html }) => {
+    clearHover();
+    lockedPopupRef.current?.remove();
+
+    isPopupLockedRef.current = true;
+
+    lockedPopupRef.current = new mapboxgl.Popup({
+      closeOnClick: false,
+      className: "glof-mapbox-popup",
+    })
+      .setLngLat(lngLat)
+      .setHTML(html)
+      .addTo(map);
+  };
+
+  /**
+   * Attach hover + click behavior to a marker element
+   */
+  const attachToMarkerEl = ({
+    el,
+    lon,
+    lat,
+    html,
+    onLock,
+  }) => {
+    const lngLat = [lon, lat];
+
+    const handleEnter = () => showHover({ lngLat, html });
+    const handleLeave = () => clearHover();
+    const handleClick = (e) => {
+      e.stopPropagation();
+      showLocked({ lngLat, html });
+      if (typeof onLock === "function") onLock();
+    };
+
+    el.addEventListener("mouseenter", handleEnter);
+    el.addEventListener("mouseleave", handleLeave);
+    el.addEventListener("click", handleClick);
+
+    return () => {
+      el.removeEventListener("mouseenter", handleEnter);
+      el.removeEventListener("mouseleave", handleLeave);
+      el.removeEventListener("click", handleClick);
+    };
+  };
+
+  return {
+    showHover,
+    showLocked,
+    clearHover,
+    clearLocked,
+    attachToMarkerEl,
+  };
+}
