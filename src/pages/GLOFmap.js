@@ -12,6 +12,10 @@ import LayersToggle from "./LayersToggle";
 import { useGlacierLayer } from './glaciers';
 import { buildLakePopupHTML, createPopupController } from "./popups";
 
+const MAPBOX_TOKEN =
+  "pk.eyJ1IjoibWFwZmVhbjIiLCJhIjoiY21rMWtiN2RhMDdhbjNxczcxc3N0d3ozbCJ9.YKzuzjqomFbaFuPf847OZg";
+mapboxgl.accessToken = MAPBOX_TOKEN;
+
 const AlaskaMap = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
@@ -120,14 +124,14 @@ const AlaskaMap = () => {
   };
 
   useEffect(() => {
-    mapboxgl.accessToken = "pk.eyJ1IjoibWFwZmVhbjIiLCJhIjoiY21rMWtiN2RhMDdhbjNxczcxc3N0d3ozbCJ9.YKzuzjqomFbaFuPf847OZg";
-
+    // ✅ Pass token directly to constructor too (most reliable)
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/satellite-streets-v12',
       center: [-144.5, 59.9],
       zoom: 4,
       antialias: true,
+      accessToken: MAPBOX_TOKEN,
     });
 
     mapRef.current = map;

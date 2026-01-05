@@ -2,14 +2,16 @@ import React, { useEffect, useRef, useState, useMemo } from "react";
 import mapboxgl from "mapbox-gl";
 import "./SBmodel.css";
 
+const MAPBOX_TOKEN =
+  "pk.eyJ1IjoibWFwZmVhbjIiLCJhIjoiY21rMWtiN2RhMDdhbjNxczcxc3N0d3ozbCJ9.YKzuzjqomFbaFuPf847OZg";
 
-mapboxgl.accessToken = "pk.eyJ1IjoibWFwZmVhbjIiLCJhIjoiY21rMWtiN2RhMDdhbjNxczcxc3N0d3ozbCJ9.YKzuzjqomFbaFuPf847OZg";
+mapboxgl.accessToken = MAPBOX_TOKEN;
 
 export default function Topographic3DTerrainMap() {
   const mapContainer = useRef(null);
   const animationRef = useRef(null);
   const wrapperRef = useRef(null);
-  const mapRef = useRef(null); // Store map instance
+  const mapRef = useRef(null);
 
   const [paused] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -29,7 +31,7 @@ export default function Topographic3DTerrainMap() {
       { name: "B123", orbitCenter: [-152.49741, 60.71121] },
       { name: "B94", orbitCenter: [-150.69629, 62.85899] },
     ],
-    [],
+    []
   );
 
   const [lakeIndex, setLakeIndex] = useState(0);
@@ -57,6 +59,16 @@ export default function Topographic3DTerrainMap() {
     const { orbitCenter } = location;
     const initialZoom = window.innerWidth < 915 ? 12.2 : 12.7;
 
+    // If this effect reruns, make sure the previous map is gone
+    if (mapRef.current) {
+      mapRef.current.remove();
+      mapRef.current = null;
+    }
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = null;
+    }
+
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/satellite-streets-v12",
@@ -65,17 +77,21 @@ export default function Topographic3DTerrainMap() {
       pitch: 60,
       bearing: 0,
       antialias: true,
+
+      accessToken: MAPBOX_TOKEN,
     });
 
     mapRef.current = map;
 
     map.on("load", () => {
-      map.addSource("mapbox-dem", {
-        type: "raster-dem",
-        url: "mapbox://mapbox.mapbox-terrain-dem-v1",
-        tileSize: 512,
-        maxzoom: 12,
-      });
+      if (!map.getSource("mapbox-dem")) {
+        map.addSource("mapbox-dem", {
+          type: "raster-dem",
+          url: "mapbox://mapbox.mapbox-terrain-dem-v1",
+          tileSize: 512,
+          maxzoom: 12,
+        });
+      }
 
       map.setTerrain({ source: "mapbox-dem", exaggeration: 0.9 });
 
@@ -116,7 +132,12 @@ export default function Topographic3DTerrainMap() {
 
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
-      if (map) map.remove();
+      animationRef.current = null;
+
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
     };
   }, [paused, location]);
 
@@ -128,7 +149,7 @@ export default function Topographic3DTerrainMap() {
       if (wrapper.requestFullscreen) {
         wrapper.requestFullscreen();
       } else if (wrapper.webkitRequestFullscreen) {
-        wrapper.webkitRequestFullscreen(); // Safari
+        wrapper.webkitRequestFullscreen();
       }
       setIsFullscreen(true);
     } else {
