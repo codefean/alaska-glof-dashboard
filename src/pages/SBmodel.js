@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState, useMemo } from "react";
 import mapboxgl from "mapbox-gl";
 import "./SBmodel.css";
 
-import { MAPBOX_TOKEN } from "./constants";
 
-mapboxgl.accessToken = MAPBOX_TOKEN;
+mapboxgl.accessToken = "pk.eyJ1IjoibWFwZmVhbjIiLCJhIjoiY21pcnRhMXBoMDNydDNmb212czFoN253ZyJ9.ieih9K8SJl2FbzPqamwGjA";
 
 export default function Topographic3DTerrainMap() {
   const mapContainer = useRef(null);
