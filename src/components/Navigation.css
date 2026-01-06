@@ -1,11 +1,11 @@
 .navigation {
-  background-color: #0f3754; /* Teal background */
+  background-color: #0f3754;
   padding: 4px 15px;
   position: relative;
 }
 
 .navigation .menu-toggle {
-  display: none; /* Hide by default */
+  display: none; 
   cursor: pointer;
   color: white;
   font-size: 1.5em;
@@ -25,8 +25,8 @@
 }
 
 .navigation ul li {
-  margin: 0 20px; /* Space between menu items */
-  text-align: center; /* Center-align text within each item */
+  margin: 0 20px; 
+  text-align: center; 
 }
 
 .navigation ul li a {
@@ -36,7 +36,7 @@
   font-size: 1.1em;
   transition: color 0.3s ease, border-bottom 0.3s ease;
   border-bottom: 2px solid transparent;
-  text-align: center; /* Ensures links are centered within their container */
+  text-align: center; 
 }
 
 .navigation ul li a:hover {
@@ -51,7 +51,7 @@
   font-size: 1.1em;
   transition: color 0.3s ease, border-bottom 0.3s ease;
   border-bottom: 2px solid transparent;
-  text-align: center; /* Ensures links are centered within their container */
+  text-align: center;
 }
 
 .navigation ul li a.secondary:hover {
@@ -60,7 +60,6 @@
 }
 
 
-/* Responsive Styles */
 @media (max-width: 1057px) {
     .navigation .menu-toggle {
     display: block;
@@ -68,7 +67,7 @@
   }
 
   .navigation ul {
-    display: none; /* Hide menu by default */
+    display: none; 
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -79,19 +78,19 @@
   }
 
   .navigation ul.open {
-    display: flex; /* Show menu when toggled */
+    display: flex; 
   }
 
   .navigation ul li {
-    margin: 10px 0; /* Add spacing for stacked items */
+    margin: 10px 0; 
   }
 
   .navigation ul li a {
-    font-size: 1em; /* Adjust font size for smaller screens */
+    font-size: 1em; 
   }
 
   .navigation ul li b {
-    font-size: 1em; /* Adjust font size for smaller screens */
+    font-size: 1em; 
   }
   .navigation ul li a.secondary {
   font-size: 1em;
@@ -108,11 +107,11 @@
   }
 
     .navigation ul li a {
-    font-size: .9em; /* Adjust font size for smaller screens */
+    font-size: .9em; 
   }
 
     .navigation ul li b {
-    font-size: .9em; /* Adjust font size for smaller screens */
+    font-size: .9em; 
   }
 
   .navigation ul li a.secondary {

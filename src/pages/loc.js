@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import "./loc.css";
 
 /**
- * Custom hook to track mouse position on the map and get elevation.
- * @param {Object} mapRef - React ref pointing to the map instance.
- * @param {Function} setCursorInfo - Setter function to update cursor info state.
+
+ @param {Object} mapRef 
+  @param {Function} setCursorInfo 
  */
 export function useCursorLocation(mapRef, setCursorInfo) {
   useEffect(() => {
@@ -24,7 +24,7 @@ export function useCursorLocation(mapRef, setCursorInfo) {
         try {
           elevM = map.queryTerrainElevation(e.lngLat, { exaggerated: false });
         } catch {
-          // ignore errors if terrain is unavailable
+
         }
 
         if (typeof elevM !== "number" || Number.isNaN(elevM)) {

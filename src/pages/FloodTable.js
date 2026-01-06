@@ -32,6 +32,9 @@ const TABLE_CONFIG = {
       "Time to Future Hazard", 
       "Current Hazard",
       "More Info",
+      "numberEvents",
+      "lastEvent",
+      "firstEvent",
     ],
     title: "Current Alaska Glacier Lakes",
     filterFn: (row) => row["Current Hazard"]?.toLowerCase() === "true",
@@ -45,6 +48,9 @@ const TABLE_CONFIG = {
       "Frequency",
       "Future Hazard",
       "Hazard Info",
+      "numberEvents",
+      "lastEvent",
+      "firstEvent",
     ],
     title: "Future Alaska Glacier Lakes (2026)",
     filterFn: (row) => row["Future Hazard"]?.toLowerCase() === "true",
@@ -74,7 +80,6 @@ const FloodDataTable = ({
           complete: (result) => {
             const rawData = result.data;
 
-            // Normalize keys
             const processedData = rawData.map((row) => {
               const newRow = {};
               Object.keys(row).forEach((key) => {
@@ -89,22 +94,22 @@ const FloodDataTable = ({
               return newRow;
             });
 
-            // Apply filter based on type
+
             const filteredData = processedData.filter(filterFn);
 
-            // Exclude columns
+
             const allHeaders = Object.keys(filteredData[0] || {});
             const filteredHeaders = allHeaders.filter(
               (h) => !excluded.includes(h)
             );
 
-            // Ensure Lake Name first
+
             const orderedHeaders = [
               "Lake Name",
               ...filteredHeaders.filter((h) => h !== "Lake Name"),
             ];
 
-            // Always add View on Map
+
             const finalHeaders = [...orderedHeaders, "View on Map"];
 
             setData(filteredData);

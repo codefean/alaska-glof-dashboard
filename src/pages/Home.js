@@ -36,7 +36,7 @@ const cardData = [
   },
 ];
 
-// FAQ Data
+
 const faqData = [
   {
     question: 'What are glacial lake outburst floods (GLOFs)?',
@@ -61,10 +61,9 @@ const Home = () => {
   const [showAllFAQs, setShowAllFAQs] = useState(false);
   const [, setIsMobile] = useState(false);
 
-  // Adjust based on how many FAQs you want previewed initially
+
   const previewFAQCount = 3;
 
-  // Handle mobile view detection
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 768px)');
     const apply = (e) => setIsMobile(e.matches);
@@ -74,12 +73,12 @@ const Home = () => {
     return () => mq.removeEventListener('change', apply);
   }, []);
 
-  // Toggle FAQ open/close
+
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  // Handle Enter key for accessibility
+
   const handleKeyDown = (e, index) => {
     if (e.key === 'Enter') {
       toggleFAQ(index);
@@ -88,7 +87,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* Card Grid Section */}
+
       <div className="card-grid">
         {cardData.map((card, index) => (
           <NavLink to={card.link} key={index} className="card">
@@ -101,9 +100,9 @@ const Home = () => {
         ))}
       </div>
 
-      {/* About & FAQ Section */}
+
       <div className="home-intro">
-        {/* About Section */}
+
         <div className="home-about-card">
           <h3>About</h3>
 
@@ -115,7 +114,7 @@ This website was created by the University of Alaska Southeast in cooperation wi
           </p>
         </div>
 
-        {/* Ice-Dammed Glacial Section */}
+
         <div className="home-about-lake">
           <h3>Ice-Dammed Glacial Lakes</h3>
                     <SBmodel />
@@ -194,7 +193,7 @@ This website was created by the University of Alaska Southeast in cooperation wi
               );
             })}
 
-          {/* Show More / Less Button */}
+
           {faqData.length > previewFAQCount && (
             <div className="button-wrapper">
               <button
@@ -209,17 +208,7 @@ This website was created by the University of Alaska Southeast in cooperation wi
 
 
 
-        {/* <div className="home-about-card">
-          <h3>Website Analytics</h3>
-          <div className="analytics-iframe-wrapper">
-            <iframe
-              title="Public Analytics Dashboard"
-              src="https://lookerstudio.google.com/embed/reporting/a1c38b51-bdd9-46ce-a1fb-c635f7e3d3fb/page/lpBOF"
-            ></iframe>
-          </div>
-        </div> */}
         
-        {/* Contact Section */}
         <div className="home-about-card">
           <h3>Contact Us</h3>
           <p>

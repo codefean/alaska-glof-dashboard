@@ -9,9 +9,9 @@ const DataTable = ({
   excludedColumns = [],
   title = "Data Table",
   subtitle = "Select Columns to Explore",
-  filterFn, // optional custom filter
-  extraColumns = [], // e.g. "View on Map"
-  expandableColumns = [], // e.g. "Summary"
+  filterFn, 
+  extraColumns = [], 
+  expandableColumns = [], 
 }) => {
   const [headers, setHeaders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -88,7 +88,7 @@ const DataTable = ({
   };
 
   const toggleRow = (index) => {
-    if (window.innerWidth <= 915) return; // disable expand on mobile
+    if (window.innerWidth <= 915) return; 
     setExpandedRows((prev) =>
       prev.includes(index)
         ? prev.filter((i) => i !== index)
@@ -136,7 +136,7 @@ const DataTable = ({
                     {headers.map((header, colIndex) => {
                       let content = row[header] || "—";
 
-                      // truncate if configured
+            
                       if (
                         expandableColumns.includes(header) &&
                         !isExpanded &&
@@ -146,7 +146,7 @@ const DataTable = ({
                         content = content.substring(0, 100) + "...";
                       }
 
-                      // map button
+                 
                       if (header === "View on Map") {
                         return (
                           <td key={colIndex}>
@@ -164,7 +164,7 @@ const DataTable = ({
                         );
                       }
 
-                      // hazard link
+            
                       if (
                         header === "Hazard Info" &&
                         typeof row[header] === "string"

@@ -4,7 +4,7 @@ import "./Footer.css";
 const Footer = () => {
   return (
     <footer className="footer">
-      {/* Footer Logos */}
+
       <div className="footer-logos">
         <a
           href="https://www.iarc.uaf.edu/"

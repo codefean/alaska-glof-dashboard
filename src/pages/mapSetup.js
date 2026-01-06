@@ -15,10 +15,10 @@ export const setupMap = (mapContainer, refs) => {
     antialias: true,
   });
 
-  // Save map reference
+
   refs.mapRef.current = map;
 
-  // Force crosshair cursor globally
+
   const setCrosshair = () => {
     map.getCanvas().style.setProperty("cursor", "crosshair", "important");
   };
@@ -26,7 +26,7 @@ export const setupMap = (mapContainer, refs) => {
     map.on(evt, setCrosshair)
   );
 
-  // Configure terrain, sky, and controls when map loads
+
   map.on("load", () => {
     map.addSource("mapbox-dem", {
       type: "raster-dem",
@@ -47,7 +47,7 @@ export const setupMap = (mapContainer, refs) => {
       },
     });
 
-    // Add default controls
+
     map.addControl(new mapboxgl.NavigationControl());
     map.addControl(new mapboxgl.FullscreenControl());
   });

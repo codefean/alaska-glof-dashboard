@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './sidebar.css';
 
 const Sidebar = ({ groupedData, sidebarOpen, toggleSidebar, onLakeSelect }) => {
-  // Make regions open by default
+
   const [openRegions, setOpenRegions] = useState({});
   const [openPlaces, setOpenPlaces] = useState({});
 
   useEffect(() => {
-    // Open all regions by default
+
     const initialRegions = {};
     for (const region of Object.keys(groupedData)) {
       initialRegions[region] = true;

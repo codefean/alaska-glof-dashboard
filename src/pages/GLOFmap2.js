@@ -24,7 +24,7 @@ const AlaskaMap = () => {
 
   const markersRef = useRef([]);
 
-  // ✅ Layer toggle states
+
   const [showLakes] = useState(true);
   const [showImpacts] = useState(true);
   const [showPredicted] = useState(true);
@@ -36,15 +36,15 @@ const AlaskaMap = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // POPUPS:
-  const hoverPopupRef = useRef(null); // ephemeral, for hover previews
-  const lockedPopupRef = useRef(null); // persistent, selected lake
+
+  const hoverPopupRef = useRef(null); 
+  const lockedPopupRef = useRef(null); 
   const isPopupLocked = useRef(false);
 
   const DEFAULT_PITCH = 20;
   const [pitch, setPitch] = useState(DEFAULT_PITCH);
 
-  // live cursor info (lng/lat/elevation in meters)
+ 
   const [, setCursorInfo] = useState({ lng: null, lat: null, elevM: null });
 
   const resetZoom = () => {
@@ -63,7 +63,7 @@ const AlaskaMap = () => {
     const updatePos = () => {
       if (pitchRef.current) {
         const rect = pitchRef.current.getBoundingClientRect();
-        // distance from bottom of viewport, plus some padding
+
         setPitchBottom(window.innerHeight - rect.bottom + 12);
       }
     };
@@ -72,7 +72,7 @@ const AlaskaMap = () => {
     return () => window.removeEventListener("resize", updatePos);
   }, []);
 
-  // Detect mobile
+
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 900);
     checkMobile();
@@ -112,7 +112,7 @@ const AlaskaMap = () => {
       }
     };
 
-    scrollToTop(); // Run once on mount
+    scrollToTop(); 
 
     window.addEventListener("hashchange", scrollToTop);
     return () => window.removeEventListener("hashchange", scrollToTop);
@@ -126,7 +126,7 @@ const AlaskaMap = () => {
       style: "mapbox://styles/mapbox/satellite-streets-v12",
       center: [-144.5, 59.9],
       zoom: 4,
-      antialias: true, // Improves 3D rendering quality
+      antialias: true,
     });
     mapRef.current = map;
 
@@ -140,12 +140,12 @@ const AlaskaMap = () => {
           speed: 2.2,
           pitch: DEFAULT_PITCH,
         });
-        // keep the UI slider in sync immediately:
+
         setPitch(DEFAULT_PITCH);
       }
     };
 
-    // DEM + terrain for elevation
+
     map.on("load", () => {
       if (!map.getSource("mapbox-dem")) {
         map.addSource("mapbox-dem", {
@@ -168,7 +168,7 @@ const AlaskaMap = () => {
       });
     });
 
-    // Fetch lake data
+
     const fetchLakeData = async () => {
       try {
         const response = await fetch(
@@ -250,7 +250,6 @@ const AlaskaMap = () => {
     fetchLakeData();
     fetchGlacierData();
 
-    // Global map click: unlock and clear any locked popup
     const clearLock = () => {
       isPopupLocked.current = false;
       lockedPopupRef.current?.remove();
@@ -296,7 +295,7 @@ const AlaskaMap = () => {
       } = lake;
       if (isNaN(lat) || isNaN(lon)) return;
 
-      // ✅ Layer filtering
+
       if (!showLakes && !isHazard && !futureHazard) return;
       if (!showImpacts && isHazard) return;
       if (!showPredicted && futureHazard) return;
@@ -352,7 +351,6 @@ const AlaskaMap = () => {
 
       let hoverTimeout;
 
-      // HOVER — show a temporary popup even if a locked one exists
       el.addEventListener("mouseenter", () => {
         clearTimeout(hoverTimeout);
         hoverPopupRef.current?.remove();
@@ -365,7 +363,7 @@ const AlaskaMap = () => {
           .setHTML(popupContent)
           .addTo(map);
 
-        // auto-close after 2.5 seconds
+
         hoverTimeout = setTimeout(() => {
           if (hoverPopupRef.current) {
             hoverPopupRef.current.remove();
@@ -374,24 +372,24 @@ const AlaskaMap = () => {
         }, 2500);
       });
 
-      // LEAVE — hide only the hover popup
+
       el.addEventListener("mouseleave", () => {
         clearTimeout(hoverTimeout);
         hoverPopupRef.current?.remove();
         hoverPopupRef.current = null;
       });
 
-      // CLICK — set/replace the locked popup, clear any hover popup
+
       el.addEventListener("click", (e) => {
         e.stopPropagation();
         clearTimeout(hoverTimeout);
 
         isPopupLocked.current = true;
 
-        // Remove any prior locked popup
+
         lockedPopupRef.current?.remove();
 
-        // Remove current hover popup so only the locked one stays
+
         hoverPopupRef.current?.remove();
         hoverPopupRef.current = null;
 
@@ -507,7 +505,7 @@ const AlaskaMap = () => {
         ref={mapContainerRef}
         style={{
           width: "100%",
-          height: "calc(100vh)", // adjust for header height
+          height: "calc(100vh)", 
           overflow: "hidden",
           zIndex: 1,
         }}

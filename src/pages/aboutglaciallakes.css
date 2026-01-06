@@ -1,4 +1,4 @@
-/* ===== Base Layout ===== */
+
 .about-container {
   min-height: 100vh;
   display: flex;
@@ -6,12 +6,12 @@
   align-items: center;
 }
 
-/* ===== Headings ===== */
+
 .about-title {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
   font-weight: bold;
   color: #154f89;
-  margin: 10px 0 -20px;
+  margin: 5px 0 -20px;
 }
 
 .about-subheading {
@@ -23,7 +23,7 @@
   margin-bottom: 10px;
 }
 
-/* ===== Content Section ===== */
+
 .about-lakes-card {
   width: 85%;
   max-width: 1050px;
@@ -38,10 +38,10 @@
   font-family: 'Open Sans', sans-serif;
 }
 
-/* ===== Stats Bar ===== */
+
 .stats-bar {
   width: 100%;
-  height: clamp(40px, 5vw, 59px); /* shrinks down to 25px on very small screens */
+  height: clamp(40px, 5vw, 50px); 
   background: #dde9f9;
   text-align: center;
   box-sizing: border-box;
@@ -57,15 +57,15 @@
 }
 
 .stat-number {
-  font-size: clamp(.8rem, 2vw, 1.5rem);
+  font-size: clamp(.8rem, 1.7vw, 1.3rem);
   font-weight: bold;
   color: #13334f;
   white-space: nowrap;
 }
 
 .stat-label {
-  margin-top: 3px;
-  font-size: clamp(.7rem, 1.5vw, 1rem);
+  margin-top: .2px;
+  font-size: clamp(.7rem, 1.5vw, .9rem);
   color: #13334f;
   white-space: nowrap;
 }
@@ -168,7 +168,7 @@ iframe {
 
 @media (max-width: 915px) {
 
-  /* Match researchteam.css mobile formatting */
+
   .about-title {
     text-align: center !important;
     margin: 3px 0 -10px;
@@ -192,7 +192,7 @@ width: 80%;
   }
 
   .about-lakes-card h2 {
-    background: rgb(240, 241, 243); /* Same light neutral background */
+    background: rgb(240, 241, 243);
     padding: 20px;
     border-radius: 8px;
     text-align: center;

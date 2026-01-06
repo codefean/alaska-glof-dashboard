@@ -14,9 +14,9 @@
   left: 0;
   width: 100% !important;
   height: 70% !important;
-  border-radius: 6px; /* match wrapper */
+  border-radius: 6px; 
 } 
-/* Floating Data Box */
+
 .map-wrapper-3 .data-box2 {
   position: relative;
   top: 5px !important;

@@ -14,9 +14,8 @@ export default function Topographic3DTerrainMap() {
 
   const [paused, setPaused] = useState(false);
 
-  // state for location
   const [location, setLocation] = useState({
-    modelOrigin: [-134.4197, 58.3019], // downtown Juneau (default)
+    modelOrigin: [-134.4197, 58.3019], 
     orbitCenter: [-134.4197, 58.3019],
   });
 
@@ -35,7 +34,6 @@ export default function Topographic3DTerrainMap() {
     });
 
     map.on("load", () => {
-      // === TERRAIN & FOG ===
       map.addSource("mapbox-dem", {
         type: "raster-dem",
         url: "mapbox://mapbox.mapbox-terrain-dem-v1",
@@ -63,7 +61,6 @@ export default function Topographic3DTerrainMap() {
         },
       ]);
 
-      // === MODEL TRANSFORM ===
       const mercatorCoord = mapboxgl.MercatorCoordinate.fromLngLat(
         modelOrigin,
         modelAltitude,
@@ -75,7 +72,7 @@ export default function Topographic3DTerrainMap() {
         scale: mercatorCoord.meterInMercatorCoordinateUnits(),
       };
 
-      // === CUSTOM LAYER ===
+
       const customLayer = {
         id: "3d-model",
         type: "custom",
@@ -144,7 +141,6 @@ export default function Topographic3DTerrainMap() {
 
       map.addLayer(customLayer);
 
-      // === CAMERA ORBIT ===
       let angle = 0;
       const speedFactor = 9300;
 
@@ -174,7 +170,7 @@ export default function Topographic3DTerrainMap() {
     <div className="map-wrapper">
       <div ref={mapContainer} className="map-container" />
 
-      {/* === Data Box Overlay === */}
+
       <div className="data-box">
         <h4>Suicide Basin for Scale</h4>
         <p>

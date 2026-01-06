@@ -5,7 +5,7 @@ const MapLegend = () => {
   const [expanded, setExpanded] = useState(false);
   const legendRef = useRef(null);
 
-  // Collapse when clicking outside
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (legendRef.current && !legendRef.current.contains(event.target)) {

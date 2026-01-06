@@ -24,7 +24,6 @@
   }
 }
 
-/* Center the button when container expands */
 .flood-records-container.expanded {
   width: 290px;
   height: 480px;

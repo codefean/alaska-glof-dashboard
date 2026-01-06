@@ -1,12 +1,12 @@
 @import 'mapbox-gl/dist/mapbox-gl.css';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
 
-/* Variables */
+
 :root {
   --shared-width: 300px;
 }
 
-/* Base Elements */
+
 body {
   margin: 0;
   font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -26,7 +26,7 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Modified Classes */
+
 .search-bar-container2,
 .dropdown-suggestions2 {
   min-width: unset !important;
@@ -70,7 +70,7 @@ html, body {
   width: 100vw;
 }
 
-/* Loading Overlay */
+
 .map-loading-overlay2 {
   position: fixed;
   top: 0;
@@ -103,7 +103,7 @@ html, body {
   text-align: center;
 }
 
-/* Fullscreen Button */
+
 .fullscreen-btn2 {
   position: absolute;
   top: 5rem;
@@ -125,7 +125,7 @@ html, body {
   pointer-events: auto;
 }
 
-/* Markers & Popups */
+
 .marker2 {
   cursor: pointer;
   transform-origin: center;
@@ -176,7 +176,6 @@ html, body {
   border-radius: 4px;
 }
 
-/* Shapes */
 .marker2.square2 {
   width: 16px;
   height: 16px;
@@ -199,7 +198,6 @@ html, body {
   z-index: 1;
 }
 
-/* Hotkey Table */
 .hotkey-table2 {
   position: fixed;
   top: 106px;
@@ -228,7 +226,7 @@ html, body {
   padding: 2px 6px;
 }
 
-/* Search Bar */
+
 .search-bar-container2 {
   position: absolute;
   top: 110px;
@@ -275,7 +273,7 @@ html, body {
   background: rgba(50, 150, 255, 0.9);
 }
 
-/* Dropdown */
+
 .dropdown-suggestions2 {
   position: absolute;
   top: 32.2px;
@@ -305,7 +303,7 @@ html, body {
   background: rgba(255, 255, 255, 0.15);
 }
 
-/* Buttons */
+
 .glof-button-wrapper2 {
   display: flex;
   justify-content: center;
@@ -335,12 +333,12 @@ html, body {
   transform: scale(1.05);
 }
 
-/* Animation */
+
 @keyframes spin2 {
   to { transform: rotate(360deg); }
 }
 
-/* Responsive Adjustments */
+
 @media (max-width: 600px) {
   .spinner2 {
     width: 32px;

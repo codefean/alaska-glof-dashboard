@@ -8,7 +8,7 @@
   border-radius: 8px;
   font-size: 14px !important;
   line-height: 1.1;
-  pointer-events: auto; /* allow slider interaction */
+  pointer-events: auto; 
   z-index: 2;
   backdrop-filter: blur(2px);
   -webkit-font-smoothing: antialiased;
@@ -39,7 +39,7 @@
   cursor: pointer;
 }
 
-/* Chrome & Safari slider thumb */
+
 .pitch-control input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -54,7 +54,7 @@
   background: #003f8c;
 }
 
-/* Firefox slider thumb */
+
 .pitch-control input[type="range"]::-moz-range-thumb {
   width: 18px;
   height: 18px;
@@ -81,16 +81,16 @@
   .pitch-control {
     position: fixed;
     top: calc(var(--header-height, 110px) + 50%) !important;
-    right: 10px; /* Stick to the right edge */
+    right: 10px; 
     left: auto;
     padding: 9px 5px;
     min-width: 250px !important;
 
-    /* Rotation */
+
     transform: rotate(90deg) translateY(20%);
     transform-origin: top right;
 
-    /* Make sure it adapts well */
+
     max-width: 100%;
     box-sizing: border-box;
   }

@@ -12,23 +12,22 @@ import Header from "./components/Header";
 import Navigation from "./components/Navigation";
 import GLOFmap from "./pages/GLOFmap";
 import GLOFmap2 from "./pages/GLOFmap2";
-import GLOFForecast from "./pages/GLOFForecast";
+import GLOFForecast from "./pages/AboutGlacialLakes";
 import GLOFData from "./pages/GLOFData";
 import ResearchTeam from "./pages/ResearchTeam";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import SubmitDataPage from "./pages/feedback";
 import StoryMap from "./pages/StoryMap";
-import SuicideBasin from "./pages/SuicideBasin";
 
-/* 🔹 Simple page title hook */
+
 const useDocumentTitle = (title) => {
   React.useEffect(() => {
     document.title = title;
   }, [title]);
 };
 
-/* 🔹 Page components with titles */
+
 const GLOFMapPage = () => {
   useDocumentTitle("Glacial Lake Map");
   return <GLOFmap />;
@@ -36,7 +35,7 @@ const GLOFMapPage = () => {
 
 const GLOFMapPage2 = () => {
   useDocumentTitle("Glacial Lake Map 2");
-  return <GLOFmap2 />; // ✅ Standalone map page — will be routed separately
+  return <GLOFmap2 />; 
 };
 
 const GLOFForecastPage = () => {
@@ -69,12 +68,8 @@ const StoryMapPage = () => {
   return <StoryMap />;
 };
 
-const SuicideBasinPage = () => {
-  useDocumentTitle("Suicide Basin");
-  return <SuicideBasin />;
-};
 
-/* 🔹 Layout for normal pages */
+
 const LayoutWrapper = () => {
   const location = useLocation();
 
@@ -93,7 +88,6 @@ const LayoutWrapper = () => {
           <Route path="/about-research" element={<ResearchTeamPage />} />
           <Route path="/submit-data" element={<SubmitDataWrapper />} />
           <Route path="/story-map" element={<StoryMapPage />} />
-          <Route path="/suicide-basin" element={<SuicideBasinPage />} />
         </Routes>
       </div>
 

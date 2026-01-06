@@ -36,10 +36,10 @@
 .header-subtitle {
   font-size: 0.65rem !important;
   color: #e0e0e0;
-  display: none; /* hidden by default */
+  display: none; 
 }
 
-/* Title variations */
+
 .header-title .desktop-title {
   display: inline;
 }
@@ -50,37 +50,31 @@
 
 
 
-/* Logo styles */
 .header-image {
   position: absolute;
   right: 15px;
-  display: none; /* Hide by default on small screens */
+  display: none; 
   align-items: center;
-  padding-top: 6px;     /* Add padding to top */
+  padding-top: 6px; 
 
 }
 
-/* Default image scaling for mobile */
 .header-image img {
   width: auto;
   height: auto;
-  max-height: 50px; /* Adjust for mobile */
+  max-height: 50px; 
   max-width: 85%;
 }
-
-/* Show and scale logo on larger screens */
 @media (min-width: 950px) {
   .header-image {
     display: flex;
   }
 }
 
-/* Add spacing between logos */
 .header-image a {
   margin-right: 10px;
 }
 
-/* Ensure logos are aligned and scaled well */
 .header-image img {
   height: auto;
   max-height: 50px;
@@ -94,7 +88,7 @@
 
 
 .logo {
-  height: 50px; /* adjust size */
+  height: 50px;
   width: auto;
   margin: 3px;
 }
@@ -134,7 +128,7 @@
   font-family: sans-serif;
   z-index: 90;
   position: absolute;
-  top: -20%; /* above the stat */
+  top: -20%;
   left: 90%;
   opacity: 0;
   animation: fadeIn 0.2s forwards;
@@ -158,14 +152,12 @@
   text-align: center;
 }
 
-/* Hide tooltip by default */
 .plus-tooltip {
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
 }
 
-/* Show on hover */
 .plus:hover .plus-tooltip {
   visibility: visible;
   opacity: 1;
@@ -174,10 +166,9 @@
 .header-subtitle {
   font-size: 0.65rem !important;
   color: #e0e0e0;
-  display: none; /* hidden by default */
+  display: none; 
 }
 
-/* Show on smaller screens */
 @media (max-width: 580px) {
   .header-subtitle {
     display: block;

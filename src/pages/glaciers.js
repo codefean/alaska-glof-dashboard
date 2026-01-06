@@ -12,11 +12,7 @@ const glacierTileset = {
   lineLayerId: 'glacier-line-layer',
 };
 
-/**
- * Layers that should PREVENT the glacier popup when they are on top.
- * Replace these with your actual lake/marker/cluster layer IDs.
- * Tip: temporarily log top layers with queryRenderedFeatures to confirm (see debug at bottom).
- */
+
 const BLOCK_LAYERS = [
   'glacial-lakes-layer',
   'glacial-lakes-hover',
@@ -80,18 +76,18 @@ export function useGlacierLayer({ mapRef }) {
         className: 'glacier-popup',
       });
 
-      // Single handler: decide using the top-most feature under the cursor
+  
       const onAnyMove = (e) => {
-        // If hovering a different popup, never show glacier popup
+
         if (isOverNonGlacierPopup(e)) {
           popup && popup.remove();
           return;
         }
 
-        // Throttle DOM updates
+
         if (rafId) cancelAnimationFrame(rafId);
         rafId = requestAnimationFrame(() => {
-          const stack = map.queryRenderedFeatures(e.point); // top -> bottom
+          const stack = map.queryRenderedFeatures(e.point); 
           if (!stack.length) {
             popup && popup.remove();
             return;
@@ -100,13 +96,13 @@ export function useGlacierLayer({ mapRef }) {
           const top = stack[0];
           const topId = top.layer && top.layer.id;
 
-          // If top-most is not the glacier fill OR is an explicitly blocked layer → hide
+
           if (topId !== fillLayerId || BLOCK_LAYERS.includes(topId)) {
             popup && popup.remove();
             return;
           }
 
-          // Top-most is glacier fill → fetch glacier feature explicitly and label it
+      
           const features = map.queryRenderedFeatures(e.point, { layers: [fillLayerId] });
           if (!features.length) {
             popup && popup.remove();
@@ -142,13 +138,7 @@ export function useGlacierLayer({ mapRef }) {
         popup = null;
       });
 
-      // --- Debug helper (optional): see which layer is on top under the cursor ---
-      // const logTop = (e) => {
-      //   const s = map.queryRenderedFeatures(e.point);
-      //   if (s[0]) console.log('top layer:', s[0].layer && s[0].layer.id);
-      // };
-      // map.on('mousemove', logTop);
-      // cleanupFns.push(() => map.off('mousemove', logTop));
+
     };
 
     if (map.isStyleLoaded()) {
