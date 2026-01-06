@@ -2,9 +2,6 @@
 import mapboxgl from "mapbox-gl";
 import "./popup.css";
 
-/**
- * Build popup HTML for a lake
- */
 export function buildLakePopupHTML(lake) {
   const {
     LakeID,
@@ -53,11 +50,7 @@ export function buildLakePopupHTML(lake) {
   `;
 }
 
-/**
- * Centralized popup controller
- * - Hover popups disabled while locked popup exists
- * - No double popup overlay possible
- */
+
 export function createPopupController({
   map,
   hoverPopupRef,
@@ -81,7 +74,7 @@ export function createPopupController({
   };
 
   const showHover = ({ lngLat, html }) => {
-    // 🔒 Disable hover if popup is locked
+
     if (isPopupLockedRef.current) return;
 
     clearHover();
@@ -113,9 +106,7 @@ export function createPopupController({
       .addTo(map);
   };
 
-  /**
-   * Attach hover + click behavior to a marker element
-   */
+
   const attachToMarkerEl = ({
     el,
     lon,
