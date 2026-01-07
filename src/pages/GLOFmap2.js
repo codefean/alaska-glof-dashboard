@@ -415,16 +415,6 @@ const AlaskaMap = () => {
       )}
 
 
-  
-
-
-      <PitchControl
-        ref={pitchRef}
-        mapRef={mapRef}
-        value={pitch}
-        onChange={(p) => setPitch(p)}
-      />
-
 
     </>
   );
