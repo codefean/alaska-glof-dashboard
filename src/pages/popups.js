@@ -50,7 +50,6 @@ export function buildLakePopupHTML(lake) {
   `;
 }
 
-
 export function createPopupController({
   map,
   hoverPopupRef,
@@ -74,15 +73,12 @@ export function createPopupController({
   };
 
   const showHover = ({ lngLat, html }) => {
-
-    if (isPopupLockedRef.current) return;
-
     clearHover();
 
     hoverPopupRef.current = new mapboxgl.Popup({
       closeOnClick: false,
       closeButton: false,
-      className: "glof-mapbox-popup",
+      className: "glof-mapbox-popup glof-mapbox-popup--hover",
     })
       .setLngLat(lngLat)
       .setHTML(html)
@@ -99,13 +95,12 @@ export function createPopupController({
 
     lockedPopupRef.current = new mapboxgl.Popup({
       closeOnClick: false,
-      className: "glof-mapbox-popup",
+      className: "glof-mapbox-popup glof-mapbox-popup--locked",
     })
       .setLngLat(lngLat)
       .setHTML(html)
       .addTo(map);
   };
-
 
   const attachToMarkerEl = ({
     el,

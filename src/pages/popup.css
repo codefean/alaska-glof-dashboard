@@ -103,3 +103,11 @@
     pointer-events: auto;
   }
 }
+
+.glof-mapbox-popup--hover {
+  pointer-events: none;
+}
+
+.glof-mapbox-popup--locked {
+  pointer-events: auto;
+}
