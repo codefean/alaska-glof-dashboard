@@ -391,49 +391,7 @@ const AlaskaMap = () => {
         }}
       />
 
-      <Citation className="citation-readout" stylePos={{ position: 'absolute', right: 12, bottom: 10, zIndex: 2 }} />
-      <AboutMap />
 
-      <div className="search-bar-container" style={{ position: 'absolute' }}>
-        <div style={{ position: 'relative', width: '100%' }}>
-          <input
-            type="text"
-            placeholder="Search for lakes by Name or LakeID..."
-            value={searchQuery}
-            onChange={(e) => {
-              const value = e.target.value;
-              setSearchQuery(value);
-              if (value.trim()) {
-                setSuggestions(lakeData.filter(lake =>
-                  (lake.LakeName && lake.LakeName.toLowerCase().includes(value.toLowerCase())) ||
-                  (lake.LakeID && lake.LakeID.toLowerCase().includes(value.toLowerCase()))
-                ).slice(0, 4));
-              } else {
-                setSuggestions([]);
-              }
-            }}
-            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-          />
-
-          {suggestions.length > 0 && (
-            <ul className="dropdown-suggestions">
-              {suggestions.map((lake, index) => (
-                <li
-                  key={index}
-                  onClick={() => {
-                    setSearchQuery(lake.LakeName || lake.LakeID);
-                    setSuggestions([]);
-                    mapRef.current?.flyTo({ center: [lake.lon, lake.lat], zoom: 12, speed: 2 });
-                  }}
-                >
-                  {lake.LakeName || `Lake ${lake.LakeID}`}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-        <button onClick={handleSearch}>Search</button>
-      </div>
 
       {isMobile && (
         <button
@@ -456,43 +414,9 @@ const AlaskaMap = () => {
         </button>
       )}
 
-      <div className="hotkey-table">
-        <table>
-          <tbody>
-            <tr><td><strong>R</strong></td><td>Reset Zoom</td></tr>
-            <tr><td><strong>+</strong></td><td>Zoom in</td></tr>
-            <tr><td><strong>-</strong></td><td>Zoom out</td></tr>
-          </tbody>
-        </table>
-      </div>
 
-      <LayersToggle
-        showLakes={showLakes}
-        setShowLakes={setShowLakes}
-        showImpacts={showImpacts}
-        setShowImpacts={setShowImpacts}
-        showPredicted={showPredicted}
-        setShowPredicted={setShowPredicted}
-      />
+  
 
-      <div className="cursor-readout" style={{ position: 'absolute' }}>
-        {cursorInfo.lat !== null && cursorInfo.lng !== null ? (
-          <>
-            <div>
-              <strong>Lat:</strong> {cursorInfo.lat.toFixed(5)} &nbsp;
-              <strong>Lng:</strong> {cursorInfo.lng.toFixed(5)}
-            </div>
-            <div>
-              <strong>Elev:</strong>{' '}
-              {cursorInfo.elevM === null
-                ? '—'
-                : `${Math.round(cursorInfo.elevM)} m (${Math.round(cursorInfo.elevM * 3.28084)} ft)`}
-            </div>
-          </>
-        ) : (
-          <div></div>
-        )}
-      </div>
 
       <PitchControl
         ref={pitchRef}
@@ -501,7 +425,7 @@ const AlaskaMap = () => {
         onChange={(p) => setPitch(p)}
       />
 
-      <MapLegend />
+
     </>
   );
 };
