@@ -21,7 +21,6 @@ export function buildLakePopupHTML(lake) {
       <strong>Glacier:</strong> ${GlacierName || "Unknown"}<br/>
       ${waterFlow ? `<strong>Flow:</strong> ${waterFlow}<br/>` : ""}
       ${downstream ? `<strong>Downstream:</strong> ${downstream}<br/>` : ""}
-      ${numberEvents ? `<strong>Drainage Events:</strong> ${numberEvents}<br/>` : ""}
       ${
         futureHazard
           ? `<em>Potential future hazard${
