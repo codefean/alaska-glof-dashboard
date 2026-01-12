@@ -1,6 +1,6 @@
 import React from 'react';
 import './StoryMap.css';
-
+ 
 const StoryMap = () => {
   return (
     <div className="story-map-container">
