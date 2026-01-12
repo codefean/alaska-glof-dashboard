@@ -11,8 +11,9 @@ import "./loc";
 import LayersToggle from "./LayersToggle";
 import { useGlacierLayer } from './glaciers';
 import { buildLakePopupHTML, createPopupController } from "./popups";
+import { MAPBOX_TOKEN } from "./constants";
 
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
+mapboxgl.accessToken = MAPBOX_TOKEN;
 
 const AlaskaMap = () => {
   const mapContainerRef = useRef(null);
