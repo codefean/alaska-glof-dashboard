@@ -12,9 +12,7 @@ import LayersToggle from "./LayersToggle";
 import { useGlacierLayer } from './glaciers';
 import { buildLakePopupHTML, createPopupController } from "./popups";
 
-const MAPBOX_TOKEN =
-  "pk.eyJ1IjoibWFwZmVhbjIiLCJhIjoiY21rMWtiN2RhMDdhbjNxczcxc3N0d3ozbCJ9.YKzuzjqomFbaFuPf847OZg";
-mapboxgl.accessToken = MAPBOX_TOKEN;
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
 const AlaskaMap = () => {
   const mapContainerRef = useRef(null);
