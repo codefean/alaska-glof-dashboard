@@ -27,7 +27,7 @@
 .flood-records-container.expanded {
   width: 290px;
   border: none;
-  max-height: calc(100vh - 120px); /* top (100px) + breathing room */
+  max-height: calc(100vh - 120px); 
   height: auto;
   overflow-y: auto;
   overflow-x: hidden;

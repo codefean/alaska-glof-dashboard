@@ -40,6 +40,15 @@ const AlaskaMap = () => {
   const [bearing, setBearing] = useState(DEFAULT_BEARING);
   const [cursorInfo, setCursorInfo] = useState({ lng: null, lat: null, elevM: null });
 
+
+  const clearLakeFromURL = () => {
+  const base = '#/GLOF-map';
+  if (window.location.hash !== base) {
+
+    window.history.replaceState({}, '', base);
+  }
+};
+
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 915);
     checkMobile();
@@ -119,6 +128,9 @@ const AlaskaMap = () => {
     });
     setPitch(DEFAULT_PITCH);
     setBearing(DEFAULT_BEARING);
+
+    clearLakeFromURL();
+    popupControllerRef.current?.clearLocked();
   };
 
   useEffect(() => {
