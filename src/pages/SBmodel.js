@@ -58,7 +58,6 @@ export default function Topographic3DTerrainMap() {
     const { orbitCenter } = location;
     const initialZoom = window.innerWidth < 915 ? 12.2 : 12.7;
 
-    // If this effect reruns, make sure the previous map is gone
     if (mapRef.current) {
       mapRef.current.remove();
       mapRef.current = null;

@@ -27,8 +27,20 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media screen and (max-width: 1253px) {
+@media screen and (max-width: 915px) {
   .citation-readout {
     display: none;
   }
+}
+.citation-readout a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
+.citation-readout a:hover {
+  color: #ffffff;
+  text-decoration: none;
 }

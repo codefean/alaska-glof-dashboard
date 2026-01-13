@@ -26,9 +26,12 @@
 
 .flood-records-container.expanded {
   width: 290px;
-  height: 480px;
   border: none;
-  
+  max-height: calc(100vh - 120px); /* top (100px) + breathing room */
+  height: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: none;
 }
 
 @media (max-width: 768px) {
