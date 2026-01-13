@@ -44,7 +44,9 @@ const AlaskaMap = () => {
   const [showPredicted, setShowPredicted] = useState(true);
 
   const DEFAULT_PITCH = 20;
+  const DEFAULT_BEARING = 0;
   const [pitch, setPitch] = useState(DEFAULT_PITCH);
+  const [bearing, setBearing] = useState(DEFAULT_BEARING);
 
   const [cursorInfo, setCursorInfo] = useState({ lng: null, lat: null, elevM: null });
 
@@ -495,11 +497,12 @@ const AlaskaMap = () => {
       </div>
 
       <PitchControl
-        ref={pitchRef}
-        mapRef={mapRef}
-        value={pitch}
-        onChange={(p) => setPitch(p)}
-      />
+  mapRef={mapRef}
+  value={pitch}
+  onChange={setPitch}
+  bearing={bearing}
+  onBearingChange={setBearing}
+/>;
 
       <MapLegend />
     </>
