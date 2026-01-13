@@ -45,19 +45,29 @@
   margin-top: -1px !important;
 }
 
-/* Close button */
 .glof-mapbox-popup .mapboxgl-popup-close-button {
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   line-height: 1;
+  padding: 2.5px;
+  border-radius: 6px;
 }
 
 .glof-mapbox-popup .mapboxgl-popup-close-button:hover {
   color: #fff;
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  border-radius: 6px;
+  padding: 2.5px;
 }
 
+.glof-mapbox-popup .mapboxgl-popup-close-button,
+.glof-mapbox-popup .mapboxgl-popup-close-button:focus,
+.glof-mapbox-popup .mapboxgl-popup-close-button:focus-visible,
+.glof-mapbox-popup .mapboxgl-popup-close-button:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
 
 .glof-mapbox-popup .mapboxgl-popup-content a {
   color: white;
@@ -112,122 +122,3 @@
   pointer-events: auto;
 }
 
-.pitch-control {
-  position: absolute;
-  bottom: 90px;
-  left: 12px;
-  padding: 8px 10px;
-  background: rgba(0, 0, 0, 0.55);
-  color: #fff;
-  border-radius: 8px;
-  font-size: 14px !important;
-  line-height: 1.1;
-  pointer-events: auto; /* allow slider interaction */
-  z-index: 2;
-  backdrop-filter: blur(2px);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  position: absolute;
-  min-width: 167px;
-}
-
-.pitch-control label {
-  font-size: 13px;
-  font-weight: 600;
-  text-align: center;
-  color: #fff;
-}
-
-.pitch-control input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 120px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.35);
-  border-radius: 4px;
-  outline: none;
-  cursor: pointer;
-}
-
-/* Chrome & Safari slider thumb */
-.pitch-control input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  background: #fff;
-  border-radius: 50%;
-  cursor: grab;
-  transition: background 0.2s ease;
-}
-.pitch-control input[type="range"]::-webkit-slider-thumb:hover {
-  background: #003f8c;
-}
-
-/* Firefox slider thumb */
-.pitch-control input[type="range"]::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  background: #fff;
-  border-radius: 50%;
-  cursor: grab;
-  transition: background 0.2s ease;
-}
-
-
-
-
-
-@media screen and (max-width: 915px) {
-  .pitch-control {
-    position: fixed;
-    top: calc(var(--header-height, 110px) + 50%) !important;
-    right: 10px; /* Stick to the right edge */
-    left: auto;
-    padding: 9px 5px;
-    min-width: 250px !important;
-
-    /* Rotation */
-    transform: rotate(90deg) translateY(20%);
-    transform-origin: top right;
-
-    /* Make sure it adapts well */
-    max-width: 100%;
-    box-sizing: border-box;
-    bottom: auto;
-  }
-
-  .pitch-control input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 250px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.35);
-  border-radius: 4px;
-  outline: none;
-  cursor: pointer;
-}
-
-
-.pitch-control label {
-  font-size: .000000005px;
-  font-weight: 1;
-  color: #fff;
-}
-
-.pitch-control {
-  line-height: .00001;
-  gap: .00001px;
-}
-
-}
-
-@media (max-width: 768px) {
-  .bearing-control {
-    display: none;
-  }
-}

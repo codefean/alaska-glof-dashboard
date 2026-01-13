@@ -15,39 +15,29 @@ import { MAPBOX_TOKEN } from "./constants";
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
-
 const AlaskaMap = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
-
   const [isMobile, setIsMobile] = useState(false);
-
   const [lakeData, setLakeData] = useState([]);
   const [showGlaciers] = useState(false);
   const [glacierData, setGlacierData] = useState([]);
-
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const pitchRef = useRef(null);
   const [pitchBottom, setPitchBottom] = useState(100);
-
   const markersRef = useRef([]);
-
   const hoverPopupRef = useRef(null);
   const lockedPopupRef = useRef(null);
   const isPopupLocked = useRef(false);
-
   const popupControllerRef = useRef(null);
-
   const [showLakes, setShowLakes] = useState(true);
   const [showImpacts, setShowImpacts] = useState(true);
   const [showPredicted, setShowPredicted] = useState(true);
-
   const DEFAULT_PITCH = 15;
   const DEFAULT_BEARING = 0;
   const [pitch, setPitch] = useState(DEFAULT_PITCH);
   const [bearing, setBearing] = useState(DEFAULT_BEARING);
-
   const [cursorInfo, setCursorInfo] = useState({ lng: null, lat: null, elevM: null });
 
   useEffect(() => {
@@ -80,13 +70,17 @@ const AlaskaMap = () => {
     const map = mapRef.current;
     if (!map) return;
 
-    const sync = () => setPitch(map.getPitch());
-    map.on('pitch', sync);
-    map.on('pitchend', sync);
+    const sync = () => {
+      setPitch(map.getPitch());
+      setBearing(map.getBearing());
+    };
+
+    map.on('move', sync);
+    map.on('moveend', sync);
 
     return () => {
-      map.off('pitch', sync);
-      map.off('pitchend', sync);
+      map.off('move', sync);
+      map.off('moveend', sync);
     };
   }, []);
 
@@ -498,7 +492,7 @@ const AlaskaMap = () => {
         )}
       </div>
 
-      <PitchControl
+  <PitchControl
   mapRef={mapRef}
   value={pitch}
   onChange={setPitch}
