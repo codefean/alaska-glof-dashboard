@@ -12,13 +12,16 @@ const glacierTileset = {
   lineLayerId: 'glacier-line-layer',
 };
 
-
 const BLOCK_LAYERS = [
   'glacial-lakes-layer',
   'glacial-lakes-hover',
   'lake-markers',
   'clusters',
 ];
+
+const GLACIER_NAME_OVERRIDES = {
+  Unnamed_23: 'Snow Glacier',
+};
 
 export function useGlacierLayer({ mapRef }) {
   useEffect(() => {
@@ -59,7 +62,7 @@ export function useGlacierLayer({ mapRef }) {
           type: 'line',
           source: sourceId,
           'source-layer': sourceLayer,
-          paint: { 'line-color': '#fff', 'line-width': .000000000001 },
+          paint: { 'line-color': '#fff', 'line-width': 0.000000000001 },
         });
       }
       map.setLayoutProperty(fillLayerId, 'visibility', 'visible');
@@ -76,18 +79,15 @@ export function useGlacierLayer({ mapRef }) {
         className: 'glacier-popup',
       });
 
-  
       const onAnyMove = (e) => {
-
         if (isOverNonGlacierPopup(e)) {
           popup && popup.remove();
           return;
         }
 
-
         if (rafId) cancelAnimationFrame(rafId);
         rafId = requestAnimationFrame(() => {
-          const stack = map.queryRenderedFeatures(e.point); 
+          const stack = map.queryRenderedFeatures(e.point);
           if (!stack.length) {
             popup && popup.remove();
             return;
@@ -96,23 +96,25 @@ export function useGlacierLayer({ mapRef }) {
           const top = stack[0];
           const topId = top.layer && top.layer.id;
 
-
           if (topId !== fillLayerId || BLOCK_LAYERS.includes(topId)) {
             popup && popup.remove();
             return;
           }
 
-      
           const features = map.queryRenderedFeatures(e.point, { layers: [fillLayerId] });
           if (!features.length) {
             popup && popup.remove();
             return;
           }
 
-          const glacName =
-            features[0].properties && (features[0].properties.glac_name || features[0].properties.name);
+          const rawName =
+            features[0].properties &&
+            (features[0].properties.glac_name || features[0].properties.name);
 
-          if (glacName && String(glacName).trim() !== '') {
+          const normalized = rawName != null ? String(rawName).trim() : '';
+          const glacName = GLACIER_NAME_OVERRIDES[normalized] || normalized;
+
+          if (glacName !== '') {
             popup
               .setLngLat(e.lngLat)
               .setHTML(`<div class="glacier-label">${glacName}</div>`)
@@ -137,8 +139,6 @@ export function useGlacierLayer({ mapRef }) {
         popup && popup.remove();
         popup = null;
       });
-
-
     };
 
     if (map.isStyleLoaded()) {
