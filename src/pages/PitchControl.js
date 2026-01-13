@@ -38,13 +38,13 @@ const PitchControl = forwardRef(
     const handlePitchChange = (e) => {
       const newPitch = parseInt(e.target.value, 10);
       if (mapRef.current) mapRef.current.setPitch(newPitch);
-      onChange?.(newPitch); // <-- must update parent state
+      onChange?.(newPitch); 
     };
 
     const handleBearingChange = (e) => {
       const newBearing = parseInt(e.target.value, 10);
       if (mapRef.current) mapRef.current.setBearing(newBearing);
-      onBearingChange?.(newBearing); // <-- must update parent state
+      onBearingChange?.(newBearing); 
     };
 
 

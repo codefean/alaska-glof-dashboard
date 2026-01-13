@@ -8,7 +8,7 @@
   border-radius: 8px;
   font-size: 14px !important;
   line-height: 1.1;
-  pointer-events: auto; /* allow slider interaction */
+  pointer-events: auto; 
   z-index: 2;
   backdrop-filter: blur(2px);
   -webkit-font-smoothing: antialiased;

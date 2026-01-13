@@ -13,6 +13,7 @@ import { useGlacierLayer } from './glaciers';
 import { buildLakePopupHTML, createPopupController } from "./popups";
 import { MAPBOX_TOKEN } from "./constants";
 
+
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
 const AlaskaMap = () => {
@@ -145,6 +146,18 @@ const AlaskaMap = () => {
 
     mapRef.current = map;
 
+      const sync = () => {
+    setPitch(map.getPitch());
+    setBearing(map.getBearing());
+  };
+
+  map.on('move', sync);
+  map.on('moveend', sync);
+  map.on('load', sync); 
+
+
+
+
     popupControllerRef.current = createPopupController({
       map,
       hoverPopupRef,
@@ -181,6 +194,13 @@ const AlaskaMap = () => {
         ) {
           map.setLayoutProperty(layer.id, 'visibility', 'none');
         }
+
+          return () => {
+    map.off('move', sync);
+    map.off('moveend', sync);
+    map.off('load', sync);
+    map.remove();
+  };
       });
     });
 
@@ -375,19 +395,50 @@ const AlaskaMap = () => {
     isPopupLockedRef: isPopupLocked,
   });
 
-  const handleSearch = () => {
-    const query = searchQuery.trim().toLowerCase();
-    const foundLake = lakeData.find(lake =>
-      (lake.LakeName && lake.LakeName.toLowerCase() === query) ||
-      (lake.LakeID && lake.LakeID.toLowerCase() === query)
-    );
+const handleSearch = () => {
+  const query = searchQuery.trim().toLowerCase();
+  if (!query) return;
 
-    if (foundLake && mapRef.current) {
-      mapRef.current.flyTo({ center: [foundLake.lon, foundLake.lat], zoom: 12, speed: 2, pitch: 50 });
-    } else {
-      alert('Lake not found');
-    }
-  };
+  const foundLake = lakeData.find(lake =>
+    (lake.LakeName && lake.LakeName.toLowerCase() === query) ||
+    (lake.LakeID && lake.LakeID.toLowerCase() === query)
+  );
+
+  if (foundLake && mapRef.current) {
+    mapRef.current.flyTo({
+      center: [foundLake.lon, foundLake.lat],
+      zoom: 12,
+      speed: 2,
+      pitch: 50,
+    });
+    return;
+  }
+
+  const foundGlacier = glacierData.find(gl =>
+    (gl.name && gl.name.toLowerCase() === query)
+  );
+
+  if (foundGlacier && mapRef.current) {
+    const { lon, lat, name } = foundGlacier;
+
+    mapRef.current.flyTo({
+      center: [lon, lat],
+      zoom: 11.5,
+      speed: 2,
+      pitch: 50,
+    });
+
+    lockedPopupRef.current
+      ?.setLngLat([lon, lat])
+      .setHTML(`<div class="glacier-label">${name}</div>`)
+      .addTo(mapRef.current);
+
+    return;
+  }
+
+  alert('No Data Found');
+};
+
 
   return (
     <>
@@ -404,46 +455,92 @@ const AlaskaMap = () => {
       <Citation className="citation-readout" stylePos={{ position: 'absolute', right: 12, bottom: 10, zIndex: 2 }} />
       <AboutMap />
 
-      <div className="search-bar-container" style={{ position: 'absolute' }}>
-        <div style={{ position: 'relative', width: '100%' }}>
-          <input
-            type="text"
-            placeholder="Search for lakes by Name or LakeID..."
-            value={searchQuery}
-            onChange={(e) => {
-              const value = e.target.value;
-              setSearchQuery(value);
-              if (value.trim()) {
-                setSuggestions(lakeData.filter(lake =>
-                  (lake.LakeName && lake.LakeName.toLowerCase().includes(value.toLowerCase())) ||
-                  (lake.LakeID && lake.LakeID.toLowerCase().includes(value.toLowerCase()))
-                ).slice(0, 4));
+<div className="search-bar-container" style={{ position: 'absolute' }}>
+  <div style={{ position: 'relative', width: '100%' }}>
+    <input
+      type="text"
+      placeholder="Search for lakes by name or ID..."
+      value={searchQuery}
+      onChange={(e) => {
+        const value = e.target.value;
+        setSearchQuery(value);
+
+        const q = value.trim().toLowerCase();
+        if (!q) {
+          setSuggestions([]);
+          return;
+        }
+
+        const lakeMatches = lakeData
+          .filter(lake =>
+            (lake.LakeName && lake.LakeName.toLowerCase().includes(q)) ||
+            (lake.LakeID && lake.LakeID.toLowerCase().includes(q))
+          )
+          .slice(0, 4)
+          .map(lake => ({
+            type: 'lake',
+            label: lake.LakeName || `Lake ${lake.LakeID}`,
+            data: lake,
+          }));
+
+        const glacierMatches = glacierData
+          .filter(gl => gl.name && gl.name.toLowerCase().includes(q))
+          .slice(0, 4)
+          .map(gl => ({
+            type: 'glacier',
+            label: gl.name,
+            data: gl,
+          }));
+
+        setSuggestions([...lakeMatches, ...glacierMatches].slice(0, 4));
+      }}
+      onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+    />
+
+    {suggestions.length > 0 && (
+      <ul className="dropdown-suggestions">
+        {suggestions.map((s, index) => (
+          <li
+            key={index}
+            onClick={() => {
+              setSearchQuery(s.label);
+              setSuggestions([]);
+
+              if (!mapRef.current) return;
+
+              if (s.type === 'lake') {
+                const lake = s.data;
+                mapRef.current.flyTo({
+                  center: [lake.lon, lake.lat],
+                  zoom: 12,
+                  speed: 2,
+                  pitch: 50,
+                });
               } else {
-                setSuggestions([]);
+                const gl = s.data;
+                mapRef.current.flyTo({
+                  center: [gl.lon, gl.lat],
+                  zoom: 11.5,
+                  speed: 2,
+                  pitch: 50,
+                });
+
+                lockedPopupRef.current
+                  ?.setLngLat([gl.lon, gl.lat])
+                  .setHTML(`<div class="glacier-label">${gl.name}</div>`)
+                  .addTo(mapRef.current);
               }
             }}
-            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-          />
+          >
+            {s.type === 'glacier' ? `🧊 ${s.label}` : s.label}
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
 
-          {suggestions.length > 0 && (
-            <ul className="dropdown-suggestions">
-              {suggestions.map((lake, index) => (
-                <li
-                  key={index}
-                  onClick={() => {
-                    setSearchQuery(lake.LakeName || lake.LakeID);
-                    setSuggestions([]);
-                    mapRef.current?.flyTo({ center: [lake.lon, lake.lat], zoom: 12, speed: 2 });
-                  }}
-                >
-                  {lake.LakeName || `Lake ${lake.LakeID}`}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-        <button onClick={handleSearch}>Search</button>
-      </div>
+  <button onClick={handleSearch}>Search</button>
+</div>
 
       {isMobile && (
         <button
