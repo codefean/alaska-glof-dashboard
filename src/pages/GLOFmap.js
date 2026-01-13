@@ -206,7 +206,7 @@ const AlaskaMap = () => {
 
     const fetchLakeData = async () => {
       try {
-        const response = await fetch('https://flood-events.s3.us-east-2.amazonaws.com/AK_GL_clean.csv');
+        const response = await fetch('https://flood-events.s3.us-east-2.amazonaws.com/AK_GL.csv');
         const csvText = await response.text();
         Papa.parse(csvText, {
           header: true,
