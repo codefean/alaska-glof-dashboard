@@ -43,7 +43,7 @@ const AlaskaMap = () => {
   const [showImpacts, setShowImpacts] = useState(true);
   const [showPredicted, setShowPredicted] = useState(true);
 
-  const DEFAULT_PITCH = 20;
+  const DEFAULT_PITCH = 15;
   const DEFAULT_BEARING = 0;
   const [pitch, setPitch] = useState(DEFAULT_PITCH);
   const [bearing, setBearing] = useState(DEFAULT_BEARING);
@@ -120,13 +120,14 @@ const AlaskaMap = () => {
       center: [-144.5, 59.5],
       zoom: 4,
       speed: 2.2,
-      pitch: DEFAULT_PITCH
+      pitch: DEFAULT_PITCH,
+      bearing: DEFAULT_BEARING,
     });
     setPitch(DEFAULT_PITCH);
+    setBearing(DEFAULT_BEARING);
   };
 
   useEffect(() => {
-    // ✅ Pass token directly to constructor too (most reliable)
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/satellite-streets-v12',
@@ -148,8 +149,9 @@ const AlaskaMap = () => {
 
     const handleKeydown = (e) => {
       if (e.key.toLowerCase() === 'r') {
-        map.flyTo({ center: [-144.5, 59.5], zoom: 4, speed: 2.2, pitch: DEFAULT_PITCH });
+        map.flyTo({ center: [-144.5, 59.5], zoom: 4, speed: 2.2, pitch: 50, bearing: DEFAULT_BEARING });
         setPitch(DEFAULT_PITCH);
+        setBearing(DEFAULT_BEARING);
       }
     };
     window.addEventListener('keydown', handleKeydown);
@@ -298,7 +300,7 @@ const AlaskaMap = () => {
         lat,
         html: popupHTML,
         onLock: () => {
-          map.flyTo({ center: [lon, lat], zoom: 13.5, speed: 2 });
+          map.flyTo({ center: [lon, lat], zoom: 13.5, speed: 2, pitch: 50 });
           window.history.pushState({}, '', `#/GLOF-map?lake=${encodeURIComponent(LakeID)}`);
         },
       });
@@ -320,7 +322,7 @@ const AlaskaMap = () => {
 
     const popupHTML = buildLakePopupHTML(targetLake);
 
-    mapRef.current.flyTo({ center: [lon, lat], zoom: 13.5, speed: 2 });
+    mapRef.current.flyTo({ center: [lon, lat], zoom: 13.5, speed: 2, pitch: 50 });
 
     popupControllerRef.current?.showLocked({
       lngLat: [lon, lat],
@@ -375,7 +377,7 @@ const AlaskaMap = () => {
     );
 
     if (foundLake && mapRef.current) {
-      mapRef.current.flyTo({ center: [foundLake.lon, foundLake.lat], zoom: 12, speed: 2 });
+      mapRef.current.flyTo({ center: [foundLake.lon, foundLake.lat], zoom: 12, speed: 2, pitch: 50 });
     } else {
       alert('Lake not found');
     }

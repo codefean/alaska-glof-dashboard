@@ -6,14 +6,13 @@ const PitchControl = forwardRef(
     {
       mapRef,
 
-      // existing pitch API (keep as-is)
       value,
       onChange,
       min = 10,
       max = 70,
       step = 1,
 
-      // new bearing API
+
       bearing = 0,
       onBearingChange,
       bearingMin = -180,
