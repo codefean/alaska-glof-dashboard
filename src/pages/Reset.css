@@ -11,9 +11,8 @@
   transition: background-color 0.2s ease;
 }
 
-/* Desktop hover only */
 @media (hover: hover) and (pointer: fine) {
   .reset-button:hover {
-    background: #1e8fff5d;
+    background: #097cf09a;
   }
 }
