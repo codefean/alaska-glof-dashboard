@@ -115,6 +115,8 @@ const PitchControl = forwardRef(
           step={step}
           value={safePitch}
           onInput={handlePitchChange}
+          aria-label="Angle"
+          title="Angle"
         />
 
         <div className="bearing-control">
@@ -127,6 +129,8 @@ const PitchControl = forwardRef(
             step={bearingStep}
             value={safeBearing}
             onInput={handleBearingChange}
+            aria-label="Rotate"
+            title="Rotate"
           />
         </div>
       </div>

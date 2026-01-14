@@ -11,6 +11,7 @@ import "./loc";
 import LayersToggle from "./LayersToggle";
 import { useGlacierLayer } from './glaciers';
 import { buildLakePopupHTML, createPopupController } from "./popups";
+import ResetButton from './Reset';
 import { MAPBOX_TOKEN } from "./constants";
 
 
@@ -117,22 +118,24 @@ const AlaskaMap = () => {
     return () => window.removeEventListener('hashchange', scrollToTop);
   }, []);
 
-  const resetZoom = () => {
-    const map = mapRef.current;
-    if (!map) return;
-    map.flyTo({
-      center: [-144.5, 59.5],
-      zoom: 4,
-      speed: 2.2,
-      pitch: DEFAULT_PITCH,
-      bearing: DEFAULT_BEARING,
-    });
-    setPitch(DEFAULT_PITCH);
-    setBearing(DEFAULT_BEARING);
+const resetZoom = () => {
+  const map = mapRef.current;
+  if (!map) return;
 
-    clearLakeFromURL();
-    popupControllerRef.current?.clearLocked();
-  };
+  map.stop();
+
+  map.flyTo({
+    center: [-144.5, 59.5],
+    zoom: 4,
+    speed: 2.2,
+    pitch: DEFAULT_PITCH,
+    bearing: DEFAULT_BEARING,
+    essential: true,
+  });
+
+  clearLakeFromURL();
+  popupControllerRef.current?.clearLocked();
+};
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -542,26 +545,11 @@ const handleSearch = () => {
   <button onClick={handleSearch}>Search</button>
 </div>
 
-      {isMobile && (
-        <button
-          onClick={resetZoom}
-          style={{
-            position: 'absolute',
-            bottom: `${pitchBottom / 1.26}px`,
-            right: '12px',
-            padding: '8px 12px',
-            background: 'rgba(0,0,0,0.6)',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            zIndex: 5,
-            fontWeight: 'bold',
-          }}
-        >
-          R
-        </button>
-      )}
+<ResetButton
+  onReset={resetZoom}
+  isMobile={isMobile}
+  pitchBottom={pitchBottom}
+/>
 
       <div className="hotkey-table">
         <table>

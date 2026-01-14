@@ -73,14 +73,14 @@ const AboutGlacialLakes = () => {
             showPlus={true}
           />
           <Stat
-            target={5}
+            target={4}
             label="Known Glacial Lakes Causing Hazards"
             tooltip="These lakes include Suicide Basin, Snow Lake, and Bear Lake."
           />
           <Stat
-            target={320}
+            target={1000}
             label="Recorded Glacial Flood Events"
-            tooltip="Glacial flood events that have been documented by NWS. Few events cause downstream impacts."
+            tooltip="Glacial flood events that have been documented by NWS & Researchers. Few events cause downstream impacts."
             showPlus={true}
           />
         </div>
