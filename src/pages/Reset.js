@@ -9,8 +9,8 @@ const ResetButton = ({
   return (
     <button
       onClick={onReset}
-      aria-label="Reset view (R)"
-      title="Reset view (R)"
+      aria-label="Reset View (R)"
+      title="Reset View (R)"
       className="reset-button"
       style={{
         position: 'absolute',
@@ -20,7 +20,7 @@ const ResetButton = ({
         minWidth: isMobile ? 'auto' : '187px',
       }}
     >
-      {isMobile ? 'R' : 'Reset view'}
+      {isMobile ? 'R' : 'Reset View'}
     </button>
   );
 };
