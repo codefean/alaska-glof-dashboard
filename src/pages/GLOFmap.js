@@ -12,6 +12,7 @@ import LayersToggle from "./LayersToggle";
 import { useGlacierLayer } from './glaciers';
 import { buildLakePopupHTML, createPopupController } from "./popups";
 import ResetButton from './Reset';
+import './SearchBar';
 import { MAPBOX_TOKEN } from "./constants";
 
 
@@ -126,7 +127,7 @@ const resetZoom = () => {
 
   map.flyTo({
     center: [-144.5, 59.5],
-    zoom: 4,
+    zoom: 4.3,
     speed: 2.2,
     pitch: DEFAULT_PITCH,
     bearing: DEFAULT_BEARING,
@@ -142,7 +143,7 @@ const resetZoom = () => {
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/satellite-streets-v12',
       center: [-144.5, 59.9],
-      zoom: 4,
+      zoom: 4.3,
       antialias: true,
       accessToken: MAPBOX_TOKEN,
     });
@@ -171,7 +172,7 @@ const resetZoom = () => {
 
     const handleKeydown = (e) => {
       if (e.key.toLowerCase() === 'r') {
-        map.flyTo({ center: [-144.5, 59.5], zoom: 4, speed: 2.2, pitch: 50, bearing: DEFAULT_BEARING });
+        map.flyTo({ center: [-144.5, 59.5], zoom: 4.3, speed: 2.2, pitch: 50, bearing: DEFAULT_BEARING });
         setPitch(DEFAULT_PITCH);
         setBearing(DEFAULT_BEARING);
       }
