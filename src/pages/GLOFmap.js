@@ -146,6 +146,8 @@ const resetZoom = () => {
       zoom: 4.3,
       antialias: true,
       accessToken: MAPBOX_TOKEN,
+      pitch: DEFAULT_PITCH,
+      bearing: DEFAULT_BEARING,
     });
 
     mapRef.current = map;
