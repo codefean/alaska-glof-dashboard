@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Papa from 'papaparse';
 import './GLOFmap.css';
 import MapLegend from './MapLegend';
-import Citation from './citation';
 import AboutMap from './AboutMap';
 import PitchControl from "./PitchControl";
 import "./loc";
@@ -44,13 +43,12 @@ const AlaskaMap = () => {
   const [cursorInfo, setCursorInfo] = useState({ lng: null, lat: null, elevM: null });
 
 
-  const clearLakeFromURL = () => {
+const clearLakeFromURL = useCallback(() => {
   const base = '#/GLOF-map';
   if (window.location.hash !== base) {
-
     window.history.replaceState({}, '', base);
   }
-};
+}, []);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 915);
@@ -119,7 +117,7 @@ const AlaskaMap = () => {
     return () => window.removeEventListener('hashchange', scrollToTop);
   }, []);
 
-const resetZoom = () => {
+const resetZoom = useCallback(() => {
   const map = mapRef.current;
   if (!map) return;
 
@@ -136,7 +134,7 @@ const resetZoom = () => {
 
   clearLakeFromURL();
   popupControllerRef.current?.clearLocked();
-};
+}, [clearLakeFromURL, DEFAULT_PITCH, DEFAULT_BEARING]);
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -292,13 +290,13 @@ const resetZoom = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const handleKeydown = (e) => {
-      if (e.key.toLowerCase() === 'r') resetZoom();
-    };
-    window.addEventListener('keydown', handleKeydown);
-    return () => window.removeEventListener('keydown', handleKeydown);
-  }, []);
+useEffect(() => {
+  const handleKeydown = (e) => {
+    if (e.key.toLowerCase() === 'r') resetZoom();
+  };
+  window.addEventListener('keydown', handleKeydown);
+  return () => window.removeEventListener('keydown', handleKeydown);
+}, [resetZoom]);
 
   useEffect(() => {
     const map = mapRef.current;
@@ -458,7 +456,6 @@ const handleSearch = () => {
         }}
       />
 
-      <Citation className="citation-readout" stylePos={{ position: 'absolute', right: 12, bottom: 10, zIndex: 2 }} />
       <AboutMap />
 
 <div className="search-bar-container" style={{ position: 'absolute' }}>

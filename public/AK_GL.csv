@@ -1,6 +1,6 @@
 LakeID,km2,lat,lon,LakeName,GlacierName,waterFlow,downstream,isHazard,futureHazard,futureHazardETA,hazardURL,summary,moreinfo
 B1,0.72,61.14511519,-146.8381818,Lake Number One,NA,NA,NA,FALSE,FALSE,,,,
-B2,0.22,61.69343392,-146.9239025,NA,Nelchina Glacier,Nelchina River,Nelchina,TRUE,FALSE,,NA,NA,NA
+B2,0.22,61.69343392,-146.9239025,Lower Nelchina Lake,Nelchina Glacier,Nelchina River,Nelchina,TRUE,FALSE,,https://pubs.usgs.gov/ha/455/report.pdf,NA,NA
 B3,0.53,60.81752052,-144.8632891,NA,Allen Glacier,Copper River,NA,FALSE,FALSE,,,,
 B4,0.6,60.47664785,-142.7732323,NA,Bering Glacier,NA,NA,FALSE,FALSE,,,,
 B5,0.21,60.60770969,-142.20566,NA,Jeffries Glacier,NA,NA,FALSE,FALSE,,,,
@@ -44,11 +44,11 @@ B42,0.14,58.42429996,-136.6437969,NA,NA,Taylor Bay,NA,FALSE,FALSE,,,,
 B43,0.11,58.48590013,-137.1755587,NA,Finger Glacier,NA,NA,FALSE,FALSE,,,,
 B44,NA,63.60826005,-147.5600261,Yanert Lake,Yanert Glacier,Yanert Fork,NA,FALSE,FALSE,,,,
 B45,0.14,63.49020927,-147.5225275,NA,NA,NA,NA,FALSE,FALSE,,,,
-B46,1.29,58.88700546,-133.8638793,NA,NA,Tulsequah River,Taku Inlet,FALSE,FALSE,,,,
-B47,0.1,58.82141389,-133.8242952,Tulsequah Lake,NA,Tulsequah River,Taku Inlet,FALSE,FALSE,,,,
+B46,1.29,58.88700546,-133.8638793,Lake No Name,NA,Tulsequah River,Taku Inlet / Tulsequah River,TRUE,FALSE,,https://pubs.usgs.gov/sir/2007/5027/pdf/sir20075027.pdf,Impacted cabins,
+B47,0.1,58.82141389,-133.8242952,Tulsequah Lake,NA,Tulsequah River,Taku Inlet / Tulsequah River,TRUE,FALSE,,https://pubs.usgs.gov/sir/2007/5027/pdf/sir20075027.pdf,Impacted cabins,
 B48,0.76,57.1595586,-131.9109995,Flood Lake,Flood Glacier,Stikine River,Stikine River Lowlands,FALSE,FALSE,,,,
 B49,0.51,57.97652958,-133.0908086,NA,Sawyer Glacier,Holkham Bay,NA,FALSE,FALSE,,,,
-B50,1.17,61.66418761,-146.8775494,NA,Nelchina Glacier,Nelchina River,NA,FALSE,FALSE,,,,
+B50,1.17,61.66418761,-146.8775494,Upper Nelchina Lake,Nelchina Glacier,Nelchina River,NA,TRUE,FALSE,,https://pubs.usgs.gov/ha/455/report.pdf,,
 B51,0.38,61.10130282,-146.907481,NA,NA,NA,NA,FALSE,FALSE,,,,
 B52,0,61.02957311,-146.9803153,NA,NA,NA,NA,FALSE,FALSE,,,,
 B53,0.26,61.59553858,-146.4738687,Iceberg Lake,Tazlina Glacier,Tazlina River,Copperville,FALSE,FALSE,,,,
@@ -84,7 +84,7 @@ B82,0.41,61.56042399,-143.0966375,Hidden Creek Lake,Kennicott Glacier,Kennicott 
 B83,0.51,60.77984788,-139.1334117,Kaskawulsh Lake,Kaskawulsh Glacier,NA,NA,FALSE,FALSE,,,,
 B84,0.48,60.03884129,-150.4546919,NA,Tustemena Glacier,Tustemena Lake,NA,FALSE,FALSE,,,,
 B85,0.4,60.19984368,-149.9440871,NA,NA,Skilak Lake,NA,FALSE,FALSE,,,,
-B86,1.26,60.06870074,-149.6130377,Bear Lake,Bear Glacier,Bear Glacier Lagoon,NA,TRUE,FALSE,,NA,NA,NA
+B86,1.26,60.06870074,-149.6130377,Bear Lake,Bear Glacier,Bear Glacier Lagoon,NA,TRUE,FALSE,,https://www.sciencedirect.com/science/article/abs/pii/S0169555X14002931?via%3Dihub,NA,NA
 B87,8.42,60.95875845,-152.4468923,Blockade Lake,Blockade Glacier,NA,NA,FALSE,FALSE,,,,
 B88,2.47,58.50118375,-136.6243493,Abyss Lake,Brady Glacier,NA,NA,FALSE,FALSE,,,,
 B89,3.32,58.50140144,-136.9158924,Bearhole Lake,Brady Glacier,Palma Bay,NA,FALSE,FALSE,,,,
@@ -115,7 +115,7 @@ B113,0.19,60.43483151,-143.2866359,NA,Bering Glacier,Vitus Lake,NA,FALSE,FALSE,,
 B114,0.42,61.21957361,-146.1413132,Valdez Lake,Valdez Glacier,Valdez Glacier Stream,Valdez,FALSE,FALSE,,,,
 B115,0.6,58.45760644,-134.4932181,Suicide Basin,Mendenhall Glacier,Mendenhall River,Mendenhall Valley,TRUE,FALSE,,www.juneauflood.com,"From 2011, the onset of the Mendenhall GLOF, to 2022, the annual floods were highly variable, ranging from small events that went largely unnoticed to larger events that caused nuisance flooding of roads and a USFS campground and caused only minor property damage. On August 5, 2023, an unprecedented GLOF was released from Suicide Basin causing the Mendenhall River to rise rapidly to approximately 15 feet. This event resulted in widespread erosion along the river corridor in the Mendenhall Valley which swept a home into the river and damaged several other properties that were later condemned (Canny, 2024). Just one year later, on August 6, 2024, another GLOF triggered an even more extreme flood event, with the river cresting at a record-setting 16 feet. This flood resulted in widespread inundation within the Mendenhall Valley, affecting nearly 300 properties and prompting emergency evacuations that extended into the early morning hours (Zerkel, 2024; Travers, 2024).",NA
 B116,1.07,56.18754475,-130.0682533,Summit Lake,Salmon Glacier,Salmon River,Hyder Road,FALSE,FALSE,,,,
-B117,1.67,60.48355605,-148.9301765,Snow Lake,Snow Glacier,Snow River,Seward,TRUE,FALSE,,NA,NA,NA
+B117,1.67,60.48355605,-148.9301765,Snow Lake,Snow Glacier,Snow River,Seward,TRUE,FALSE,,https://pubs.usgs.gov/sir/2022/5099/sir20225099.pdf,Impacted train tracks below and some infrastructure.,NA
 B118,0.08,60.47921335,-149.0263055,Moose Lake,Snow Glacier,NA,NA,FALSE,FALSE,,,,
 B119,0.12,60.84376877,-143.2282456,NA,Bremner Glacier,NA,NA,FALSE,FALSE,,,,
 B120,0.33,60.33122992,-142.9522081,NA,Bering Glacier,NA,NA,FALSE,FALSE,,,,
