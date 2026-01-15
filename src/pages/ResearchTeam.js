@@ -29,7 +29,7 @@ const ResearchTeam = () => {
       <div className="research-team-container">
         <h2 className="team-title">About Research</h2>
         <h3 className="research-subheading">
-          Funded by National Science Foundation
+          Funded by NSF & AKCASC
         </h3>
 
         <div className="about-research-card">
@@ -109,7 +109,7 @@ const ResearchTeam = () => {
           </li>
           <li>
             <a
-              href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2438778&HistoricalAwards=false"
+              href="https://akcasc.org/"
               target="_blank"
               rel="noopener noreferrer"
             >
