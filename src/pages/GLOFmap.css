@@ -182,9 +182,9 @@ html, body {
 
 .hotkey-table {
   position: fixed;
-  top: 100px;   /* position in upper left */
+  top: 100px;   
   left: 10px;
-  right: auto; /* ensure it's on the left */
+  right: auto; 
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   border-radius: 8px;
@@ -192,7 +192,7 @@ html, body {
   color: white;
   font-size: .85rem;
   z-index: 2;
-  max-width: 90%; /* ensures responsiveness */
+  max-width: 90%; 
   box-sizing: border-box;
 }
 

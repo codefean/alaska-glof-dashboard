@@ -551,15 +551,6 @@ const handleSearch = () => {
   pitchBottom={pitchBottom}
 />
 
-      <div className="hotkey-table">
-        <table>
-          <tbody>
-            <tr><td><strong>R</strong></td><td>Reset Zoom</td></tr>
-            <tr><td><strong>+</strong></td><td>Zoom in</td></tr>
-            <tr><td><strong>-</strong></td><td>Zoom out</td></tr>
-          </tbody>
-        </table>
-      </div>
 
       <LayersToggle
         showLakes={showLakes}
