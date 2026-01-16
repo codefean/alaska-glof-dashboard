@@ -26,17 +26,7 @@ const AboutMap = () => {
             As shown above, one side of Snow Lake is dammed by the Snow Glacier. Around every 14 months, the lake drains rapidly when the ice dam fails, impacting infrastructure in Seward and along the Snow River.
           </div>
 
-          {/* Only show button when expanded */}
-          <div className="button-wrapper2">
-            <a
-              href="https://www.alaskaglacialfloods.org/#/about-glacial-lakes"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="glof-button3"
-            >
-             Learn More
-            </a>
-          </div>
+
         </div>
       )}
     </div>

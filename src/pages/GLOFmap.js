@@ -12,6 +12,7 @@ import { useGlacierLayer } from './glaciers';
 import { buildLakePopupHTML, createPopupController } from "./popups";
 import ResetButton from './Reset';
 import './SearchBar';
+import ZoomControls from "./Zoom";
 import { MAPBOX_TOKEN } from "./constants";
 
 
@@ -547,6 +548,12 @@ const handleSearch = () => {
 
 <ResetButton
   onReset={resetZoom}
+  isMobile={isMobile}
+  pitchBottom={pitchBottom}
+/>
+
+<ZoomControls
+  mapRef={mapRef}
   isMobile={isMobile}
   pitchBottom={pitchBottom}
 />
