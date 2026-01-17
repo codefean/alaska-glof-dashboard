@@ -36,7 +36,7 @@ const TABLE_CONFIG = {
       "lastEvent",
       "firstEvent",
     ],
-    title: "Current Alaska Glacier Lakes",
+    title: "Hazard Causing Ice-Dammed Glacial Lakes",
     filterFn: (row) => row["Current Hazard"]?.toLowerCase() === "true",
   },
   future: {
