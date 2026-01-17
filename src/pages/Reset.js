@@ -20,7 +20,7 @@ const ResetButton = ({
         minWidth: isMobile ? 'auto' : '187px',
       }}
     >
-      {isMobile ? 'R' : 'Reset View'}
+      {isMobile ? 'R' : 'Reset View (R)'}
     </button>
   );
 };

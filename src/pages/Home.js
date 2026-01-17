@@ -119,7 +119,7 @@ This website was created by the University of Alaska Southeast in cooperation wi
           <h3>Ice-Dammed Glacial Lakes</h3>
                     <SBmodel />
           <p>
-            Ice-dammed glacial lakes represent a serious flood hazard in Alaska. These lakes form when glaciers block natural valleys, creating reservoirs that can
+            Ice-dammed glacial lakes represent a serious flood hazard. These lakes form when glaciers block natural valleys, creating reservoirs that can
             release suddenly. As glaciers retreat more glacial lakes become exposed. To understand how ice-dammed glacial lakes form, function, and the risk they pose, 
             view the Glacial Lakes Hazard page.
           </p>

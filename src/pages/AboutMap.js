@@ -18,7 +18,7 @@ const AboutMap = () => {
           <h2>Ice-Dammed Glacial Lakes</h2>
 
           <div className="tooltip-text">
-            These lakes form when glaciers block natural valleys, creating reservoirs that can release suddenly.
+            Ice-dammed glacial lakes represent a serious flood hazard. These lakes form when glaciers block natural valleys, creating reservoirs that can release suddenly. As glaciers retreat more glacial lakes become exposed.
             <Model />
           </div>
 
