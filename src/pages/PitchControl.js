@@ -11,7 +11,7 @@ const PitchControl = forwardRef(
       value,
       onChange,
       min = 10,
-      max = 70,
+      max = 80,
       step = 1,
 
       bearing = 0,
