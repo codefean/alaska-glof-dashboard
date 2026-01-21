@@ -125,7 +125,7 @@ const resetZoom = useCallback(() => {
   map.stop();
 
   map.flyTo({
-    center: [-144.5, 59.5],
+    center: [-142.5, 60],
     zoom: 4.3,
     speed: 2.2,
     pitch: DEFAULT_PITCH,
@@ -141,7 +141,7 @@ const resetZoom = useCallback(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/satellite-streets-v12',
-      center: [-144.5, 59.9],
+      center: [-142.5, 60],
       zoom: 4.3,
       antialias: true,
       accessToken: MAPBOX_TOKEN,
@@ -173,7 +173,7 @@ const resetZoom = useCallback(() => {
 
     const handleKeydown = (e) => {
       if (e.key.toLowerCase() === 'r') {
-        map.flyTo({ center: [-144.5, 59.5], zoom: 4.3, speed: 2.2, pitch: 50, bearing: DEFAULT_BEARING });
+        map.flyTo({ center: [-142.5, 60], zoom: 4.3, speed: 2.2, pitch: 50, bearing: DEFAULT_BEARING });
         setPitch(DEFAULT_PITCH);
         setBearing(DEFAULT_BEARING);
       }

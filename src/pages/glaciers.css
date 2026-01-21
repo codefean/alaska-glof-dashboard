@@ -28,7 +28,7 @@
 }
 
 .glacier-label {
-  font-size: 11.5px !important;
+  font-size: 11.75px !important;
   font-weight: 520;
   color: rgba(255, 255, 255, 0.894); 
   font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -42,7 +42,7 @@
 .mapboxgl-popup:not(.glacier-popup),
 .mapboxgl-popup:not(.glacier-popup) * {
   pointer-events: auto !important;
-  z-index: 1000; /* keep them above the canvas */
+  z-index: 1000; 
 }
 
 
