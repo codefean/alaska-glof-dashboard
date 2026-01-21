@@ -1,17 +1,17 @@
 .flood-records-container {
   position: absolute;
   top: 100px;
-  right: 10px;
+  right: 6px;
   padding: 8px 8px;
   background: rgba(0, 0, 0, 0.394);
   color: #ffffff;
-  border-radius: 8px;
+  border-radius: 8px !important;
   line-height: .7;
   z-index: 2;
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   border-radius: 12px;
-  width: 72px;
+  width: 63px;
   z-index: 20;
   height: 12px;
   border: 1px solid white;
@@ -57,7 +57,7 @@
 
   .tooltip-icon {
     font: center;
-    font-size: 15.5px;
+    font-size: 14px;
     font-weight: bold;
     color: #ffffffe7;
   }
@@ -101,7 +101,7 @@
   font-weight: bold;
   padding: 10px 1px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   text-align: center;
   cursor: pointer;
   max-width: 35%;

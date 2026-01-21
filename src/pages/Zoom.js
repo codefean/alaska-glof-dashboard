@@ -8,14 +8,14 @@ const ZoomControls = ({ mapRef, isMobile, pitchBottom }) => {
     const map = mapRef.current;
     if (!map) return;
     map.stop();
-    map.zoomIn({ duration: 200 });
+    map.zoomIn({ delta: 0.2, duration: 350 });
   };
 
   const zoomOut = () => {
     const map = mapRef.current;
     if (!map) return;
     map.stop();
-    map.zoomOut({ duration: 200 });
+    map.zoomOut({ delta: 0.2, duration: 350 });
   };
 
   return (

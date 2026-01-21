@@ -48,9 +48,9 @@
 .glof-mapbox-popup .mapboxgl-popup-close-button {
   color: white;
   font-size: 1.25rem;
-  line-height: 1;
+  line-height: .75;
   padding: 2.5px;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
 .glof-mapbox-popup .mapboxgl-popup-close-button:hover {

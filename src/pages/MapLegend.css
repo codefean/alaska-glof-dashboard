@@ -22,7 +22,7 @@
 }
 
 .map-legend:hover {
-  background: rgba(35, 123, 207, 0.8);
+  background: #097cf09a;
 }
 
 .map-legend.expanded {
