@@ -168,8 +168,6 @@ const FloodDataTable = ({
                       e.stopPropagation();
                       toggleRow(rowIndex);
                     }}
-                    onMouseEnter={() => setHoverRow(rowIndex)}
-                    onMouseLeave={() => setHoverRow(null)}
                     className={`expandable-row ${
                       isExpanded ? "is-expanded" : ""
                     }`}
