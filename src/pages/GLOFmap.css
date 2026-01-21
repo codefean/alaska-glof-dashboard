@@ -406,3 +406,15 @@ a:focus {
   background-color: #9d0303;
 }
 
+.mapboxgl-canvas:focus {
+  outline: none;
+}
+
+.mapboxgl-map:focus {
+  outline: none;
+}
+
+.mapboxgl-canvas:focus-visible,
+.mapboxgl-map:focus-visible {
+  outline: none;
+}
