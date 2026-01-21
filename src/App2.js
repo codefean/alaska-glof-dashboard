@@ -20,13 +20,11 @@ import Footer from "./components/Footer";
 import SubmitDataPage from "./pages/feedback";
 import StoryMap from "./pages/StoryMap";
 
-
 const useDocumentTitle = (title) => {
   React.useEffect(() => {
     document.title = title;
   }, [title]);
 };
-
 
 const GLOFMapPage = () => {
   useDocumentTitle("Glacial Lake Map");
@@ -35,7 +33,7 @@ const GLOFMapPage = () => {
 
 const GLOFMapPage2 = () => {
   useDocumentTitle("Glacial Lake Map 2");
-  return <GLOFmap2 />; 
+  return <GLOFmap2 />;
 };
 
 const GLOFForecastPage = () => {
@@ -68,10 +66,14 @@ const StoryMapPage = () => {
   return <StoryMap />;
 };
 
-
-
 const LayoutWrapper = () => {
   const location = useLocation();
+
+  const hideFooterRoutes = [
+    "/GLOF-map",
+  ];
+
+  const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
 
   return (
     <div className="app-container">
@@ -91,18 +93,16 @@ const LayoutWrapper = () => {
         </Routes>
       </div>
 
-      <Footer />
+      {!shouldHideFooter && <Footer />}
     </div>
   );
 };
 
-/* 🔹 Main App entry */
 const App2 = () => {
   return (
     <Router>
       <Routes>
         <Route path="/GLOF-map2" element={<GLOFMapPage2 />} />
-
         <Route path="/*" element={<LayoutWrapper />} />
       </Routes>
     </Router>

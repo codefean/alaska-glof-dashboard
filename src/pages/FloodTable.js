@@ -12,7 +12,7 @@ const COLUMN_NAME_MAPPING = {
   ishazard: "Current Hazard",
   futurehazard: "Future Hazard",
   futurehazardeta: "Time to Future Hazard",
-  hazardurl: "Hazard Info",
+  hazardurl: "Reference",
   summary: "Summary",
   moreinfo: "More Info",
   waterflow: "Water Flow",
@@ -47,7 +47,7 @@ const TABLE_CONFIG = {
       "Current Hazard", 
       "Frequency",
       "Future Hazard",
-      "Hazard Info",
+      "Reference",
       "numberEvents",
       "lastEvent",
       "firstEvent",
@@ -182,15 +182,20 @@ const FloodDataTable = ({
 
                       
                       if (header === "View on Map") {
+                        const lakeId = row["Lake ID"];
+
                         return (
                           <td key={colIndex}>
                             <a
                               className="glacier-button"
-                              href={`#/GLOF-map?lake=${encodeURIComponent(
-                                row["Lake ID"]
-                              )}`}
-                              target="_blank"
+                              href={`#/GLOF-map?lake=${encodeURIComponent(lakeId)}`}
                               rel="noopener noreferrer"
+                              onClick={(e) => {
+                                e.stopPropagation();         
+                                window.scrollTo(0, 0);        
+                                document.documentElement.scrollTop = 0; 
+                                document.body.scrollTop = 0; 
+                              }}
                             >
                               Map
                             </a>
@@ -198,9 +203,10 @@ const FloodDataTable = ({
                         );
                       }
 
+
                       
                       if (
-                        header === "Hazard Info" &&
+                        header === "Reference" &&
                         typeof row[header] === "string"
                       ) {
                         const rawUrl = row[header];
