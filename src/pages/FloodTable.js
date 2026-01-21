@@ -21,7 +21,6 @@ const COLUMN_NAME_MAPPING = {
   frequency: "Frequency",
 };
 
-
 const TABLE_CONFIG = {
   current: {
     excluded: [
@@ -29,7 +28,7 @@ const TABLE_CONFIG = {
       "Latitude",
       "Longitude",
       "Future Hazard",
-      "Time to Future Hazard", 
+      "Time to Future Hazard",
       "Current Hazard",
       "More Info",
       "numberEvents",
@@ -44,7 +43,7 @@ const TABLE_CONFIG = {
       "Lake Area (km²)",
       "Latitude",
       "Longitude",
-      "Current Hazard", 
+      "Current Hazard",
       "Frequency",
       "Future Hazard",
       "Reference",
@@ -64,11 +63,13 @@ const FloodDataTable = ({
 }) => {
   const [headers, setHeaders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [,setData] = useState([]);
+  const [, setData] = useState([]);
   const [sortedData, setSortedData] = useState([]);
-  const [expandedRows, setExpandedRows] = useState([]);
+  const [openRow, setOpenRow] = useState(null);
+  const [hoverRow, setHoverRow] = useState(null);
 
-  const { excluded, title, filterFn } = TABLE_CONFIG[type] || TABLE_CONFIG.current;
+  const { excluded, title, filterFn } =
+    TABLE_CONFIG[type] || TABLE_CONFIG.current;
 
   useEffect(() => {
     fetch(csvUrl)
@@ -83,8 +84,11 @@ const FloodDataTable = ({
             const processedData = rawData.map((row) => {
               const newRow = {};
               Object.keys(row).forEach((key) => {
-                const normalizedKey = Object.keys(COLUMN_NAME_MAPPING).find(
-                  (mappedKey) => mappedKey.toLowerCase() === key.toLowerCase()
+                const normalizedKey = Object.keys(
+                  COLUMN_NAME_MAPPING
+                ).find(
+                  (mappedKey) =>
+                    mappedKey.toLowerCase() === key.toLowerCase()
                 );
                 const newKey = normalizedKey
                   ? COLUMN_NAME_MAPPING[normalizedKey]
@@ -94,21 +98,17 @@ const FloodDataTable = ({
               return newRow;
             });
 
-
             const filteredData = processedData.filter(filterFn);
-
 
             const allHeaders = Object.keys(filteredData[0] || {});
             const filteredHeaders = allHeaders.filter(
               (h) => !excluded.includes(h)
             );
 
-
             const orderedHeaders = [
               "Lake Name",
               ...filteredHeaders.filter((h) => h !== "Lake Name"),
             ];
-
 
             const finalHeaders = [...orderedHeaders, "View on Map"];
 
@@ -116,26 +116,27 @@ const FloodDataTable = ({
             setSortedData(filteredData);
             setHeaders(finalHeaders);
             setLoading(false);
+            setOpenRow(null);
+            setHoverRow(null);
           },
         });
       })
-      .catch((error) => {
-        console.error("Error loading CSV:", error);
-        setLoading(false);
-      });
+      .catch(() => setLoading(false));
   }, [csvUrl, type, excluded, filterFn]);
 
+  useEffect(() => {
+    const handleClickOutside = () => setOpenRow(null);
+    document.addEventListener("click", handleClickOutside);
+    return () =>
+      document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   const toggleRow = (index) => {
-    setExpandedRows((prev) =>
-      prev.includes(index)
-        ? prev.filter((i) => i !== index)
-        : [...prev, index]
-    );
+    setOpenRow((prev) => (prev === index ? null : index));
   };
 
   return (
-    <div className={`glacier-table-container`}>
+    <div className="glacier-table-container">
       {loading ? (
         <p>Loading data...</p>
       ) : (
@@ -143,34 +144,39 @@ const FloodDataTable = ({
           <div className="glacier-table-header">
             <h3 className="glacier-table-title">{title}</h3>
             <h4 className="glacier-table-subtitle">{subtitle}</h4>
-
-            
           </div>
 
           <table className="glacier-table">
             <thead>
               <tr>
                 {headers.map((header, index) => (
-                  <th
-                  >
-                    {header}{" "}
-                  </th>
+                  <th key={index}>{header}</th>
                 ))}
               </tr>
             </thead>
+
             <tbody>
               {sortedData.map((row, rowIndex) => {
-                const isExpanded = expandedRows.includes(rowIndex);
+                const isExpanded =
+                  openRow === rowIndex ||
+                  (openRow === null && hoverRow === rowIndex);
+
                 return (
                   <tr
                     key={rowIndex}
-                    onClick={() => toggleRow(rowIndex)}
-                    className="expandable-row"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleRow(rowIndex);
+                    }}
+                    onMouseEnter={() => setHoverRow(rowIndex)}
+                    onMouseLeave={() => setHoverRow(null)}
+                    className={`expandable-row ${
+                      isExpanded ? "is-expanded" : ""
+                    }`}
                   >
                     {headers.map((header, colIndex) => {
                       let content = row[header] || "—";
 
-                      
                       if (
                         ["Summary", "More Info"].includes(header) &&
                         !isExpanded &&
@@ -180,21 +186,21 @@ const FloodDataTable = ({
                         content = content.substring(0, 100) + "...";
                       }
 
-                      
                       if (header === "View on Map") {
                         const lakeId = row["Lake ID"];
-
                         return (
                           <td key={colIndex}>
                             <a
                               className="glacier-button"
-                              href={`#/GLOF-map?lake=${encodeURIComponent(lakeId)}`}
+                              href={`#/GLOF-map?lake=${encodeURIComponent(
+                                lakeId
+                              )}`}
                               rel="noopener noreferrer"
                               onClick={(e) => {
-                                e.stopPropagation();         
-                                window.scrollTo(0, 0);        
-                                document.documentElement.scrollTop = 0; 
-                                document.body.scrollTop = 0; 
+                                e.stopPropagation();
+                                window.scrollTo(0, 0);
+                                document.documentElement.scrollTop = 0;
+                                document.body.scrollTop = 0;
                               }}
                             >
                               Map
@@ -203,14 +209,15 @@ const FloodDataTable = ({
                         );
                       }
 
-
-                      
                       if (
                         header === "Reference" &&
                         typeof row[header] === "string"
                       ) {
                         const rawUrl = row[header];
-                        if (rawUrl.includes("www.") || rawUrl.includes("http")) {
+                        if (
+                          rawUrl.includes("www.") ||
+                          rawUrl.includes("http")
+                        ) {
                           const url = rawUrl.startsWith("http")
                             ? rawUrl
                             : `https://${rawUrl}`;
@@ -221,6 +228,7 @@ const FloodDataTable = ({
                                 href={encodeURI(url)}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
                               >
                                 Link
                               </a>

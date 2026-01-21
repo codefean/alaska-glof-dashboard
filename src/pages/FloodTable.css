@@ -1,4 +1,4 @@
-/* Glacier Table Container */
+
 .glacier-table-container {
   width: 100%;
   max-width: 1800px;
@@ -8,7 +8,6 @@
   background: #ffffff00;
 }
 
-/* Table Base */
 .glacier-table {
   width: 97%;
   border-collapse: separate;
@@ -26,7 +25,6 @@
   margin-bottom: -1px;
 }
 
-/* Table Header */
 .glacier-table th {
   background: rgb(221, 233, 249);
   text-align: left;
@@ -41,11 +39,7 @@
   transition: background 0.3s;
 }
 
-.glacier-table th:hover {
-  background: #c6d9ff;
-}
 
-/* Table Body Cells */
 .glacier-table td {
   padding: 14px 18px;
   font-size: 14px;
@@ -73,13 +67,11 @@
   color: #2563eb;
 }
 
-/* Highlighted Row (on hash link) */
 .highlighted-row {
   background-color: rgba(0, 110, 255, 0.15) !important;
   transition: background 0.4s ease-in-out;
 }
 
-/* Buttons (Map / Link) */
 .glacier-button {
   display: inline-block;
   background-color: #2563eb;
@@ -118,7 +110,6 @@
 }
 
 
-/* Summary cells */
 .summary-cell {
   max-width: 600px;
   line-height: 1.5;
@@ -152,13 +143,13 @@
 }
 
   .summary-cell {
-    max-width: 100%;     /* let it span full width */
-    min-width: 250px;    /* ensure it doesn’t collapse too much */
+    max-width: 100%;   
+    min-width: 250px;    
   }
 
   .scrollable-summary {
-    max-height: none;    /* allow full height instead of tiny scroll box */
-    overflow-y: visible; /* avoid double scrollbars */
+    max-height: none;    
+    overflow-y: visible; 
   }
 }
 
@@ -174,5 +165,12 @@
   }
 }
 
+.expandable-row td {
+  transition: padding 150ms ease, max-height 150ms ease;
+}
+
+.glacier-table tbody tr.expandable-row:hover td {
+  background-color: rgb(221, 233, 249) !important;
+}
 
 
