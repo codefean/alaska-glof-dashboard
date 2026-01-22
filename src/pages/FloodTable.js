@@ -190,7 +190,7 @@ const FloodDataTable = ({
                           <td key={colIndex}>
                             <a
                               className="glacier-button"
-                              href={`#/GLOF-map?lake=${encodeURIComponent(
+                              href={`#/map?lake=${encodeURIComponent(
                                 lakeId
                               )}`}
                               rel="noopener noreferrer"

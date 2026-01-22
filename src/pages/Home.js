@@ -8,14 +8,14 @@ import SBmodel from './SBmodel';
 const cardData = [
   {
     title: 'Glacial Lake Map',
-    link: '/GLOF-map',
+    link: '/map',
     image: process.env.PUBLIC_URL + '/images/flood-map.png',
     description:
       'View known & predicted locations of glacial lake outburst floods in Alaska.',
   },
   {
     title: 'Explore Data',
-    link: '/GLOF-data',
+    link: '/data',
     image: process.env.PUBLIC_URL + '/images/flood-events.jpg',
     description:
       'Go deeper into the impacts & data of glacial lake outburst floods.',
@@ -29,7 +29,7 @@ const cardData = [
   },
   {
     title: 'Research Team',
-    link: '/about-research',
+    link: '/research-team',
     image: process.env.PUBLIC_URL + '/images/suicide-basin.jpg',
     description:
       'Meet the team & learn more about organizations supporting the research.',

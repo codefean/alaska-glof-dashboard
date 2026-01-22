@@ -45,7 +45,7 @@ const AlaskaMap = () => {
 
 
 const clearLakeFromURL = useCallback(() => {
-  const base = '#/GLOF-map';
+  const base = '#/';
   if (window.location.hash !== base) {
     window.history.replaceState({}, '', base);
   }
@@ -106,7 +106,7 @@ const clearLakeFromURL = useCallback(() => {
     }
 
     const scrollToTop = () => {
-      if (window.location.hash.startsWith('#/GLOF-map')) {
+      if (window.location.hash.startsWith('#/map')) {
         setTimeout(() => {
           window.scrollTo(0, 0);
         }, 100);
@@ -332,14 +332,14 @@ useEffect(() => {
         html: popupHTML,
         onLock: () => {
           map.flyTo({ center: [lon, lat], zoom: 13.5, speed: 2, pitch: 50 });
-          window.history.pushState({}, '', `#/GLOF-map?lake=${encodeURIComponent(LakeID)}`);
+          window.history.pushState({}, '', `#/map?lake=${encodeURIComponent(LakeID)}`);
         },
       });
     });
   }, [lakeData, showLakes, showImpacts, showPredicted]);
 
   useEffect(() => {
-    if (!window.location.hash.startsWith('#/GLOF-map')) return;
+    if (!window.location.hash.startsWith('#/map')) return;
 
     const params = new URLSearchParams(window.location.hash.split('?')[1]);
     const lakeIdFromURL = params.get('lake');

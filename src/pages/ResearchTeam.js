@@ -27,7 +27,7 @@ const ResearchTeam = () => {
   return (
     <>
       <div className="research-team-container">
-        <h2 className="team-title">About Research</h2>
+        <h2 className="team-title">Research Team</h2>
         <h3 className="research-subheading">
           Funded by NSF & AKCASC
         </h3>

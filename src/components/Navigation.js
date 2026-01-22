@@ -27,7 +27,7 @@ const Navigation = () => {
         </li>
         <li>
           <NavLink
-            to="/GLOF-map"
+            to="/map"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             Glacial Lake Map
@@ -35,7 +35,7 @@ const Navigation = () => {
         </li>
         <li>
           <NavLink
-            to="/GLOF-data"
+            to="/data"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             Explore Data
@@ -53,7 +53,7 @@ const Navigation = () => {
 
         <li>
           <NavLink
-            to="/about-research"
+            to="/research-team"
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             Research Team

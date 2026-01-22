@@ -152,7 +152,7 @@ const DataTable = ({
                           <td key={colIndex}>
                             <a
                               className="glacier-button"
-                              href={`#/GLOF-map?lake=${encodeURIComponent(
+                              href={`#/map?lake=${encodeURIComponent(
                                 row["Lake ID"]
                               )}`}
                               target="_blank"

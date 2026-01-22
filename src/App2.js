@@ -47,7 +47,7 @@ const GLOFDataPage = () => {
 };
 
 const ResearchTeamPage = () => {
-  useDocumentTitle("About Research");
+  useDocumentTitle("Research Team");
   return <ResearchTeam />;
 };
 
@@ -70,7 +70,7 @@ const LayoutWrapper = () => {
   const location = useLocation();
 
   const hideFooterRoutes = [
-    "/GLOF-map",
+    "/map",
   ];
 
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
@@ -84,10 +84,10 @@ const LayoutWrapper = () => {
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/GLOF-map" element={<GLOFMapPage />} />
+          <Route path="/map" element={<GLOFMapPage />} />
           <Route path="/about-glacial-lakes" element={<GLOFForecastPage />} />
-          <Route path="/GLOF-data" element={<GLOFDataPage />} />
-          <Route path="/about-research" element={<ResearchTeamPage />} />
+          <Route path="/data" element={<GLOFDataPage />} />
+          <Route path="/research-team" element={<ResearchTeamPage />} />
           <Route path="/submit-data" element={<SubmitDataWrapper />} />
           <Route path="/story-map" element={<StoryMapPage />} />
         </Routes>
