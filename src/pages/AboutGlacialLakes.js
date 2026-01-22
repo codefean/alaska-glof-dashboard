@@ -64,27 +64,6 @@ const Stat = ({ target, label, tooltip, showPlus = false }) => {
 const AboutGlacialLakes = () => {
   return (
     <div className="about-container">
-      <div className="stats-bar">
-        <div className="stats-overlay">
-          <Stat
-            target={120}
-            label="Known Glacial Lakes"
-            tooltip="Glacial lakes identified across Alaska and BC."
-            showPlus={true}
-          />
-          <Stat
-            target={4}
-            label="Known Glacial Lakes Causing Hazards"
-            tooltip="These lakes include Suicide Basin, Snow Lake, and Bear Lake."
-          />
-          <Stat
-            target={1000}
-            label="Recorded Glacial Flood Events"
-            tooltip="Glacial flood events that have been documented by NWS & Researchers. Few events cause downstream impacts."
-            showPlus={true}
-          />
-        </div>
-      </div>
 
       <h1 className="about-title">Ice-Dammed Glacial Lakes in Alaska</h1>
       <h3 className="about-subheading">
