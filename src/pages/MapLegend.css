@@ -1,7 +1,7 @@
 
 .map-legend {
   position: fixed;
-  bottom: 10px;
+  bottom: 8px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -49,17 +49,17 @@
 .map-legend-label {
   display: flex;
   flex-direction: column;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: white;
 }
 
 .map-legend-label strong {
   font-weight: 750 !important;
-  font-size: .8rem;
+  font-size: .85rem;
 }
 
 .legend-description {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   line-height: 1.4;
   color: #ffffff;
   margin-top: 2px;
@@ -124,7 +124,7 @@
     transform: none;
     flex-wrap: wrap;
     justify-content: center;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     gap: 12px;
     padding: 8px;
     max-width: calc(100% - 40px) !important;
@@ -140,12 +140,12 @@
   }
 
   .legend-description {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     margin-left: 0;
   }
 
   .map-legend-label strong {
   font-weight: 750 !important;
-  font-size: .7rem;
+  font-size: .75rem;
 }
 }

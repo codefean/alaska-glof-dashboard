@@ -14,8 +14,8 @@ const ResetButton = ({
       className="reset-button"
       style={{
         position: 'absolute',
-        bottom: isMobile ? `${pitchBottom / .55}px` : '126px',
-        left: isMobile ? 'auto' : '12px',
+        bottom: isMobile ? `${pitchBottom / .55}px` : '124px',
+        left: isMobile ? 'auto' : '6px',
         right: isMobile ? '12px' : 'auto',
         minWidth: isMobile ? 'auto' : '187px',
       }}

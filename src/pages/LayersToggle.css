@@ -1,7 +1,7 @@
 .layer-toggle-panel {
   position: fixed;
   top: 100px;   
-  left: 10px;
+  left: 6px;
   right: auto; 
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);

@@ -1,7 +1,7 @@
 .pitch-control {
   position: absolute;
-  bottom: 60px;
-  left: 12px;
+  bottom: 58px;
+  left: 6px;
   padding: 8px 10px;
   background: rgba(0, 0, 0, 0.55);
   color: #fff;
@@ -31,7 +31,7 @@
 .pitch-control input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
-  width: 120px;
+  width: 145px;
   height: 4px;
   background: rgba(255, 255, 255, 0.35);
   border-radius: 4px;
@@ -43,21 +43,21 @@
 .pitch-control input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
   background: #fff;
   border-radius: 50%;
   cursor: grab;
   transition: background 0.2s ease;
 }
 .pitch-control input[type="range"]::-webkit-slider-thumb:hover {
-  background: #003f8c;
+  background: #2f7bd9d0;
 }
 
 /* Firefox slider thumb */
 .pitch-control input[type="range"]::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
   background: #fff;
   border-radius: 50%;
   cursor: grab;
