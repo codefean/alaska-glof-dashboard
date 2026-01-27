@@ -65,7 +65,7 @@ const AboutGlacialLakes = () => {
   return (
     <div className="about-container">
 
-      <h1 className="about-title">Ice-Dammed Glacial Lakes in Alaska</h1>
+      <h1 className="about-title">Ice-Dammed Glacial Lakes</h1>
       <h3 className="about-subheading">
         Their Presence as a Hazard & How They Work
       </h3>
