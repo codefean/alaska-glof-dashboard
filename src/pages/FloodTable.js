@@ -110,7 +110,7 @@ const FloodDataTable = ({
               ...filteredHeaders.filter((h) => h !== "Lake Name"),
             ];
 
-            const finalHeaders = [...orderedHeaders, "View on Map"];
+            const finalHeaders = [...orderedHeaders, "View"];
 
             setData(filteredData);
             setSortedData(filteredData);
@@ -184,8 +184,8 @@ const FloodDataTable = ({
                         content = content.substring(0, 100) + "...";
                       }
 
-                      if (header === "View on Map") {
-                        const lakeId = row["Lake ID"];
+                      if (header === "View") {
+                        const lakeId = row["ID"];
                         return (
                           <td key={colIndex}>
                             <a

@@ -177,12 +177,11 @@
 
     .team-title {
     text-align: center !important;
-    margin: -14px 0 -10px;
+    margin: -20px 0 -10px !important;
     font-size: 2rem;
     color: #154f89;
   }
 
-  /* Match .flood-events-subheading */
   .research-subheading {
     text-align: center;
     font-size: 1rem;
