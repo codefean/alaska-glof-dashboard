@@ -15,6 +15,9 @@ import ZoomControls from "./Zoom";
 import { MAPBOX_TOKEN } from "./constants";
 
 
+const S3_CSV_URL =
+  "https://agfd-data.s3.us-west-2.amazonaws.com/AK_GL.csv";
+
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
 const AlaskaMap = () => {
@@ -210,7 +213,7 @@ const resetZoom = useCallback(() => {
 
     const fetchLakeData = async () => {
       try {
-        const response = await fetch('https://flood-events.s3.us-east-2.amazonaws.com/AK_GL.csv');
+        const response = await fetch(S3_CSV_URL);
         const csvText = await response.text();
         Papa.parse(csvText, {
           header: true,

@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react";
 import Papa from "papaparse";
 import "./FloodTable.css";
 
+const S3_CSV_URL =
+  "https://agfd-data.s3.us-west-2.amazonaws.com/AK_GL.csv";
+
 const COLUMN_NAME_MAPPING = {
   lakeid: "Lake ID",
   lakename: "Lake Name",
@@ -57,7 +60,7 @@ const TABLE_CONFIG = {
 };
 
 const FloodDataTable = ({
-  csvUrl = process.env.PUBLIC_URL + "/AK_GL.csv",
+  csvUrl = S3_CSV_URL,
   type = "current",
   subtitle = "",
 }) => {

@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import Papa from "papaparse";
 import "./ResearchTeam.css";
 
+
+const S3_CSV_URL =
+  "https://agfd-data.s3.us-west-2.amazonaws.com/research-team.csv";
+
 const ResearchTeam = () => {
   const [teamMembers, setTeamMembers] = useState([]);
 
   useEffect(() => {
-    fetch("/research-team.csv")
+    fetch(S3_CSV_URL)
       .then((response) => response.text())
       .then((csvText) => {
         const parsed = Papa.parse(csvText, {
