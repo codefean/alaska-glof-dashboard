@@ -34,15 +34,6 @@ export function useGlacierLayer({ mapRef }) {
     let rafId = 0;
     const cleanupFns = [];
 
-    const isOverNonGlacierPopup = (evt) => {
-      const oe = evt && evt.originalEvent;
-      const target = oe && oe.target;
-      if (!target || typeof target.closest !== 'function') return false;
-      const anyPopup = target.closest('.mapboxgl-popup');
-      const isGlacierPopup = target.closest('.glacier-popup');
-      return !!anyPopup && !isGlacierPopup;
-    };
-
     const ensureLayers = () => {
       if (!map.getSource(sourceId)) {
         map.addSource(sourceId, { type: 'vector', url });
@@ -80,28 +71,27 @@ export function useGlacierLayer({ mapRef }) {
       });
 
       const onAnyMove = (e) => {
-        if (isOverNonGlacierPopup(e)) {
-          popup && popup.remove();
-          return;
+        const oe = e.originalEvent;
+        const target = oe && oe.target;
+
+        if (target && typeof target.closest === 'function') {
+          if (target.closest('.marker')) {
+            popup && popup.remove();
+            return;
+          }
+
+          const anyPopup = target.closest('.mapboxgl-popup');
+          const isGlacierPopup = target.closest('.glacier-popup');
+          if (anyPopup && !isGlacierPopup) {
+            popup && popup.remove();
+            return;
+          }
         }
 
         if (rafId) cancelAnimationFrame(rafId);
         rafId = requestAnimationFrame(() => {
-          const stack = map.queryRenderedFeatures(e.point);
-          if (!stack.length) {
-            popup && popup.remove();
-            return;
-          }
-
-          const top = stack[0];
-          const topId = top.layer && top.layer.id;
-
-          if (topId !== fillLayerId || BLOCK_LAYERS.includes(topId)) {
-            popup && popup.remove();
-            return;
-          }
-
           const features = map.queryRenderedFeatures(e.point, { layers: [fillLayerId] });
+
           if (!features.length) {
             popup && popup.remove();
             return;
@@ -114,7 +104,7 @@ export function useGlacierLayer({ mapRef }) {
           const normalized = rawName != null ? String(rawName).trim() : '';
           const glacName = GLACIER_NAME_OVERRIDES[normalized] || normalized;
 
-          if (glacName !== '') {
+          if (glacName) {
             popup
               .setLngLat(e.lngLat)
               .setHTML(`<div class="glacier-label">${glacName}</div>`)

@@ -8,10 +8,10 @@ import AboutMap from './AboutMap';
 import PitchControl from "./PitchControl";
 import "./loc";
 import LayersToggle from "./LayersToggle";
-import { useGlacierLayer } from './glaciers';
 import { buildLakePopupHTML, createPopupController } from "./popups";
 import ResetButton from './Reset';
 import ZoomControls from "./Zoom";
+import { useGlacierLayer } from './glaciers';
 import { MAPBOX_TOKEN } from "./constants";
 
 
@@ -25,8 +25,6 @@ const AlaskaMap = () => {
   const mapRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
   const [lakeData, setLakeData] = useState([]);
-  const [showGlaciers] = useState(false);
-  const [glacierData, setGlacierData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const pitchRef = useRef(null);
@@ -39,6 +37,8 @@ const AlaskaMap = () => {
   const [showLakes, setShowLakes] = useState(true);
   const [showImpacts, setShowImpacts] = useState(true);
   const [showPredicted, setShowPredicted] = useState(true);
+  const [showGlaciers] = useState(false);
+  const [glacierData, setGlacierData] = useState([]);
   const DEFAULT_PITCH = 15;
   const DEFAULT_BEARING = 0;
   const [pitch, setPitch] = useState(DEFAULT_PITCH);
@@ -269,9 +269,9 @@ const resetZoom = useCallback(() => {
         console.error('Error fetching glacier data:', error);
       }
     };
-
-    fetchLakeData();
     fetchGlacierData();
+    fetchLakeData();
+
 
     const clearLock = () => {
       popupControllerRef.current?.clearLocked();

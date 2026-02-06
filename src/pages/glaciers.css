@@ -20,7 +20,7 @@
   color: white;
   padding: 3px;
   -webkit-backdrop-filter: none !important; 
-  z-index: 6;
+  z-index: 1;
 }
 
 .glacier-popup .mapboxgl-popup-tip {
