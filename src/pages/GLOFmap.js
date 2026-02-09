@@ -212,38 +212,74 @@ const resetZoom = useCallback(() => {
     });
 
     const fetchLakeData = async () => {
-      try {
-        const response = await fetch(S3_CSV_URL);
-        const csvText = await response.text();
-        Papa.parse(csvText, {
-          header: true,
-          dynamicTyping: true,
-          skipEmptyLines: true,
-          transformHeader: header => header.trim().replace(/^\uFEFF/, ''),
-          complete: (result) => {
-            const parsed = result.data.map(row => ({
+  try {
+    const response = await fetch(S3_CSV_URL);
+    const csvText = await response.text();
+
+    Papa.parse(csvText, {
+      header: true,
+      skipEmptyLines: true,
+      transformHeader: h => h.trim().replace(/^\uFEFF/, ''), // strip BOM
+      complete: (result) => {
+        const parsed = result.data
+          .map(row => {
+            const lat = parseFloat(row.lat);
+            const lon = parseFloat(row.lon);
+
+            if (isNaN(lat) || isNaN(lon)) return null;
+
+            return {
               LakeID: row.LakeID?.trim(),
               km2: parseFloat(row.km2) || 0,
-              lat: parseFloat(row.lat),
-              lon: parseFloat(row.lon),
-              LakeName: (row.LakeName && row.LakeName.trim() !== 'NA') ? row.LakeName.trim() : null,
-              GlacierName: (row.GlacierName && row.GlacierName.trim() !== 'NA') ? row.GlacierName.trim() : null,
-              isHazard: row.isHazard?.toString().toLowerCase() === 'true',
-              futureHazard: row.futureHazard?.toString().toLowerCase() === 'true',
+              lat,
+              lon,
+
+              LakeName:
+                row.LakeName && row.LakeName !== "NA"
+                  ? row.LakeName.trim()
+                  : null,
+
+              GlacierName:
+                row.GlacierName && row.GlacierName !== "NA"
+                  ? row.GlacierName.trim()
+                  : null,
+
+              isHazard:
+                String(row.isHazard).toLowerCase() === "true",
+
+              futureHazard:
+                String(row.futureHazard).toLowerCase() === "true",
+
               futureHazardETA: row.futureHazardETA?.trim() || null,
               hazardURL: row.hazardURL?.trim() || null,
-              waterFlow: (row.waterFlow && row.waterFlow.trim() !== 'NA') ? row.waterFlow.trim() : null,
-              downstream: (row.downstream && row.downstream.trim() !== 'NA') ? row.downstream.trim() : null,
-              numberEvents: parseInt(row.numberEvents) || 0,
-            })).filter(row => row.LakeID && !isNaN(row.lat) && !isNaN(row.lon));
 
-            setLakeData(parsed);
-          },
-        });
-      } catch (error) {
-        console.error('Error fetching lake data:', error);
+              waterFlow:
+                row.waterFlow && row.waterFlow !== "NA"
+                  ? row.waterFlow.trim()
+                  : null,
+
+              downstream:
+                row.downstream && row.downstream !== "NA"
+                  ? row.downstream.trim()
+                  : null,
+
+              numberEvents: parseInt(row.numberEvents) || 0,
+            };
+          })
+          .filter(Boolean); // remove bad rows
+
+        console.log("Loaded lake rows:", parsed.length);
+        setLakeData(parsed);
+      },
+      error: (err) => {
+        console.error("PapaParse error:", err);
       }
-    };
+    });
+  } catch (error) {
+    console.error("Error fetching lake CSV:", error);
+  }
+};
+
 
     const fetchGlacierData = async () => {
       try {
@@ -258,8 +294,8 @@ const resetZoom = useCallback(() => {
             const parsed = result.data
               .map(row => ({
                 name: row.name?.trim(),
-                lat: parseFloat(row.latitude),
-                lon: parseFloat(row.longitude),
+                lat: parseFloat(row.lat),
+                lon: parseFloat(row.lon),
               }))
               .filter(gl => !isNaN(gl.lat) && !isNaN(gl.lon));
             setGlacierData(parsed);

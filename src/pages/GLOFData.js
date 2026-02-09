@@ -3,11 +3,14 @@ import FloodTable from "./FloodTable";
 import "./GLOFData.css";
 import Papa from "papaparse";
 
+const S3_CSV_URL_Ref =
+  "https://agfd-data.s3.us-west-2.amazonaws.com/references.csv";
+
 const GLOFData = () => {
   const [references, setReferences] = useState([]);
 
   useEffect(() => {
-    fetch("/references.csv")
+    fetch(S3_CSV_URL_Ref)
       .then((response) => response.text())
       .then((csvText) => {
         const parsed = Papa.parse(csvText, {
