@@ -219,7 +219,7 @@ const resetZoom = useCallback(() => {
     Papa.parse(csvText, {
       header: true,
       skipEmptyLines: true,
-      transformHeader: h => h.trim().replace(/^\uFEFF/, ''), // strip BOM
+      transformHeader: h => h.trim().replace(/^\uFEFF/, ''), 
       complete: (result) => {
         const parsed = result.data
           .map(row => {
@@ -266,7 +266,7 @@ const resetZoom = useCallback(() => {
               numberEvents: parseInt(row.numberEvents) || 0,
             };
           })
-          .filter(Boolean); // remove bad rows
+          .filter(Boolean); 
 
         console.log("Loaded lake rows:", parsed.length);
         setLakeData(parsed);
