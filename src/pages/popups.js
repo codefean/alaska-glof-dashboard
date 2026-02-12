@@ -35,7 +35,7 @@ ${
     ? `
       <div class="glof-button-wrapper">
         <a
-          href="#/data?lake=${encodeURIComponent(LakeID)}"
+          href="#/data"
           class="glof-button"
           onclick="
             event.stopPropagation();
