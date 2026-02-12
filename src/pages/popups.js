@@ -30,22 +30,26 @@ export function buildLakePopupHTML(lake) {
       }
     </p>
 
-    ${
-      isHazard || futureHazard
-        ? `
-          <div class="glof-button-wrapper">
-            <a
-              href="#/GLOF-data?lake=${encodeURIComponent(LakeID)}"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="glof-button"
-            >
-              More Info
-            </a>
-          </div>
-        `
-        : ""
-    }
+${
+  isHazard || futureHazard
+    ? `
+      <div class="glof-button-wrapper">
+        <a
+          href="#/data?lake=${encodeURIComponent(LakeID)}"
+          class="glof-button"
+          onclick="
+            event.stopPropagation();
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+          "
+        >
+          More Info
+        </a>
+      </div>
+    `
+    : ""
+}
   `;
 }
 

@@ -188,7 +188,7 @@ const FloodDataTable = ({
                       }
 
                       if (header === "View") {
-                        const lakeId = row["ID"];
+                        const lakeId = row["Lake ID"];
                         return (
                           <td key={colIndex}>
                             <a
