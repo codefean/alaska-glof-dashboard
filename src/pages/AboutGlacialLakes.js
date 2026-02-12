@@ -2,11 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import "./aboutglaciallakes.css";
 
 
-const Stat = ({ target, label, tooltip, showPlus = false }) => {
-  const [count, setCount] = useState(0);
+const Stat = ({ target = false }) => {
+  const [, setCount] = useState(0);
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

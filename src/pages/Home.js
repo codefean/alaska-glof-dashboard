@@ -46,7 +46,7 @@ const faqData = [
   {
     question: 'What is an ice-dammed glacial lake?',
     answer:
-      'An ice-dammed glacial lake forms when meltwater collects behind a glacier, creating a temporary natural dam made of ice.',
+      'Ice-dammed lakes form when glacial ice blocks the drainage of rivers or meltwater. These lakes often occur along the margins of mountain and icefield glaciers.',
   },
   {
     question:
@@ -135,9 +135,8 @@ This website was created by the University of Alaska Southeast in cooperation wi
         <div className="home-about-card">
           <h3>Glacial Lake Forecasting</h3>
           <p>
-          Over the coming years, our team will work to forecast the potential formation and locations of ice-dammed glacial lakes across Alaska, British Columbia, & Yukon. This project will integrate next-generation climate projections (CMIP7)
-          with advanced machine learning models to simulate glacier retreat and identify where new glacial lakes are likely to emerge. The goal is to equip downstream communities and emergency management agencies with actionable forecasts that can help them anticipate
-            and mitigate the risks of glacial lake outburst floods (GLOFs) associated with ice-dammed lakes.
+          Over the coming years, our team will work to project the potential formation and locations of ice-dammed glacial lakes across Alaska, British Columbia, & Yukon. This project
+          will integrate state-of-the-art glacier evolution models with the latest climate projections to simulate glacier retreat and identify where new glacial lakes are likely to emerge.
 
 
           </p>
