@@ -14,7 +14,7 @@ const LayersToggle = ({
 }) => {
   const [lakesCount, setLakesCount] = useState(0);
   const [impactsCount, setImpactsCount] = useState(0);
-  const [predictedCount, setPredictedCount] = useState(0);
+  const [, setPredictedCount] = useState(0);
 
   useEffect(() => {
     Papa.parse(DATA_URL, {

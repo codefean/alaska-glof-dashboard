@@ -12,12 +12,6 @@ const glacierTileset = {
   lineLayerId: 'glacier-line-layer',
 };
 
-const BLOCK_LAYERS = [
-  'glacial-lakes-layer',
-  'glacial-lakes-hover',
-  'lake-markers',
-  'clusters',
-];
 
 const GLACIER_NAME_OVERRIDES = {
   Unnamed_23: 'Snow Glacier',

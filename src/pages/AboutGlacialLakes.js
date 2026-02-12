@@ -38,27 +38,7 @@ const Stat = ({ target, label, tooltip, showPlus = false }) => {
     }
   }, [isVisible, target]);
 
-  return (
-    <div
-      className="stat"
-      ref={ref}
-      onMouseEnter={() => setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
-    >
-      <span className="stat-number">
-        {count}{showPlus && "+"}
-      </span>
-      <p className="stat-label">{label}</p>
 
-      {showTooltip && tooltip && (
-        <div className="stat-tooltip">
-          <div className="stat-tooltip-content">
-            <p>{tooltip}</p>
-          </div>
-        </div>
-      )}
-    </div>
-  );
 };
 
 const AboutGlacialLakes = () => {

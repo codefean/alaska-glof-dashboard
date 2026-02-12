@@ -3,12 +3,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Papa from 'papaparse';
 import './GLOFmap.css';
-import MapLegend from './MapLegend';
-import Citation from './citation';
-import AboutMap from './AboutMap';
-import PitchControl from "./PitchControl";
 import "./loc";
-import LayersToggle from "./LayersToggle";
 import { useGlacierLayer } from './glaciers';
 import { buildLakePopupHTML, createPopupController } from "./popups";
 import { MAPBOX_TOKEN } from "./constants";
@@ -25,8 +20,7 @@ const AlaskaMap = () => {
   const [showGlaciers] = useState(false);
   const [glacierData, setGlacierData] = useState([]);
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
+  const [searchQuery] = useState('');
   const pitchRef = useRef(null);
   const [pitchBottom, setPitchBottom] = useState(100);
 
@@ -38,14 +32,14 @@ const AlaskaMap = () => {
 
   const popupControllerRef = useRef(null);
 
-  const [showLakes, setShowLakes] = useState(true);
-  const [showImpacts, setShowImpacts] = useState(true);
-  const [showPredicted, setShowPredicted] = useState(true);
+  const [showLakes] = useState(true);
+  const [showImpacts] = useState(true);
+  const [showPredicted] = useState(true);
 
   const DEFAULT_PITCH = 20;
-  const [pitch, setPitch] = useState(DEFAULT_PITCH);
+  const [, setPitch] = useState(DEFAULT_PITCH);
 
-  const [cursorInfo, setCursorInfo] = useState({ lng: null, lat: null, elevM: null });
+  const [, setCursorInfo] = useState({ lng: null, lat: null, elevM: null });
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 915);

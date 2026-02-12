@@ -9,7 +9,6 @@ export function buildLakePopupHTML(lake) {
     GlacierName,
     waterFlow,
     downstream,
-    numberEvents,
     isHazard,
     futureHazard,
     futureHazardETA,

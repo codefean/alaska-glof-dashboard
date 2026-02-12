@@ -13,7 +13,6 @@ export default function Topographic3DTerrainMap() {
   const mapRef = useRef(null);
 
   const [paused] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const lakes = useMemo(
     () => [{ name: "Snow Lake", orbitCenter: [-148.93307, 60.48361] }],
