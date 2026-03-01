@@ -298,7 +298,6 @@ a:focus {
   background: rgba(50, 150, 255, 0.9);
 }
 
-/* Mobile positioning adjustment */
 @media (max-width: 975px) {
   .controls-container {
     top: 390px;
@@ -307,14 +306,14 @@ a:focus {
   }
 
   .search-bar-container {
-    top: 95px;
+    top: 73px;
   }
 }
 
 @media (max-width: 580px) {
 
   .search-bar-container {
-    top: 95px !important;
+    top: 73px !important;
   }
 }
 
@@ -357,12 +356,12 @@ a:focus {
 }
 
 
-/* Disable hover effects on mobile */
+
 @media (max-width: 800px) {
 
-  /* Also disable hover popup triggers if any exist */
+
   .mapboxgl-popup {
-    pointer-events: auto; /* popups remain clickable */
+    pointer-events: auto; 
   }
 }
 

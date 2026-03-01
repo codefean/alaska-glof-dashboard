@@ -47,7 +47,6 @@ const Header = () => {
   <div className="mobile-title">
     <h1>Alaska Glacial Flood Dashboard</h1>
     <div className="header-subtitle">
-      Glacial Lakes in Alaska, BC, & Yukon
     </div>
   </div>
 </div>
