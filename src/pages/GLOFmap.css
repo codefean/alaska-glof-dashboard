@@ -209,7 +209,7 @@ html, body {
   padding: 2px 6px;
 }
 
-@media screen and(max-width: 1180px) {
+@media screen and (max-width: 1180px) {
   .hotkey-table {
   min-width: 195px; 
   }
@@ -367,14 +367,20 @@ a:focus {
 }
 
 @media (max-width: 800px) {
-  .marker {
-    width: 15px !important;
-    height: 15px !important;
-    border: 2px solid white;
-    touch-action: manipulation;
+  .marker.circle,
+  .marker.square,
+  .marker.diamond {
+    width: 15px;
+    height: 15px;
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
+  .marker.circle { border-radius: 50%; }
 }
+
+
+
+
 
 .glof-button-wrapper {
   display: flex;

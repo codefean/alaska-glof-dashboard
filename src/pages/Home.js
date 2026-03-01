@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import './Home.css';
 import SBmodel from './SBmodel';
 
-// cd /Users/seanfagan/Downloads/Alaska-GLOF
+// cd /Users/seanfagan/Desktop/test/Alaska-GLOF
 
 const cardData = [
   {
