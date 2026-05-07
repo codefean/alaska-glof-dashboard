@@ -6,13 +6,6 @@ import './glaciers.css';
 
 const glacierTilesets = [
   {
-    url: 'mapbox://mapfean.btwf9o3p',
-    sourceLayer: 'glaciers',
-    sourceId: 'ak-glaciers',
-    fillLayerId: 'glacier-fill-layer',
-    lineLayerId: 'glacier-line-layer',
-  },
-  {
     url: 'mapbox://mapfean3.azk3hose',
     sourceLayer: 'glaciers2',
     sourceId: 'ak-glaciers-2',
